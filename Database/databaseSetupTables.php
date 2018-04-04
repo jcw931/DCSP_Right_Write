@@ -1,6 +1,6 @@
 <?php //This file is used to set up the database for The Right Write Website
 
-require_once 'login.php' //This file will contain the needed db name and account information needed to access the pluto PHPmyAdmin database
+require_once 'login.php'; //This file will contain the needed db name and account information needed to access the pluto PHPmyAdmin database
 $connection = new mysqli($hostName, $un, $pw, $database);
 
 if($connection->connect_error)
@@ -18,6 +18,11 @@ $query = "CREATE TABLE Pens (
   refill INTEGER NOT NULL,
   inkColor VARCHAR (32) NOT NULL
 )";
+
+$result = $connection->query($query);
+
+if(!result)
+  die($connection->error);
 
 echo 'Table Pens Created' + '<br>';
 $connection->close();
