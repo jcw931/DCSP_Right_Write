@@ -6,6 +6,7 @@ $connection = new mysqli($hostName, $un, $pw, $database);
 if($connection->connect_error)
   die($connection->connect_error);
 
+//Database table to hold all data for the "pen" inventory object
 $query = "CREATE TABLE Pens (
   itemID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
@@ -20,11 +21,14 @@ $query = "CREATE TABLE Pens (
 )";
 
 $result = $connection->query($query);
-
-if(!result)
+if(!$result){
   die($connection->error);
+}
+else {
+  echo "tables created";
+}
 
-echo 'Table Pens Created' + '<br>';
+$result->free();
 $connection->close();
 
 ?>
