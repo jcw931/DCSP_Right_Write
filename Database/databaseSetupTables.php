@@ -72,6 +72,21 @@ else {
   echo "WoodenPencil table created <br>";
 }
 
+//Database table to hold user cart database
+$query = "CREATE TABLE Cart (
+  cartID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  ItemID VARCHAR(32) NOT NULL FOREIGN KEY,
+  itemQty INTEGER NOT NULL
+)";
+
+$result = $connection->query($query);
+if(!$result){
+  die($connection->error);
+}
+else {
+  echo "Cart table created <br>";
+}
+
 //Database table to hold all customer data
 $query = "CREATE TABLE Customers (
   username VARCHAR(32) NOT NULL UNIQUE,
@@ -93,7 +108,7 @@ else {
 }
 
 //Database table to hold all vendor data
-$query = "CREATE TABLE Customers (
+$query = "CREATE TABLE Vendor (
   username VARCHAR(32) NOT NULL UNIQUE,
   password VARCHAR(32) NOT NULL,
   fname VARCHAR(32) NOT NULL,
@@ -112,7 +127,7 @@ else {
 }
 
 //Database table to hold all admin data
-$query = "CREATE TABLE Customers (
+$query = "CREATE TABLE Admin (
   username VARCHAR(32) NOT NULL UNIQUE,
   password VARCHAR(32) NOT NULL,
   fname VARCHAR(32) NOT NULL,
@@ -127,21 +142,6 @@ if(!$result){
 }
 else {
   echo "admin table created <br>";
-}
-
-//Database table to hold user cart database
-$query = "CREATE TABLE Cart (
-  cartID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
-  ItemID VARCHAR(32) NOT NULL FOREIGN KEY,
-  itemQty INTEGER NOT NULL
-)";
-
-$result = $connection->query($query);
-if(!$result){
-  die($connection->error);
-}
-else {
-  echo "Cart table created <br>";
 }
 
 //Databse table to hold past orders
@@ -166,7 +166,7 @@ else {
 $query = "CREATE TABLE History (
   orderID VARCHAR(32) NOT NULL FOREIGN KEY,
   custoemrID VARCHAR(32) NOT NULL FOREIGN KEY
-)"
+)";
 
 $result = $connection->query($query);
 if(!$result){
