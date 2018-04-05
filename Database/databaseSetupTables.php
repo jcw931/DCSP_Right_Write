@@ -8,7 +8,7 @@ if($connection->connect_error)
 
 //Database table to hold all data for the "pen" inventory object
 $query = "CREATE TABLE Pens (
-  itemID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  PRIMARY KEY itemID VARCHAR(32) NOT NULL UNIQUE,
   name VARCHAR(80) NOT NULL,
   price FLOAT NOT NULL,
   qty INTEGER NOT NULL,
@@ -30,7 +30,7 @@ else {
 
 //Database table to hold all data for the "MechanicalPencil" invenotry object
 $query = "CREATE TABLE MechanicalPencil (
-  itemID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  PRIMARY KEY itemID VARCHAR(32) NOT NULL UNIQUE,
   name VARCHAR(80) NOT NULL,
   price FLOAT NOT NULL,
   qty INTEGER NOT NULL,
@@ -52,7 +52,7 @@ else {
 
 //Database table to hold all data for the "WoodenPencil" invenotry object
 $query = "CREATE TABLE WoodenPencil (
-  itemID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  PRIMARY KEY itemID VARCHAR(32) NOT NULL UNIQUE,
   name VARCHAR(80) NOT NULL,
   price FLOAT NOT NULL,
   qty INTEGER NOT NULL,
@@ -74,8 +74,8 @@ else {
 
 //Database table to hold user cart database
 $query = "CREATE TABLE Cart (
-  cartID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
-  ItemID VARCHAR(32) NOT NULL FOREIGN KEY,
+  PRIMARY KEY cartID VARCHAR(32) NOT NULL UNIQUE,
+  FOREIGN KEY ItemID VARCHAR(32) NOT NULL,
   itemQty INTEGER NOT NULL
 )";
 
@@ -94,8 +94,8 @@ $query = "CREATE TABLE Customers (
   fname VARCHAR(32) NOT NULL,
   lname VARCHAR(32) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  customerID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
-  CartID VARCHAR(32) NOT NULL FOREIGN KEY,
+  PRIMARY KEY customerID VARCHAR(32) NOT NULL UNIQUE,
+  FOREIGN KEY CartID VARCHAR(32) NOT NULL,
   address VARCHAR (150) NOT NULL
 )";
 
@@ -114,7 +114,7 @@ $query = "CREATE TABLE Vendor (
   fname VARCHAR(32) NOT NULL,
   lname VARCHAR(32) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  vendorID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  PRIMARY KEY vendorID VARCHAR(32) NOT NULL UNIQUE,
   brand VARCHAR(32) NOT NULL
 )";
 
@@ -133,7 +133,7 @@ $query = "CREATE TABLE Admin (
   fname VARCHAR(32) NOT NULL,
   lname VARCHAR(32) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  adminID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  PRIMARY KEY adminID VARCHAR(32) NOT NULL UNIQUE,
 )";
 
 $result = $connection->query($query);
@@ -146,9 +146,9 @@ else {
 
 //Databse table to hold past orders
 $query = "CREATE TABLE Orders (
-  orderID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
-  customerID VARCHAR(32) NOT NULL FOREIGN KEY,
-  itemID VARCHAR(32) NOT NULL FOREIGN KEY,
+  PRIMARY KEY orderID VARCHAR(32) NOT NULL UNIQUE,
+  FOREIGN KEY customerID VARCHAR(32) NOT NULL,
+  FOREIGN KEY itemID VARCHAR(32) NOT NULL,
   date VARCHAR(32) NOT NULL,
   itemQty INTEGER NOT NULL,
   totalPrice FLOAT NOT NULL
@@ -164,8 +164,8 @@ else {
 
 //Database table to hold customer order history
 $query = "CREATE TABLE History (
-  orderID VARCHAR(32) NOT NULL FOREIGN KEY,
-  custoemrID VARCHAR(32) NOT NULL FOREIGN KEY
+  FOREIGN KEY orderID VARCHAR(32) NOT NULL,
+  FOREIGN KEY custoemrID VARCHAR(32) NOT NULL
 )";
 
 $result = $connection->query($query);
@@ -178,8 +178,8 @@ else {
 
 //Datebase table to hold item reviews
 $query = "CREATE TABLE Reviews (
-  customerID VARCHAR(32) NOT NULL FOREIGN KEY,
-  itemID VARCHAR(32) NOT NULL FOREIGN KEY,
+  FOREIGN KEY customerID VARCHAR(32) NOT NULL,
+  FOREIGN KEY itemID VARCHAR(32) NOT NULL,
   numStarts INTEGER NOT NULL,
   reviewTest VARCHAR(240) NOT NULL
 )";
