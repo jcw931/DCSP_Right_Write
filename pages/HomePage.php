@@ -8,52 +8,44 @@
 
 <nav class="w3-bar w3-light-grey">
 	<a href="#home" class="w3-button w3-bar-item"><img src="TheRightWrite.png" width = "600", height = "75"></a>
-	<a href="#home" class="w3-button w3-bar-item">Home</a>
-	<a href="#account" class="w3-button w3-bar-item">Account</a>
-	<a href="#signout" class="w3-button w3-bar-item">Sign Out</a>
+	<a href="#home" class="w3-button w3-bar-item"><img src="Home.png" width = "146", height = "50"></a>
+	<a href="#account" class="w3-button w3-bar-item"><img src="Account.png" width = "146", height = "50"></a>
+	<a href="#signout" class="w3-button w3-bar-item"><img src="Login.png" width = "146", height = "50"></a>
+	<a href="#cart" class="w3-button w3-bar-item"><img src="Cart.png" width = "146", height = "50"></a>
 	<div style="float:right" class="topnav">
 	  <input type="text" placeholder="Search..">
 	</div>
 </nav>
 
-
-<nav class="w3-bar w3-yellow">
-	<a href="#home" class="w3-button w3-bar-item">Home</a>
-	<a href="#account" class="w3-button w3-bar-item">Account</a>
-	<a href="#signout" class="w3-button w3-bar-item">Sign Out</a>
-	<a style="float:right" href="#cart" class="w3-button w3-bar-item"><img src="cart.png" width = "20", height = "20">Cart</a>
-</nav>
-
-
-<section class="w3-row-padding w3-center w3-green">
+<section class="w3-row-padding w3-center w3-white">
   <article class="w3-third">
     <p>Homepage Product</p>
     <img src="image.jpg" alt="Random Name" width = "200", height = "200">
   </article>
 </section>
 
-<section class="w3-row-padding w3-center w3-blue">
+<section class="w3-row-padding w3-center w3-white">
   <article class="w3-third">
     <p>Categories</p>
     <img src="image.jpg" alt="Random Name" width = "200", height = "200">
   </article>
 </section>
 
-<section class="w3-row-padding w3-center w3-purple">
+<section class="w3-row-padding w3-center w3-white">
   <article class="w3-third">
     <p>Best Sellers</p>
     <img src="image.jpg" alt="Random Name" width = "200", height = "200">
   </article>
 </section>
 
-<section class="w3-row-padding w3-center w3-red">
+<section class="w3-row-padding w3-center w3-white">
   <article class="w3-third">
     <p>Recommended</p>
     <img src="image.jpg" alt="Random Name" width = "200", height = "200">
   </article>
 </section>
 
-<section class="w3-row-padding w3-center w3-light-grey">
+<section class="w3-row-padding w3-center w3-white">
   <article class="w3-third">
     <p>New</p>
     <img src="image.jpg" alt="Random Name" width = "200", height = "200">
