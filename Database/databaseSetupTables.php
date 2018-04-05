@@ -28,8 +28,6 @@ else {
   echo "pen table created <br>";
 }
 
-$result->free();
-
 //Database table to hold all data for the "MechanicalPencil" invenotry object
 $query = "CREATE TABLE MechanicalPencil (
   itemID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
@@ -51,8 +49,6 @@ if(!$result){
 else {
   echo "MechanicalPencil table created <br>";
 }
-
-$result->free();
 
 //Database table to hold all data for the "WoodenPencil" invenotry object
 $query = "CREATE TABLE WoodenPencil (
@@ -76,8 +72,127 @@ else {
   echo "WoodenPencil table created <br>";
 }
 
-$result->free();
+//Database table to hold all customer data
+$query = "CREATE TABLE Customers (
+  username VARCHAR(32) NOT NULL UNIQUE,
+  password VARCHAR(32) NOT NULL,
+  fname VARCHAR(32) NOT NULL,
+  lname VARCHAR(32) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  customerID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  CartID VARCHAR(32) NOT NULL FOREIGN KEY,
+  address VARCHAR (150) NOT NULL
+)";
 
+$result = $connection->query($query);
+if(!$result){
+  die($connection->error);
+}
+else {
+  echo "Customers table created <br>";
+}
+
+//Database table to hold all vendor data
+$query = "CREATE TABLE Customers (
+  username VARCHAR(32) NOT NULL UNIQUE,
+  password VARCHAR(32) NOT NULL,
+  fname VARCHAR(32) NOT NULL,
+  lname VARCHAR(32) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  vendorID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  brand VARCHAR(32) NOT NULL
+)";
+
+$result = $connection->query($query);
+if(!$result){
+  die($connection->error);
+}
+else {
+  echo "Vendors table created <br>";
+}
+
+//Database table to hold all admin data
+$query = "CREATE TABLE Customers (
+  username VARCHAR(32) NOT NULL UNIQUE,
+  password VARCHAR(32) NOT NULL,
+  fname VARCHAR(32) NOT NULL,
+  lname VARCHAR(32) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  adminID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+)";
+
+$result = $connection->query($query);
+if(!$result){
+  die($connection->error);
+}
+else {
+  echo "admin table created <br>";
+}
+
+//Database table to hold user cart database
+$query = "CREATE TABLE Cart (
+  cartID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  ItemID VARCHAR(32) NOT NULL FOREIGN KEY,
+  itemQty INTEGER NOT NULL
+)";
+
+$result = $connection->query($query);
+if(!$result){
+  die($connection->error);
+}
+else {
+  echo "Cart table created <br>";
+}
+
+//Databse table to hold past orders
+$query = "CREATE TABLE Orders (
+  orderID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  customerID VARCHAR(32) NOT NULL FOREIGN KEY,
+  itemID VARCHAR(32) NOT NULL FOREIGN KEY,
+  date VARCHAR(32) NOT NULL,
+  itemQty INTEGER NOT NULL,
+  totalPrice FLOAT NOT NULL
+)";
+
+$result = $connection->query($query);
+if(!$result){
+  die($connection->error);
+}
+else {
+  echo "Orders table created <br>";
+}
+
+//Database table to hold customer order history
+$query = "CREATE TABLE History (
+  orderID VARCHAR(32) NOT NULL FOREIGN KEY,
+  custoemrID VARCHAR(32) NOT NULL FOREIGN KEY
+)"
+
+$result = $connection->query($query);
+if(!$result){
+  die($connection->error);
+}
+else {
+  echo "History table created <br>";
+}
+
+//Datebase table to hold item reviews
+$query = "CREATE TABLE Reviews (
+  customerID VARCHAR(32) NOT NULL FOREIGN KEY,
+  itemID VARCHAR(32) NOT NULL FOREIGN KEY,
+  numStarts INTEGER NOT NULL,
+  reviewTest VARCHAR(240) NOT NULL
+)";
+
+$result = $connection->query($query);
+if(!$result){
+  die($connection->error);
+}
+else {
+  echo "Review table created <br>";
+}
+
+$result->free();
 $connection->close();
 
 ?>
