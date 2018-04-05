@@ -133,7 +133,7 @@ $query = "CREATE TABLE Admin (
   fname VARCHAR(32) NOT NULL,
   lname VARCHAR(32) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  adminID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  adminID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY
 )";
 
 $result = $connection->query($query);
