@@ -24,36 +24,7 @@
 
 <section class="w3-row-padding w3-center w3-white">
   <article class="w3-third">
-    <p>Homepage Product</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
-  </article>
-</section>
-
-<section class="w3-row-padding w3-center w3-white">
-  <article class="w3-third">
-    <p>Categories</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
-  </article>
-</section>
-
-<section class="w3-row-padding w3-center w3-white">
-  <article class="w3-third">
-    <p>Best Sellers</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
-  </article>
-</section>
-
-<section class="w3-row-padding w3-center w3-white">
-  <article class="w3-third">
-    <p>Recommended</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
-  </article>
-</section>
-
-<section class="w3-row-padding w3-center w3-white">
-  <article class="w3-third">
-    <p>New</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
+    <p>Cart Things</p>
   </article>
 </section>
 

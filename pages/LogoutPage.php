@@ -3,6 +3,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+<head>
+<style>
+p.text {
+	font-family: "Times New Roman", Times, serif;
+	font-weight: bold;
+	font-size: 29px;
+}
+	
+</style>
+</head>
 <body>
 
 
@@ -24,36 +34,9 @@
 
 <section class="w3-row-padding w3-center w3-white">
   <article class="w3-third">
-    <p>Homepage Product</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
-  </article>
-</section>
-
-<section class="w3-row-padding w3-center w3-white">
-  <article class="w3-third">
-    <p>Categories</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
-  </article>
-</section>
-
-<section class="w3-row-padding w3-center w3-white">
-  <article class="w3-third">
-    <p>Best Sellers</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
-  </article>
-</section>
-
-<section class="w3-row-padding w3-center w3-white">
-  <article class="w3-third">
-    <p>Recommended</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
-  </article>
-</section>
-
-<section class="w3-row-padding w3-center w3-white">
-  <article class="w3-third">
-    <p>New</p>
-    <img src="image.jpg" alt="Random Name" width = "200", height = "200">
+    <p class="text">You have successfully logged out of your account.</p>
+	<p><a href="HomePage.php"><img src="Home.png" width = "146", height = "50"></a>
+	<a href="LoginPage.php"><img src="Login.png" width = "146", height = "50"></a></p>
   </article>
 </section>
 
