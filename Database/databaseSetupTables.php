@@ -17,7 +17,8 @@ $query = "CREATE TABLE Pens (
   brand VARCHAR(32) NOT NULL,
   tipType VARCHAR(32) NOT NULL,
   refill INTEGER NOT NULL,
-  inkColor VARCHAR(32) NOT NULL
+  inkColor VARCHAR(32) NOT NULL,
+  imagePath VARCHAR(80) NOT NULL
 )";
 
 $result = $connection->query($query);
@@ -39,7 +40,8 @@ $query = "CREATE TABLE MechanicalPencil (
   brand VARCHAR(32) NOT NULL,
   leadWeight FLOAT NOT NULL,
   gripType VARCHAR(32) NOT NULL,
-  leadColor VARCHAR(32) NOT NULL
+  leadColor VARCHAR(32) NOT NULL,
+  imagePath VARCHAR(80) NOT NULL
 )";
 
 $result = $connection->query($query);
@@ -61,7 +63,8 @@ $query = "CREATE TABLE WoodenPencil (
   brand VARCHAR(32) NOT NULL,
   number INTEGER NOT NULL,
   woodType VARCHAR(32) NOT NULL,
-  leadColor VARCHAR(32) NOT NULL
+  leadColor VARCHAR(32) NOT NULL,
+  imagePath VARCHAR(80) NOT NULL
 )";
 
 $result = $connection->query($query);
