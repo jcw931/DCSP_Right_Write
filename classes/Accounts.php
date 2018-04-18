@@ -101,18 +101,18 @@ class Customer extends UserAccount {
 }
 
 class Vendor extends UserAccount {
-    private $companyID;
+    private $brand;
 
-    public function __construct($uID, $first, $last, $user, $pw, $mail, $companyID)
+    public function __construct($uID, $first, $last, $user, $pw, $mail, $brand)
     {
         parent::__construct($uID, $first, $last, $user, $pw, $mail);
-        $this -> companyID = $companyID;
+        $this -> brand = $brand;
     }
-    public function setCompanyID($newCompany){
-        $this -> companyID = $newCompany;
+    public function setBrand($newBrand){
+        $this -> brand = $newBrand;
     }
-    public function getCompanyID(){
-        return $this-> companyID;
+    public function getBrand(){
+        return $this-> brand;
     }
 }
 
