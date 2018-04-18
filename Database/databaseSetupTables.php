@@ -95,7 +95,7 @@ $query = "CREATE TABLE Customers (
   lname VARCHAR(32) NOT NULL,
   email VARCHAR(50) NOT NULL,
   customerID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
-  CartID VARCHAR(32) NOT NULL,
+  cartID VARCHAR(32) NOT NULL,
   address VARCHAR (150) NOT NULL
 )";
 
@@ -192,7 +192,7 @@ else {
   echo "Review table created <br>";
 }
 
-$result->free();
+$result->close();
 $connection->close();
 
 ?>
