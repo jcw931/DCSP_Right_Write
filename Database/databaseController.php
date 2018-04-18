@@ -95,6 +95,32 @@ function allCustomerData($un, $pw, $hostName, $database, $username){
     return $custArray;
 }
 
+function validCustomerUsername($un, $pw, $hostName, $database, $username){
+    $valid = false;
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection - connect_error);
+    }
+    $query = "SELECT username FROM Customers ";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        if ($row['username'] == $username) {
+            // echo "valid uname!!";
+            $valid = true;
+        }
+    }
+
+    return $valid;
+}
+
 /***********************************************************/
 //VENDOR FUNCTIONS
 function addVendor($un, $pw, $hostName, $database, $username, $password, $fname, $lname, $email, $vendorID, $brand){
@@ -171,6 +197,32 @@ function allVendorData($un, $pw, $hostName, $database, $username){
 
     return $vendArray;
 }
+
+function validVendorUsername($un, $pw, $hostName, $database, $username){
+    $valid = false;
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection - connect_error);
+    }
+    $query = "SELECT username FROM Vendor ";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        if ($row['username'] == $username) {
+            // echo "valid uname!!";
+            $valid = true;
+        }
+    }
+
+    return $valid;
+}
 /***********************************************************/
 //ADMIN FUNCTIONS
 
@@ -242,6 +294,32 @@ function allAdminData($un, $pw, $hostName, $database, $username){
     $adminArray = $result->fetch_array(MYSQLI_ASSOC);
 
     return $adminArray;
+}
+
+function validAdminUsername($un, $pw, $hostName, $database, $username){
+    $valid = false;
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection - connect_error);
+    }
+    $query = "SELECT username FROM Admin ";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        if ($row['username'] == $username) {
+            // echo "valid uname!!";
+            $valid = true;
+        }
+    }
+
+    return $valid;
 }
 
 ?>
