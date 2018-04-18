@@ -78,6 +78,22 @@ function editCustomer($un, $pw, $hostName, $database, $username, $editField, $ne
     }
 }
 
+function allCustomerData($un, $pw, $hostName, $database, $username){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection - connect_error);
+    }
+
+    $query = "SELECT * FROM Customers WHERE username = '" .$username ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $result->data_seek(0);
+    $custArray = $result->fetch_array(MYSQLI_ASSOC);
+
+    return $custArray;
+}
 
 /***********************************************************/
 //VENDOR FUNCTIONS
@@ -138,6 +154,23 @@ function editVendor($un, $pw, $hostName, $database, $username, $editField, $newD
         if (!$result) die($connection->error);
     }
 }
+
+function allVendorData($un, $pw, $hostName, $database, $username){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection - connect_error);
+    }
+
+    $query = "SELECT * FROM Vendor WHERE username = '" .$username ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $result->data_seek(0);
+    $vendArray = $result->fetch_array(MYSQLI_ASSOC);
+
+    return $vendArray;
+}
 /***********************************************************/
 //ADMIN FUNCTIONS
 
@@ -192,6 +225,23 @@ function editAdmin($un, $pw, $hostName, $database, $username, $editField, $newDa
         $result = $connection->query($query);
         if (!$result) die($connection->error);
     }
+}
+
+function allAdminData($un, $pw, $hostName, $database, $username){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection - connect_error);
+    }
+
+    $query = "SELECT * FROM Admin WHERE username = '" .$username ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $result->data_seek(0);
+    $adminArray = $result->fetch_array(MYSQLI_ASSOC);
+
+    return $adminArray;
 }
 
 ?>
