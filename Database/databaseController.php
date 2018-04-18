@@ -34,11 +34,51 @@ function removeCustomer($un, $pw, $hostName, $database, $username){
         die($connection-connect_error);
     }
 
-    $query  = "DELETE FROM WHERE";
+    $query  = "DELETE * FROM Customers WHERE username = '" .$username ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
 }
+
+function editCustomer($un, $pw, $hostName, $database, $username, $editField, $newData){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection - connect_error);
+    }
+
+    if($editField =="password"){
+        $query = "UPDATE Customers SET password = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="lname"){
+        $query = "UPDATE Customers SET lname = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="fname"){
+        $query = "UPDATE Customers SET fname = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="cartID"){
+        $query = "UPDATE Customers SET cartID = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="email"){
+        $query = "UPDATE Customers SET email = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="address"){
+        $query = "UPDATE Customers SET address = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+}
+
+
 /***********************************************************/
 //VENDOR FUNCTIONS
 function addVendor($un, $pw, $hostName, $database, $username, $password, $fname, $lname, $email, $vendorID, $brand){
@@ -54,7 +94,50 @@ function addVendor($un, $pw, $hostName, $database, $username, $password, $fname,
     if (!$result) die($connection->error);
 }
 
+function removeVendor($un, $pw, $hostName, $database, $username){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection-connect_error);
+    }
 
+    $query  = "DELETE * FROM Vendor WHERE username = '" .$username ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function editVendor($un, $pw, $hostName, $database, $username, $editField, $newData){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection - connect_error);
+    }
+
+    if($editField =="password"){
+        $query = "UPDATE Vendor SET password = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="lname"){
+        $query = "UPDATE Vendor SET lname = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="fname"){
+        $query = "UPDATE Vendor SET fname = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="email"){
+        $query = "UPDATE Vendor SET email = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="brand"){
+        $query = "UPDATE Vendor SET brand = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+}
 /***********************************************************/
 //ADMIN FUNCTIONS
 
@@ -70,5 +153,46 @@ function addAdmin($un, $pw, $hostName, $database, $username, $password, $fname, 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
 }
+
+function removeAdmin($un, $pw, $hostName, $database, $username){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection-connect_error);
+    }
+
+    $query  = "DELETE * FROM Admin WHERE username = '" .$username ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function editAdmin($un, $pw, $hostName, $database, $username, $editField, $newData){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection - connect_error);
+    }
+
+    if($editField =="password"){
+        $query = "UPDATE Admin SET password = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="lname"){
+        $query = "UPDATE Admin SET lname = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="fname"){
+        $query = "UPDATE Admin SET fname = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="email"){
+        $query = "UPDATE Admin SET email = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+}
+
 ?>
 
