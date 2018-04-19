@@ -495,6 +495,84 @@ function removeMechanicalPencil($un, $pw, $hostName, $database, $itemID){
     if (!$result) die($connection->error);
 }
 
+function mechanicalPencilsSearchAllData($un, $pw, $hostName, $database, $name){
+    $oneMpArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM MechanicalPencils WHERE name = '" .$name ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $oneMpArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $oneMpArray;
+}
+
+function allMechanicalPencilData($un, $pw, $hostName, $database){
+    $mpArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query = "SELECT * FROM MechanicalPencils";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $mpArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $mpArray;
+}
+
+/************************************************************************************************************************/
+
+
+function validUsernameData($un, $pw, $hostName, $database, $username){
+    if(validCustomerUsername($un, $pw, $hostName, $username)){
+        return allCustomerData($un, $pw, $hostName, $database, $username);
+    }
+    else if(validVendorUsername($un, $pw, $hostName, $database, $username)){
+        return allVendorData($un, $pw, $hostName, $database, $username);
+    }
+    else if(validAdminUsername($un, $pw, $hostName, $database, $username)){
+        return allAdminData($un, $pw, $hostName, $database, $username);
+    }
+    else{
+        return false;
+    }
+}
+
+function existingUsername($un, $pw, $hostName, $database, $username){
+    if(validCustomerUsername($un, $pw, $hostName, $username)){
+        return true;
+    }
+    else if(validVendorUsername($un, $pw, $hostName, $database, $username)){
+        return true;
+    }
+    else if(validAdminUsername($un, $pw, $hostName, $database, $username)){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 ?>
 
