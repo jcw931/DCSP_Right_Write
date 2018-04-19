@@ -34,7 +34,7 @@ function removeCustomer($un, $pw, $hostName, $database, $username){
         die($connection->connect_error);
     }
 
-    $query  = "DELETE * FROM Customers WHERE username = '" .$username ."'";
+    $query  = "DELETE  FROM Customers WHERE username = '" .$username ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -141,7 +141,7 @@ function removeVendor($un, $pw, $hostName, $database, $username){
         die($connection->connect_error);
     }
 
-    $query  = "DELETE * FROM Vendor WHERE username = '" .$username ."'";
+    $query  = "DELETE  FROM Vendor WHERE username = '" .$username ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -244,7 +244,7 @@ function removeAdmin($un, $pw, $hostName, $database, $username){
         die($connection->connect_error);
     }
 
-    $query  = "DELETE * FROM Admin WHERE username = '" .$username ."'";
+    $query  = "DELETE  FROM Admin WHERE username = '" .$username ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
