@@ -168,7 +168,7 @@ else {
 //Database table to hold customer order history
 $query = "CREATE TABLE History (
   orderID VARCHAR(32) NOT NULL,
-  custoemrID VARCHAR(32) NOT NULL
+  customerID VARCHAR(32) NOT NULL
 )";
 
 $result = $connection->query($query);

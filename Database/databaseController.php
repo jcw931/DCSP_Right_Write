@@ -322,5 +322,53 @@ function validAdminUsername($un, $pw, $hostName, $database, $username){
     return $valid;
 }
 
+/***********************************************************/
+//Pen FUNCTIONS
+
+function addPen($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $tipType, $refill, $inkColor, $imagePath ){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection-connect_error);
+    }
+
+    $query  = "INSERT INTO Pens (itemID, name, price, qty, description, itemColor, brand, tipType, refill, inkColor, imagePath) "
+        . "VALUES('$itemID', '$name', '$price', '$qty', '$description', '$itemColor', '$brand', '$tipType', '$refill', '$inkColor', '$imagePath')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+/***********************************************************/
+//WoodenPencil FUNCTIONS
+function addWoodenPencil($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $number, $woodType, $leadColor,$imagePath ){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection-connect_error);
+    }
+
+    $query  = "INSERT INTO WoodenPencil (itemID, name, price, qty, description, itemColor, brand, number, woodType, leadColor, imagePath) "
+        . "VALUES('$itemID', '$name', '$price', '$qty', '$description', '$itemColor', '$brand', '$number', '$woodType', '$leadColor', '$imagePath')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+
+/***********************************************************/
+//MechanicalPencil FUNCTIONS
+function addMechanicalPencil($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $leadWeight, $gripType, $leadColor,$imagePath ){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection-connect_error);
+    }
+
+    $query  = "INSERT INTO MechanicalPencil (itemID, name, price, qty, description, itemColor, brand, leadWeight, gripType, leadColor, imagePath) "
+        . "VALUES('$itemID', '$name', '$price', '$qty', '$description', '$itemColor', '$brand', '$leadWeight', '$gripType', '$leadColor', '$imagePath')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+
 ?>
 
