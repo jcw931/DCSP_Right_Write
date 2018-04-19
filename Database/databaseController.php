@@ -18,7 +18,7 @@ require_once 'login.php';
 function addCustomer($un, $pw, $hostName, $database, $username, $password, $fname, $lname, $email, $custID, $cartID, $addre){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
-        die($connection-connect_error);
+        die($connection->connect_error);
     }
 
     $query  = "INSERT INTO Customers (username, password, fname, lname, email, customerID, cartID, address) "
@@ -31,7 +31,7 @@ function addCustomer($un, $pw, $hostName, $database, $username, $password, $fnam
 function removeCustomer($un, $pw, $hostName, $database, $username){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
-        die($connection-connect_error);
+        die($connection->connect_error);
     }
 
     $query  = "DELETE * FROM Customers WHERE username = '" .$username ."'";
@@ -43,7 +43,7 @@ function removeCustomer($un, $pw, $hostName, $database, $username){
 function editCustomer($un, $pw, $hostName, $database, $username, $editField, $newData){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
-        die($connection - connect_error);
+        die($connection -> connect_error);
     }
 
     if($editField =="password"){
@@ -81,7 +81,7 @@ function editCustomer($un, $pw, $hostName, $database, $username, $editField, $ne
 function allCustomerData($un, $pw, $hostName, $database, $username){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
-        die($connection - connect_error);
+        die($connection -> connect_error);
     }
 
     $query = "SELECT * FROM Customers WHERE username = '" .$username ."'";
@@ -100,7 +100,7 @@ function validCustomerUsername($un, $pw, $hostName, $database, $username){
 
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
-        die($connection - connect_error);
+        die($connection -> connect_error);
     }
     $query = "SELECT username FROM Customers ";
 
@@ -113,7 +113,6 @@ function validCustomerUsername($un, $pw, $hostName, $database, $username){
         $result->data_seek($j);
         $row = $result->fetch_array(MYSQLI_ASSOC);
         if ($row['username'] == $username) {
-            // echo "valid uname!!";
             $valid = true;
         }
     }
@@ -126,7 +125,7 @@ function validCustomerUsername($un, $pw, $hostName, $database, $username){
 function addVendor($un, $pw, $hostName, $database, $username, $password, $fname, $lname, $email, $vendorID, $brand){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
-        die($connection-connect_error);
+        die($connection->connect_error);
     }
 
     $query  = "INSERT INTO Vendor (username, password, fname, lname, email, vendorID, brand) "
@@ -139,7 +138,7 @@ function addVendor($un, $pw, $hostName, $database, $username, $password, $fname,
 function removeVendor($un, $pw, $hostName, $database, $username){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
-        die($connection-connect_error);
+        die($connection->connect_error);
     }
 
     $query  = "DELETE * FROM Vendor WHERE username = '" .$username ."'";
@@ -151,7 +150,7 @@ function removeVendor($un, $pw, $hostName, $database, $username){
 function editVendor($un, $pw, $hostName, $database, $username, $editField, $newData){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
-        die($connection - connect_error);
+        die($connection -> connect_error);
     }
 
     if($editField =="password"){
@@ -184,7 +183,7 @@ function editVendor($un, $pw, $hostName, $database, $username, $editField, $newD
 function allVendorData($un, $pw, $hostName, $database, $username){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
-        die($connection - connect_error);
+        die($connection -> connect_error);
     }
 
     $query = "SELECT * FROM Vendor WHERE username = '" .$username ."'";
@@ -203,7 +202,7 @@ function validVendorUsername($un, $pw, $hostName, $database, $username){
 
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
-        die($connection - connect_error);
+        die($connection -> connect_error);
     }
     $query = "SELECT username FROM Vendor ";
 
@@ -229,7 +228,7 @@ function validVendorUsername($un, $pw, $hostName, $database, $username){
 function addAdmin($un, $pw, $hostName, $database, $username, $password, $fname, $lname, $email, $adminID){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
-        die($connection-connect_error);
+        die($connection->connect_error);
     }
 
     $query  = "INSERT INTO Admin (username, password, fname, lname, email, adminID) "
@@ -242,7 +241,7 @@ function addAdmin($un, $pw, $hostName, $database, $username, $password, $fname, 
 function removeAdmin($un, $pw, $hostName, $database, $username){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
-        die($connection-connect_error);
+        die($connection->connect_error);
     }
 
     $query  = "DELETE * FROM Admin WHERE username = '" .$username ."'";
@@ -254,7 +253,7 @@ function removeAdmin($un, $pw, $hostName, $database, $username){
 function editAdmin($un, $pw, $hostName, $database, $username, $editField, $newData){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
-        die($connection - connect_error);
+        die($connection -> connect_error);
     }
 
     if($editField =="password"){
@@ -282,7 +281,7 @@ function editAdmin($un, $pw, $hostName, $database, $username, $editField, $newDa
 function allAdminData($un, $pw, $hostName, $database, $username){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
-        die($connection - connect_error);
+        die($connection -> connect_error);
     }
 
     $query = "SELECT * FROM Admin WHERE username = '" .$username ."'";
@@ -301,7 +300,7 @@ function validAdminUsername($un, $pw, $hostName, $database, $username){
 
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
-        die($connection - connect_error);
+        die($connection -> connect_error);
     }
     $query = "SELECT username FROM Admin ";
 
@@ -314,7 +313,6 @@ function validAdminUsername($un, $pw, $hostName, $database, $username){
         $result->data_seek($j);
         $row = $result->fetch_array(MYSQLI_ASSOC);
         if ($row['username'] == $username) {
-            // echo "valid uname!!";
             $valid = true;
         }
     }
@@ -328,7 +326,7 @@ function validAdminUsername($un, $pw, $hostName, $database, $username){
 function addPen($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $tipType, $refill, $inkColor, $imagePath ){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
-        die($connection-connect_error);
+        die($connection->connect_error);
     }
 
     $query  = "INSERT INTO Pens (itemID, name, price, qty, description, itemColor, brand, tipType, refill, inkColor, imagePath) "
@@ -343,7 +341,7 @@ function addPen($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $d
 function addWoodenPencil($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $number, $woodType, $leadColor,$imagePath ){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
-        die($connection-connect_error);
+        die($connection->connect_error);
     }
 
     $query  = "INSERT INTO WoodenPencil (itemID, name, price, qty, description, itemColor, brand, number, woodType, leadColor, imagePath) "
@@ -359,7 +357,7 @@ function addWoodenPencil($un, $pw, $hostName, $database, $itemID, $name, $price,
 function addMechanicalPencil($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $leadWeight, $gripType, $leadColor,$imagePath ){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
-        die($connection-connect_error);
+        die($connection->connect_error);
     }
 
     $query  = "INSERT INTO MechanicalPencil (itemID, name, price, qty, description, itemColor, brand, leadWeight, gripType, leadColor, imagePath) "
