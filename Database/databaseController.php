@@ -348,8 +348,55 @@ function removePen($un, $pw, $hostName, $database, $itemID){
     if (!$result) die($connection->error);
 }
 
+function penSearchAllData($un, $pw, $hostName, $database, $name){
+    $onePenArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM Pens WHERE name = '" .$name ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $onePenArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $onePenArray;
+}
+
+function allPenData($un, $pw, $hostName, $database){
+    $penArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query = "SELECT * FROM Pens";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $penArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $penArray;
+}
+
 /***********************************************************/
 //WoodenPencil FUNCTIONS
+
 function addWoodenPencil($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $number, $woodType, $leadColor,$imagePath ){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
@@ -373,6 +420,52 @@ function removeWoodenPencil($un, $pw, $hostName, $database, $itemID){
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
+}
+
+function woodenPencilsSearchAllData($un, $pw, $hostName, $database, $name){
+    $oneWpArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM WoodenPencils WHERE name = '" .$name ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $oneWpArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $oneWpArray;
+}
+
+function allWoodenPencilData($un, $pw, $hostName, $database){
+    $wpArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query = "SELECT * FROM WoodenPencils";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $wpArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $wpArray;
 }
 
 /***********************************************************/
@@ -401,6 +494,7 @@ function removeMechanicalPencil($un, $pw, $hostName, $database, $itemID){
     $result = $connection->query($query);
     if (!$result) die($connection->error);
 }
+
 
 ?>
 
