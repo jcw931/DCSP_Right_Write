@@ -342,7 +342,7 @@ function removePen($un, $pw, $hostName, $database, $itemID){
         die($connection->connect_error);
     }
 
-    $query  = "DELETE  FROM Pens WHERE username = '" .$itemID ."'";
+    $query  = "DELETE  FROM Pens WHERE itemID = '" .$itemID ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -416,7 +416,7 @@ function removeWoodenPencil($un, $pw, $hostName, $database, $itemID){
         die($connection->connect_error);
     }
 
-    $query  = "DELETE  FROM WoodenPencils WHERE username = '" .$itemID ."'";
+    $query  = "DELETE  FROM WoodenPencils WHERE itemID = '" .$itemID ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -489,7 +489,7 @@ function removeMechanicalPencil($un, $pw, $hostName, $database, $itemID){
         die($connection->connect_error);
     }
 
-    $query  = "DELETE  FROM MechanicalPencils WHERE username = '" .$itemID ."'";
+    $query  = "DELETE  FROM MechanicalPencils WHERE itemID = '" .$itemID ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -542,10 +542,8 @@ function allMechanicalPencilData($un, $pw, $hostName, $database){
 }
 
 /************************************************************************************************************************/
-
-
 function validUsernameData($un, $pw, $hostName, $database, $username){
-    if(validCustomerUsername($un, $pw, $hostName, $username)){
+    if(validCustomerUsername($un, $pw, $hostName, $database, $username)){
         return allCustomerData($un, $pw, $hostName, $database, $username);
     }
     else if(validVendorUsername($un, $pw, $hostName, $database, $username)){
@@ -560,7 +558,7 @@ function validUsernameData($un, $pw, $hostName, $database, $username){
 }
 
 function existingUsername($un, $pw, $hostName, $database, $username){
-    if(validCustomerUsername($un, $pw, $hostName, $username)){
+    if(validCustomerUsername($un, $pw, $hostName, $database, $username)){
         return true;
     }
     else if(validVendorUsername($un, $pw, $hostName, $database, $username)){
