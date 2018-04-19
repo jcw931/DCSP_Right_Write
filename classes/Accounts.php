@@ -27,7 +27,7 @@ class UserAccount{
     public function setPassword($newPasswd){
         $this -> passwd = $newPasswd;
     }
-    public function setUsername($newUN){
+    public function setUname($newUN){
         $this -> uname = $newUN;
     }
     public function setFname ($newFN){
@@ -39,62 +39,80 @@ class UserAccount{
     public function setEmail($newMail) {
         $this -> email = $newMail;
     }
-    public function getPassword (){
+    public function getPassword(){
         return $this -> passwd;
     }
-    public function getUname (){
+    public function getUname(){
         return $this -> uname;
     }
-    public function getFname (){
+    public function getFname(){
         return $this -> fname;
     }
-    public function getLname (){
+    public function getLname(){
         return $this -> lname;
     }
-    public function getUID (){
+    public function getUID(){
         return $this -> userID;
     }
-    public function getEmail (){
+    public function getEmail(){
         return $this -> email;
     }
 }
 
 class Customer extends UserAccount {
-    private $cartID;
-    private $history;
+    private $address; // varchar(150)
+    private $cart; // the customers Cart
+    private $cartID; // varchar(32)
+    private $history = array();
 
-    public function __construct($uID, $first, $last, $user, $pw, $mail, $cartID)
+    public function __construct($uID, $first, $last, $user, $pw, $mail, $addr, $cartID)
     {
         parent::__construct($uID, $first, $last, $user, $pw, $mail);
+        $this->address = $addr;
+        $this->cartID = $cartID;
+        $this->cart = new Cart($cartID, $uID);
 
-        $this -> cartID = $cartID;
-        $this -> $history = array();
+
+    }
+
+    public function setAddress($newAddress) {
+        $this->address = $newAddress;
     }
 
     public function setCartID($newCartID){
         $this -> cartID = $newCartID;
     }
+
+    public function getAddress() {
+        return $this->address;
+    }
+
     public function getCartId(){
         return $this-> cartID;
     }
+
+    public function getCart() {
+        return $this->cart;
+    }
+
     public function addHistory($Order){
-        //add me later plz
+        $this->history[] = $Order;
     }
 }
 
 class Vendor extends UserAccount {
-    private $companyID;
+    private $brand;
 
-    public function __construct($uID, $first, $last, $user, $pw, $mail, $companyID)
+    public function __construct($uID, $first, $last, $user, $pw, $mail, $brand)
     {
         parent::__construct($uID, $first, $last, $user, $pw, $mail);
-        $this -> companyID = $companyID;
+        $this -> brand = $brand;
     }
-    public function setCompanyID($newCompany){
-        $this -> companyID = $newCompany;
+    public function setBrand($newBrand){
+        $this -> brand = $newBrand;
     }
-    public function getCompanyID(){
-        return $this-> companyID;
+    public function getBrand(){
+        return $this-> brand;
     }
 }
 
