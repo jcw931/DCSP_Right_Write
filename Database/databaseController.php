@@ -336,6 +336,18 @@ function addPen($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $d
     if (!$result) die($connection->error);
 }
 
+function removePen($un, $pw, $hostName, $database, $itemID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "DELETE  FROM Pens WHERE username = '" .$itemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
 /***********************************************************/
 //WoodenPencil FUNCTIONS
 function addWoodenPencil($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $number, $woodType, $leadColor,$imagePath ){
@@ -351,6 +363,17 @@ function addWoodenPencil($un, $pw, $hostName, $database, $itemID, $name, $price,
     if (!$result) die($connection->error);
 }
 
+function removeWoodenPencil($un, $pw, $hostName, $database, $itemID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "DELETE  FROM WoodenPencils WHERE username = '" .$itemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
 
 /***********************************************************/
 //MechanicalPencil FUNCTIONS
@@ -367,6 +390,17 @@ function addMechanicalPencil($un, $pw, $hostName, $database, $itemID, $name, $pr
     if (!$result) die($connection->error);
 }
 
+function removeMechanicalPencil($un, $pw, $hostName, $database, $itemID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "DELETE  FROM MechanicalPencils WHERE username = '" .$itemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
 
 ?>
 
