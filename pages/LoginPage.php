@@ -15,35 +15,24 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 <body class="w3-content" style="max-width:2400px">
 
 
-
+<!-- If a user is logged in, goes to home page. If user/pass input has been posted, attempts to log in. -->
 <?php
-	require_once 'databaseController.php';
+	require_once 'login.php';
 	if (isset($_SESSION['uname'])) {
 		goto_home();
 	}
 
-	else if ($_SERVER['REQUEST_METHOD'] == 'POST')
-	{
-		echo 'One small step for man';
+	else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		session_start();
-		echo 'One';
 		$_SESSION['uname'] = $_POST['username'];
-		echo 'Giant';
 		$_SESSION['pword'] = $_POST['password'];
-		echo 'Leap';
-		$_SESSION['type'] = check_credentials($_SESSION['uname'], $_SESSION['pword']);
-		echo 'For';
-
+		$_SESSION['type'] = check_credentials($un, $pw, $hostName, $database, $_SESSION['uname'], $_SESSION['pword']);
 		
 		if (($_SESSION['type'] == 'customer') or ($_SESSION['type'] == 'vendor') or ($_SESSION['type'] == 'admin')) {
 			goto_home();
 		}
 	}
 ?>
-
-
-
-
 
 
 <!-- Sidebar/menu -->
@@ -124,19 +113,16 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   <?php
 	// Given a uname and pword: returns "invalid" if uname and pword do not match a database account;
 	// else returns "customer", "vendor", or "admin" based on the type of the user's account.
-	function check_credentials($uname, $pword) {
-		echo 'Hello';
+	function check_credentials($un, $pw, $hostName, $database, $uname, $pword) {
 		require_once 'databaseController.php';
-		echo 'Some';
 		$answer = validCustomerUsername($un, $pw, $hostName, $database, $uname);
-		echo 'Body';
 		if ($answer) {
+			echo 'Username is Correct'; // REMOVE THIS LATER
 			$psalt = "qm&h*" . $pword . "pg!@";
 			$token = hash('ripemd128', $psalt);
-			echo 'Once';
 			$result = allCustomerData($un, $pw, $hostName, $database, $uname);
-			echo 'Told';
 			if ($token == $result['password']) {
+				echo'Password Is Correct'; // REMOVE THIS LATER
 				if ($result['customerID'][0] == 'c') {
 					$answer = 'customer';
 				}
@@ -146,7 +132,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				else if ($result['customerID'][0] == 'a') {
 					$answer = 'admin';
 				}
-				$answer = $result['customerID'][0];
 			}
 			else
 				$answer = 'invalid';

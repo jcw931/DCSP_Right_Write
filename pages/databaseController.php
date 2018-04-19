@@ -97,18 +97,20 @@ function allCustomerData($un, $pw, $hostName, $database, $username){
 
 function validCustomerUsername($un, $pw, $hostName, $database, $username){
     $valid = false;
-
+	echo '1';
+	echo '1.5';
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
         die($connection - connect_error);
     }
+	echo '2';
     $query = "SELECT username FROM Customers ";
-
+	echo '3';
     $result = $connection->query($query);
     if (!$result) die($connection->error);
-
+	echo '4';
     $rows = $result->num_rows;
-
+	echo '5';
     for ($j = 0; $j < $rows; ++$j) {
         $result->data_seek($j);
         $row = $result->fetch_array(MYSQLI_ASSOC);
@@ -117,7 +119,7 @@ function validCustomerUsername($un, $pw, $hostName, $database, $username){
             $valid = true;
         }
     }
-
+	echo '6';
     return $valid;
 }
 
