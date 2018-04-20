@@ -54,66 +54,82 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
 
   <div class="w3-container w3-text-grey" id="jeans">
-    <p>8 items</p>
+    <p>View or Edit your Account Information</p>
   </div>
 
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans2.jpg" style="width:100%">
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
-    </div>
+	<form method="post" action="AccountPage.php">
+		<div class="w3-col l3 s6">
+			<?php
+				require_once './../Database/login.php';
+				require_once './../Database/databaseController.php';
+				require_once './../classes/Accounts.php';
+				
+				session_start();
+				
+				// ACCOUNT ATTRIBUTES: $uID, $first, $last, $user, $pw, $mail
+				// CUSTOMER ATTRIBUTES: $address, $cart, $cartID, $history
+				// VENDOR ATTRIBUTES: $brand
+				// ADMIN ATTRIBUTES: none
+				
+				// If a user is logged in
+				if (isset($_SESSION['type'])) {
+					$account = '';
+					
+					echo '<div class="w3-container"><p>Session Type: ' . $_SESSION['type'] . '<br></p></div>';
+					//echo $test_variable;
+					
+					if ($_SESSION['type'] == 'customer') {
+						echo '<div class="w3-container"><p>Customer Class Creation..';
+						$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
+						echo '!!';
+						$account = new Customer('1', '2', '3', '4', '5', '6', '7', '8');
+						echo '??';
+						$account->setAddress('444');
+						echo '..done<br></p></div>';
+					}
+					else if ($_SESSION['type'] == 'vendor') {
+						echo '<div class="w3-container"><p>Vendor Class Triggered<br></p></div>';
+						$result = allVendorData($un, $pw, $hostName, $database, $_SESSION['uname']);
+						$account = new Vendor($result['vendorID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['brand']);
+					}
+					else if ($_SESSION['type'] == 'admin') {
+						echo '<div class="w3-container"><p>Admin Class Triggered<br></p></div>';
+						$result = allAdminData($un, $pw, $hostName, $database, $_SESSION['uname']);
+						$account = new Admin($uID, $first, $last, $user, $pw, $mail);
+					}
+					
+					
+					echo '<div class="w3-container"><p>Session Type: ' . $_SESSION['type'] . '<br></p></div>';
+					
+					/*
+					<div class="w3-container">
+						<input type="text" name="username" value="<?php echo $_POST['username'] ?>"> <br>
+					</div>
+					<div class="w3-container">
+						<p>Password<br></p>
+					</div>
+					<div class="w3-container">
+						<input type="password" name="password" value="<?php echo $_POST['password'] ?>"> <br>
+					</div>
+					<div class="w3-container">
+						<p><input type="submit" value="Login"></p>
+					</div>
+					<div class="w3-container">
+						<p>Don't have an account? <a href="CreateAccountPage.php">Create Account</a></p>'
+					</div>
+					*/
+				}
+				
+				// If a user is not logged in
+				else {
+					echo '<div class="w3-container"><p>You must <a href="LoginPage.php">Log In</a> to view your account information.<br></p></div>';
+				}
+			?>
+		</div>
+	</form>
 
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans2.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">New</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-    </div>
-
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans4.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">Sale</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
-      </div>
-    </div>
-
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans4.jpg" style="width:100%">
-        <p>Vintage Skinny Jeans<br><b>$14.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
-      </div>
-    </div>
   </div>
 
 </body>

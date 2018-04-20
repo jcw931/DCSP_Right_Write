@@ -17,7 +17,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
 <!-- If a user is logged in, goes to home page. If user/pass input has been posted, attempts to log in. -->
 <?php
-	require_once 'login.php';
+	require_once './../Database/login.php';
+	
+	$failed = False;
 	if (isset($_SESSION['uname'])) {
 		goto_home();
 	}
@@ -30,6 +32,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 		if (($_SESSION['type'] == 'customer') or ($_SESSION['type'] == 'vendor') or ($_SESSION['type'] == 'admin')) {
 			goto_home();
+		}
+		else {
+			session_start();
+			$_SESSION = array();
+			setcookie(session_name(), '', time() - 42000);
+			session_destroy();
+			$failed = True;
 		}
 	}
 ?>
@@ -62,7 +71,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		<a href="AccountPage.php">Account</a>
 		<?php
 			session_start();
-			if (isset($_SESSION['uname'])) {
+			if ($_SESSION['uname']) {
 				echo '<a href="LogoutPage.php">Logout</a>';
 			}
 			else {
@@ -82,7 +91,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			<div class="w3-container">
 				<p style="color: red">
 					<?php
-						if ($_SESSION['type'] == 'invalid')
+						if ($failed)
 							echo 'Username or Password is incorrect.';
 					?>
 				</p>
@@ -114,22 +123,22 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	// Given a uname and pword: returns "invalid" if uname and pword do not match a database account;
 	// else returns "customer", "vendor", or "admin" based on the type of the user's account.
 	function check_credentials($un, $pw, $hostName, $database, $uname, $pword) {
-		require_once 'databaseController.php';
-		$answer = validCustomerUsername($un, $pw, $hostName, $database, $uname);
-		if ($answer) {
+		require_once './../Database/databaseController.php';
+		$answer = '';
+		$result = validUsernameData($un, $pw, $hostName, $database, $uname);
+		if ($result != False) {
 			echo 'Username is Correct'; // REMOVE THIS LATER
 			$psalt = "qm&h*" . $pword . "pg!@";
 			$token = hash('ripemd128', $psalt);
-			$result = allCustomerData($un, $pw, $hostName, $database, $uname);
 			if ($token == $result['password']) {
 				echo'Password Is Correct'; // REMOVE THIS LATER
 				if ($result['customerID'][0] == 'c') {
 					$answer = 'customer';
 				}
-				else if ($result['customerID'][0] == 'v') {
+				else if ($result['vendorID'][0] == 'v') {
 					$answer = 'vendor';
 				}
-				else if ($result['customerID'][0] == 'a') {
+				else if ($result['adminID'][0] == 'a') {
 					$answer = 'admin';
 				}
 			}
