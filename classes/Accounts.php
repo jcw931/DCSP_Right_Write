@@ -6,8 +6,8 @@
  * parent class
  * **** SETS AND GETS ARE ONLY CURRENT FUNCTIONS ******
  ***********************************************************************************************/
- 
-require_once('Cart.php');
+
+require_once "Cart.php";
 
 class UserAccount{
     private $userID;
@@ -125,3 +125,5 @@ class Admin extends UserAccount {
         parent::__construct($uID, $first, $last, $user, $pw, $mail);
     }
 }
+
+?>

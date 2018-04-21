@@ -572,5 +572,164 @@ function existingUsername($un, $pw, $hostName, $database, $username){
     }
 }
 
+function newID($un, $pw, $hostName, $database, $type){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    if ($type == "customer") {
+        $query = "SELECT customerID FROM IDTracker";
+
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+
+            $result->data_seek(0);
+            $input = $result->fetch_array(MYSQLI_ASSOC);
+
+            $inID = $input['customerID'];
+
+            $number = $number = ($inID[1] * 1000) + ($inID[2] * 100) + ($inID[3] * 10) + ($inID[4] * 1);
+            $number++;
+            $outID = $inID[0] . $number;
+
+            $query = "UPDATE IDTracker SET customerID = '" . $outID . "'";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            return $outID;
+
+        } else if ($type == "vendor") {
+            $query = "SELECT vendorID FROM IDTracker";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            $result->data_seek(0);
+            $input = $result->fetch_array(MYSQLI_ASSOC);
+
+            $inID = $input['vendorID'];
+
+            $number = $number = ($inID[1] * 1000) + ($inID[2] * 100) + ($inID[3] * 10) + ($inID[4] * 1);
+            $number++;
+            $outID = $inID[0] . $number;
+
+            $query = "UPDATE IDTracker SET vendorID = '" . $outID . "'";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            return $outID;
+
+        } else if ($type == "admin") {
+            $query = "SELECT adminID FROM IDTracker";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            $result->data_seek(0);
+            $input = $result->fetch_array(MYSQLI_ASSOC);
+
+            $inID = $input['adminID'];
+
+            $number = $number = ($inID[1] * 1000) + ($inID[2] * 100) + ($inID[3] * 10) + ($inID[4] * 1);
+            $number++;
+            $outID = $inID[0] . $number;
+
+            $query = "UPDATE IDTracker SET adminID = '" . $outID . "'";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            return $outID;
+
+        } else if ($type == "cart") {
+            $query = "SELECT cartID FROM IDTracker";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            $result->data_seek(0);
+            $input = $result->fetch_array(MYSQLI_ASSOC);
+
+            $inID = $input['cartID'];
+
+            $number = $number = ($inID[4] * 1000) + ($inID[5] * 100) + ($inID[6] * 10) + ($inID[7] * 1);
+            $number++;
+            $outID = $inID[0] .$inID[1] .$inID[2] .$inID[3] .$number;
+
+            $query = "UPDATE IDTracker SET cartID = '" . $outID . "'";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            return $outID;
+
+        } else if ($type == "item") {
+            $query = "SELECT itemID FROM IDTracker";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            $result->data_seek(0);
+            $input = $result->fetch_array(MYSQLI_ASSOC);
+
+            $inID = $input['itemID'];
+
+            $number = ($inID[1] * 10000) + ($inID[2] * 1000) + ($inID[3] * 100) + ($inID[4] * 10) + ($inID[5] * 1);
+            $number++;
+
+            $outID = $inID[0] . $number;
+
+            $query = "UPDATE IDTracker SET itemID = '" . $outID . "'";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            return $outID;
+
+        } else if ($type == "order") {
+            $query = "SELECT orderID FROM IDTracker";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            $result->data_seek(0);
+            $input = $result->fetch_array(MYSQLI_ASSOC);
+
+            $inID = $input['orderID'];
+
+            $number = $number = ($inID[5] * 1000) + ($inID[6] * 100) + ($inID[7] * 10) + ($inID[8] * 1);
+            $number++;
+            $outID = $inID[0] .$inID[1] .$inID[2] .$inID[3] .$inID[4] .$number;
+
+            $query = "UPDATE IDTracker SET orderID = '" . $outID . "'";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            return $outID;
+
+        } else {
+
+            return false;
+    }
+}
+
+function startIDTracker($un, $pw, $hostName, $database, $customerID, $vendorID, $adminID, $cartID, $itemID, $orderID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "INSERT INTO IDTracker (customerID, vendorID, adminID, cartID, itemID, orderID) "
+        . "VALUES('$customerID', '$vendorID', '$adminID', '$cartID', '$itemID', '$orderID')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+}
+
 ?>
 
