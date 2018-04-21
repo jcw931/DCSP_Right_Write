@@ -621,6 +621,7 @@ function newID($un, $pw, $hostName, $database, $type){
             if (!$result) die($connection->error);
 
             return $outID;
+
         } else if ($type == "admin") {
             $query = "SELECT adminID FROM IDTracker";
 
@@ -642,7 +643,28 @@ function newID($un, $pw, $hostName, $database, $type){
             if (!$result) die($connection->error);
 
             return $outID;
+
         } else if ($type == "cart") {
+            $query = "SELECT cartID FROM IDTracker";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            $result->data_seek(0);
+            $input = $result->fetch_array(MYSQLI_ASSOC);
+
+            $inID = $input['cartID'];
+
+            $number = $number = ($inID[4] * 1000) + ($inID[5] * 100) + ($inID[6] * 10) + ($inID[7] * 1);
+            $number++;
+            $outID = $inID[0] .$inID[1] .$inID[2] .$inID[3] .$number;
+
+            $query = "UPDATE IDTracker SET cartID = '" . $outID . "'";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            return $outID;
 
         } else if ($type == "item") {
             $query = "SELECT itemID FROM IDTracker";
@@ -668,8 +690,31 @@ function newID($un, $pw, $hostName, $database, $type){
             return $outID;
 
         } else if ($type == "order") {
-        
-        }
+            $query = "SELECT orderID FROM IDTracker";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            $result->data_seek(0);
+            $input = $result->fetch_array(MYSQLI_ASSOC);
+
+            $inID = $input['orderID'];
+
+            $number = $number = ($inID[5] * 1000) + ($inID[6] * 100) + ($inID[7] * 10) + ($inID[8] * 1);
+            $number++;
+            $outID = $inID[0] .$inID[1] .$inID[2] .$inID[3] .$inID[4] .$number;
+
+            $query = "UPDATE IDTracker SET orderID = '" . $outID . "'";
+
+            $result = $connection->query($query);
+            if (!$result) die($connection->error);
+
+            return $outID;
+
+        } else {
+
+            return false;
+    }
 }
 
 function startIDTracker($un, $pw, $hostName, $database, $customerID, $vendorID, $adminID, $cartID, $itemID, $orderID){
