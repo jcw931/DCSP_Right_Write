@@ -6,6 +6,8 @@
  * parent class
  * **** SETS AND GETS ARE ONLY CURRENT FUNCTIONS ******
  ***********************************************************************************************/
+ 
+require_once('Cart.php');
 
 class UserAccount{
     private $userID;

@@ -30,7 +30,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		$_SESSION['pword'] = $_POST['password'];
 		$_SESSION['type'] = check_credentials($un, $pw, $hostName, $database, $_SESSION['uname'], $_SESSION['pword']);
 		
-		if (($_SESSION['type'] == 'customer') or ($_SESSION['type'] == 'vendor') or ($_SESSION['type'] == 'admin')) {
+		if (($_SESSION['type'] == 'Customer') or ($_SESSION['type'] == 'Vendor') or ($_SESSION['type'] == 'Admin')) {
 			goto_home();
 		}
 		else {
@@ -127,26 +127,24 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		$answer = '';
 		$result = validUsernameData($un, $pw, $hostName, $database, $uname);
 		if ($result != False) {
-			echo 'Username is Correct'; // REMOVE THIS LATER
 			$psalt = "qm&h*" . $pword . "pg!@";
 			$token = hash('ripemd128', $psalt);
 			if ($token == $result['password']) {
-				echo'Password Is Correct'; // REMOVE THIS LATER
 				if ($result['customerID'][0] == 'c') {
-					$answer = 'customer';
+					$answer = 'Customer';
 				}
 				else if ($result['vendorID'][0] == 'v') {
-					$answer = 'vendor';
+					$answer = 'Vendor';
 				}
 				else if ($result['adminID'][0] == 'a') {
-					$answer = 'admin';
+					$answer = 'Admin';
 				}
 			}
 			else
-				$answer = 'invalid';
+				$answer = 'Invalid';
 		}
 		else {
-			$answer = 'invalid';
+			$answer = 'Invalid';
 		}
 		return $answer;
 	}

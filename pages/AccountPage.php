@@ -66,8 +66,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				require_once './../Database/databaseController.php';
 				require_once './../classes/Accounts.php';
 				
-				session_start();
-				
+
 				// ACCOUNT ATTRIBUTES: $uID, $first, $last, $user, $pw, $mail
 				// CUSTOMER ATTRIBUTES: $address, $cart, $cartID, $history
 				// VENDOR ATTRIBUTES: $brand
@@ -75,50 +74,161 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				
 				// If a user is logged in
 				if (isset($_SESSION['type'])) {
+					session_start();
+					
+					$validFName = $validLName = $validEmail = $validAddress = $validBrand = $validPass = True;
+					$passProblem = 'None';
+					$newAddress = False;
+					
+					// If "Save Changes" gets pressed:
+					if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+						
+						// Check if the changes were valid.
+						$validFName = validateName($_POST['firstname']);
+						$validLName = validateName($_POST['firstname']);
+						$validEmail = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+						
+						// Checks if any of the address fields were edited.
+						if (!(($_POST['street'] == '') && ($_POST['city'] == '') && ($_POST['state'] == '') && ($_POST['zip'] == ''))) {
+							$validAddress = validateAddress($_POST['street'], $_POST['city'], $_POST['state'], $_POST['zip']);
+							$newAddress = True;
+						}
+
+						if (isset($_POST['brand']))
+							$validBrand = validateName($_POST['brand']);
+						
+						
+						if (!(($_POST['pass1'] == '') && ($_POST['pass2'] == ''))) {
+							$passProblem = validatePasswords($_POST['pass1'], $_POST['pass2']);
+							if ($passProblem != 'Valid')
+								$validPass = False;
+						}
+						
+						if ($validFName && $validLName && $validEmail && $validAddress && $validBrand && $validPass) {
+							
+							if ($_SESSION['type'] == 'Customer') {
+								editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'fname', $_POST['firstname']);
+								editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'lname', $_POST['lastname']);
+								editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'email', $_POST['email']);
+								if ($newAddress) {
+									$address_string = $_POST['street'] . ' ' . $_POST['city'] . ', ' . $_POST['state'] . ' ' . $_POST['zip'];
+									editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'address', $address_string);
+								}
+								if ($passProblem != 'None') {
+									$psalt = "qm&h*" . $_POST['pass1'] . "pg!@";
+									$token = hash('ripemd128', $psalt);
+									editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'password', $token);
+								}
+							}
+							else if ($_SESSION['type'] == 'Vendor') {
+								editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'fname', $_POST['firstname']);
+								editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'lname', $_POST['lastname']);
+								editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'email', $_POST['email']);
+								editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'brand', $_POST['brand']);
+							}
+							else if ($_SESSION['type'] == 'Admin') {
+								editAdmin($un, $pw, $hostName, $database, $_SESSION['uname'], 'fname', $_POST['firstname']);
+								editAdmin($un, $pw, $hostName, $database, $_SESSION['uname'], 'lname', $_POST['lastname']);
+								editAdmin($un, $pw, $hostName, $database, $_SESSION['uname'], 'email', $_POST['email']);
+							}
+							echo '<div class="w3-container"><p>Changes Saved!</p></div>';
+						}
+					}
+					
+					
 					$account = '';
 					
-					echo '<div class="w3-container"><p>Session Type: ' . $_SESSION['type'] . '<br></p></div>';
-					//echo $test_variable;
+					echo '<div class="w3-container"><p><b>Account Type:</b> ' . $_SESSION['type'] . '</p></div>';
 					
-					if ($_SESSION['type'] == 'customer') {
-						echo '<div class="w3-container"><p>Customer Class Creation..';
+					if ($_SESSION['type'] == 'Customer') {
 						$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
-						echo '!!';
-						$account = new Customer('1', '2', '3', '4', '5', '6', '7', '8');
-						echo '??';
-						$account->setAddress('444');
-						echo '..done<br></p></div>';
+						$account = new Customer($result['customerID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['address'], $result['cartID']);
 					}
-					else if ($_SESSION['type'] == 'vendor') {
-						echo '<div class="w3-container"><p>Vendor Class Triggered<br></p></div>';
+					else if ($_SESSION['type'] == 'Vendor') {
 						$result = allVendorData($un, $pw, $hostName, $database, $_SESSION['uname']);
 						$account = new Vendor($result['vendorID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['brand']);
 					}
-					else if ($_SESSION['type'] == 'admin') {
-						echo '<div class="w3-container"><p>Admin Class Triggered<br></p></div>';
+					else if ($_SESSION['type'] == 'Admin') {
 						$result = allAdminData($un, $pw, $hostName, $database, $_SESSION['uname']);
-						$account = new Admin($uID, $first, $last, $user, $pw, $mail);
+						$account = new Admin($result['adminID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email']);
 					}
 					
 					
-					echo '<div class="w3-container"><p>Session Type: ' . $_SESSION['type'] . '<br></p></div>';
+					echo '<div class="w3-container"><p><b>Username:</b> ' . $account->getUname() . '</p></div>';
 					
+					
+					echo '<div class="w3-container">';
+					if (!$validFName)
+						echo '<p style="color: red">First Name cannot be empty, and must start with a capital letter.</p>';
+					echo '<p><b>First Name:</b> <input type="text" name="firstname" value=' . $account->getFname() . '></p></div>';
+					
+					echo '<div class="w3-container">';
+					if (!$validLName)
+						echo '<p style="color: red">Last Name cannot be empty, and must start with a capital letter.</p>';
+					echo '<p><b>Last Name:</b> <input type="text" name="lastname" value=' . $account->getLname() . '></p></div>';
+					
+					echo '<div class="w3-container">';
+					if (!$validEmail)
+						echo '<p style="color: red">Email Address must be valid.</p>';
+					echo '<p><b>Email Address:</b> <input type="text" name="email" value=' . $account->getEmail() . '></p></div>';
+					
+					if ($_SESSION['type'] == 'Customer') {
+						echo '<div class="w3-container">';
+						echo '<p>If you do not want to change your address, then leave these fields blank.</p>';
+						echo '<p><b>Current Address:</b> ' . $account->getAddress() . '</p>';
+						if (!$validAddress)
+							echo '<p style="color: red">Please enter valid address information.</p>';
+						echo '<p><b>New Street Address:</b> <input type="text" name="street"></p>';
+						echo '<p><b>New City:</b> <input type="text" name="city"></p>';
+						echo '<p><b>New State:</b> <input type="text" name="state"></p>';
+						echo '<p><b>New Zip:</b> <input type="text" name="zip"></p></div>';
+						// TO DO: View Purchase History
+					}
+					
+					else if ($_SESSION['type'] == 'Vendor') {
+						echo '<div class="w3-container">';
+						if (!$validBrand)
+							echo '<p style="color: red">Brand cannot be empty, and must start with a capital letter.</p>';
+						echo '<p><b>Brand:</b> <input type="text" name="brand" value=' . $account->getBrand() . '></p></div>';
+					}
+					
+					echo '<div class="w3-container">';
+					echo '<p>If you do not want to change your password, then leave these fields blank.</p>';
+					if (!$validPass) {
+						if ($passProblem == 'Mismatch')
+							echo '<p style="color: red">Passwords must be exact matches.</p>';
+						else if ($passProblem == 'Short')
+							echo '<p style="color: red">Passwords must be at least 6 characters long.</p>';
+						else if ($passProblem == 'Character')
+							echo '<p style="color: red">Passwords must have at least 1 uppercase letter, lowercase letter, and number.</p>';
+					}
+					echo '<p><b>New Password:</b> <input type="password" name="pass1"></p>';
+					echo '<p><b>Re-Enter New Password:</b> <input type="password" name="pass2"></p></div>';
+				
+					echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
+				
+				
 					/*
+
 					<div class="w3-container">
-						<input type="text" name="username" value="<?php echo $_POST['username'] ?>"> <br>
-					</div>
-					<div class="w3-container">
-						<p>Password<br></p>
-					</div>
-					<div class="w3-container">
-						<input type="password" name="password" value="<?php echo $_POST['password'] ?>"> <br>
-					</div>
-					<div class="w3-container">
-						<p><input type="submit" value="Login"></p>
+						<p><input type="submit" value="Save Changes"></p>
 					</div>
 					<div class="w3-container">
 						<p>Don't have an account? <a href="CreateAccountPage.php">Create Account</a></p>'
 					</div>
+					
+					NEED:
+					Password: minimum 6 digits; include at least one capital letter, lowercase letter, and number)
+					
+					CUSTOMER:
+					Home address
+					Purchase history
+					
+					VENDOR:
+					Brand
+					
+					ADMIN:
+					
 					*/
 				}
 				
@@ -131,6 +241,102 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	</form>
 
   </div>
-
+	<?php
+		// Validates names.
+		function validateName($name) {
+			// Name can't be empty.
+			if ($name == '')
+				return False;
+			
+			// Name must start with a capital letter.
+			else if (!((ord(substr($name, 0)) >= 65) && (ord(substr($name, 0)) <= 90)))
+				return False;
+			
+			else
+				return True;
+		}
+		
+		
+		// Validates addresses.
+		function validateAddress($street, $city, $state, $zip) {
+			// Street cannot be empty.
+			if ($street == '')
+				return False;
+			
+			// City and state must qualify as names.
+			else if (!(validateName($city) && validateName($state)))
+				return False;
+			
+			// Zip must be exactly 5 digits long.
+			else if (strlen($zip) != 5)
+				return False;
+			
+			// Zip must only contain numbers.
+			else {
+				for ($i = 0; $i < 5; $i++) {
+					if (!((ord(substr($zip, $i)) >= 48) && (ord(substr($zip, $i)) <= 57)))
+						return False;
+				}
+			}
+			
+			// If function makes it this far, then the given address is valid; returns true.
+			return True;
+		}
+			
+		
+		// Validates passwords. Returns 'Valid' if they are valid, else returns 'Mismatch', 'Short', or 'Character' depending on what the problem is.
+		function validatePasswords($pass1, $pass2) {
+			// Passwords must be identical.
+			if ($pass1 != $pass2)
+				return 'Mismatch';
+			
+			// Passwords must be at least 6 characters long.
+			// At this point, only pass1 needs to be checked because pass1 and pass2 are identical.
+			else if (strlen($pass1) < 6)
+				return 'Short';
+			
+			// Passwords must have at least one uppercase letter, lowercase letter, and number.
+			$upper = $lower = $number = False;
+			
+			for ($i = 0; $i < strlen($pass1); $i++) {
+				if ($upper && $lower && $number)
+					break;
+				
+				else {
+					if ((ord(substr($pass1, $i)) >= 65) && (ord(substr($pass1, $i)) <= 90))
+						$upper = True;
+					else if ((ord(substr($pass1, $i)) >= 97) && (ord(substr($pass1, $i)) <= 122))
+						$lower = True;
+					else if ((ord(substr($pass1, $i)) >= 48) && (ord(substr($pass1, $i)) <= 57))
+						$number = True;
+				}
+			}
+			
+			if ($upper && $lower && $number)
+				return 'Valid';
+			else
+				return 'Character';
+		}
+	?>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
