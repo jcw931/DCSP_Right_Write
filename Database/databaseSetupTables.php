@@ -99,7 +99,8 @@ $query = "CREATE TABLE Customers (
   email VARCHAR(50) NOT NULL,
   customerID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
   cartID VARCHAR(32) NOT NULL,
-  address VARCHAR (150) NOT NULL
+  address VARCHAR(150) NOT NULL,
+  hpItem VARCHAR (32)
 )";
 
 $result = $connection->query($query);
@@ -168,7 +169,7 @@ else {
 //Database table to hold customer order history
 $query = "CREATE TABLE History (
   orderID VARCHAR(32) NOT NULL,
-  custoemrID VARCHAR(32) NOT NULL
+  customerID VARCHAR(32) NOT NULL
 )";
 
 $result = $connection->query($query);
@@ -184,7 +185,7 @@ $query = "CREATE TABLE Reviews (
   customerID VARCHAR(32) NOT NULL,
   itemID VARCHAR(32) NOT NULL,
   numStarts INTEGER NOT NULL,
-  reviewTest VARCHAR(240) NOT NULL
+  reviewText VARCHAR(240) NOT NULL
 )";
 
 $result = $connection->query($query);
@@ -193,6 +194,22 @@ if(!$result){
 }
 else {
   echo "Review table created <br>";
+}
+
+$query  = "CREATE TABLE IDTracker (customerID VARCHAR(32) NOT NULL UNIQUE,
+                                   vendorID VARCHAR(32) NOT NULL UNIQUE,
+                                   adminID VARCHAR(32) NOT NULL UNIQUE,
+                                   cartID VARCHAR(32) NOT NULL UNIQUE,
+                                   itemID VARCHAR(32) NOT NULL UNIQUE,
+                                   orderID VARCHAR(32) NOT NULL UNIQUE)";
+
+
+$result = $connection->query($query);
+if(!$result){
+    die($connection->error);
+}
+else {
+    echo "IDTracker table created <br>";
 }
 
 $result->close();
