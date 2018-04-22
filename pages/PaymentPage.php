@@ -41,8 +41,10 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			require_once './../Database/login.php';
 			require_once './../Database/databaseController.php';
 			require_once './../classes/Accounts.php';
+			require_once './../classes/Cart.php';
 			
 			session_start();
+			
 			if (isset($_SESSION['type'])) {
 				echo '<a href="AccountPage.php">Account</a>';
 				echo ' ';
@@ -50,22 +52,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				echo ' ';
 				echo '<a href="CartPage.php">Cart</a>';
 				echo ' ';
-				
-				$validCHN = $validCCN = $validCVC = True;
-				
-				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				
-					$validCHN = validateName($_POST['chn']);
-					$validCCN = validateCCNumber($_POST['ccn'], $_POST['cardType']);
-					$validCVC = validateCVC($_POST['cvc'], $_POST['cardType']);
-					
-					if ($validCHN && $validCCN && $validCVC) {
-						
-					}
-				}
-				
-				
-				$account = '';
 				
 				// If the user is a Customer, creates a Customer account object.
 				if ($_SESSION['type'] == 'Customer') {
@@ -75,13 +61,77 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				// If the user is a Vendor or Admin, redirects to "Customer Only" page.
 				else if (($_SESSION['type'] == 'Vendor') || ($_SESSION['type'] == 'Admin'))
 					goto_customeronly();
+				
+				// If the customer's Cart is empty, sends redirects them to Cart page.
+				$cart = allCartData($un, $pw, $hostName, $database, $account->getCartId());
+				if (!isset($cart))
+					goto_cart();
+				
+				// Initialize booleans for input validation.
+				$validCHN = $validCCN = $validCVC = True;
+				$ccnProblem = $cvcProblem = '';
+				
+				// Validate user input.
+				if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				
+					// Determine if input was valid.
+					$validCHN = validateName($_POST['chn']);
+					$ccnProblem = validateCCNumber($_POST['ccn'], $_POST['cardType']);
+					if ($ccnProblem != 'Valid')
+						$validCCN = False;
+					$cvcProblem = validateCVC($_POST['cvc'], $_POST['cardType']);
+					if ($cvcProblem != 'Valid')
+						$validCVC = False;
+					
+					
+					
+					
+					
+					
+					
+					
+					// If all payment info is valid, place the order.
+					if ($validCHN && $validCCN && $validCVC) {
+						
+						$orderID = newID($un, $pw, $hostName, $database, 'order');
+						$custID = $account->getUID();
+						$date = date("Y/m/d");
+						
+						
+						$cart
+						
+						$itemID = 
+						$itemQty = 
+						$itemPrice = 
+						
+						
+						for each ($cart as $item) {
+							addToOrder($un, $pw, $hostName, $database, $orderID, $custID, $item['ItemID'], $date, $item['ItemQty'], $itemPrice);
+						
+						
+						goto_orderreceived();
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				}
+
+				$account = '';
+				
+				
 			}
 			
 			// If no user is logged in, redirects to "must login" page.
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
 				echo ' ';
-				
 				goto_mustlogin();
 			}
 		?>
@@ -110,11 +160,25 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			</div>
 			
 			<div class="w3-container">
+				<?php
+					if (!$validCHN)
+						echo '<p style="color: red">Card Holder Name cannot be empty, and must only contain letters or spaces.</p>';
+				?>
 				<p><b>Card Holder Name:</b><br>
 				<input type="text" name="chn"></p>
 			</div>
 			
 			<div class="w3-container">
+				<?php
+					if (!$validCCN) {
+						if ($ccnProblem == 'AELength')
+							echo '<p style="color: red">For AMEX Cards, Card Number must be 15 digits.</p>';
+						else if ($ccnProblem == 'Length')
+							echo '<p style="color: red">Card Number must be 16 digits.</p>';
+						else if ($ccnProblem == 'Numbers')
+							echo '<p style="color: red">Card Number must only contain numbers.</p>';
+					}
+				?>
 				<p><b>Card Number:</b><br>
 				<input type="text" name="ccn"></p>
 			</div>
@@ -153,6 +217,16 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			</div>
 			
 			<div class="w3-container">
+				<?php
+					if (!$validCVC) {
+						if ($cvcProblem == 'AELength')
+							echo '<p style="color: red">For AMEX Cards, CVC must be 4 digits.</p>';
+						else if ($cvcProblem == 'Length')
+							echo '<p style="color: red">CVC must be 3 digits.</p>';
+						else if ($cvcProblem == 'Numbers')
+							echo '<p style="color: red">CVC must only contain numbers.</p>';
+					}
+				?>
 				<p><b>CVC:</b><br>
 				<input type="text" name="cvc"></p>
 			</div>
@@ -181,6 +255,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </form>
 
 <?php
+
 	function validateName($name) {
 		// Name can't be empty.
 		if ($name == '')
@@ -200,20 +275,18 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		// CCN must be exactly 15 or 16 digits long.
 		
 		if ($cardType == 'American Express') {
-			if (strlen($ccnumber) != 15)
+			if (strlen($ccNumber) != 15)
 				return 'AELength';
 		}
 		else {
-			if (strlen($ccnumber) != 16)
+			if (strlen($ccNumber) != 16)
 				return 'Length';
 		}
 		
 		// CCN must only contain numbers.
-		else {
-			for ($i = 0; $i < strlen($ccnumber); $i++) {
-				if (!((ord(substr($ccNumber, $i)) >= 48) && (ord(substr($ccNumber, $i)) <= 57)))
-					return 'Numbers';
-			}
+		for ($i = 0; $i < strlen($$ccNumber); $i++) {
+			if (!((ord(substr($ccNumber, $i)) >= 48) && (ord(substr($ccNumber, $i)) <= 57)))
+				return 'Numbers';
 		}
 			
 		return 'Valid';
@@ -231,13 +304,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		}
 		
 		// CVC must only contain numbers.
-		else {
-			for ($i = 0; $i < strlen($cvc); $i++) {
-				if (!((ord(substr($street, $i)) >= 48) && (ord(substr($street, $i)) <= 57)))
-					return 'Numbers';
-			}
+		for ($i = 0; $i < strlen($cvc); $i++) {
+			if (!((ord(substr($cvc, $i)) >= 48) && (ord(substr($cvc, $i)) <= 57)))
+				return 'Numbers';
 		}
-			
+
 		return 'Valid';
 	}
 
@@ -246,8 +317,18 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		exit;
 	}
 	
+	function goto_cart() {
+		header("Location: CartPage.php");
+		exit;
+	}
+	
 	function goto_customeronly() {
 		header("Location: MustBeCustomerPage.php");
+		exit;
+	}
+	
+	function goto_orderreceived() {
+		header("Location: OrderReceivedPage.php");
 		exit;
 	}
 ?>

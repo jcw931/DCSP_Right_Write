@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Review Order - The Right Write</title>
+<title>Order Received - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -34,7 +34,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   <!-- Top header -->
   <header class="w3-container w3-grey w3-xlarge">
-    <p class="w3-left">Review Order</p>
+    <p class="w3-left">Order Received</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
 		<?php
