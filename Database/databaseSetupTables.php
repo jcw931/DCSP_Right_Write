@@ -156,7 +156,8 @@ $query = "CREATE TABLE Orders (
   itemID VARCHAR(32) NOT NULL,
   date VARCHAR(32) NOT NULL,
   itemQty INTEGER NOT NULL,
-  itemPrice FLOAT NOT NULL
+  itemPrice FLOAT NOT NULL,
+  PRIMARY KEY (orderID, itemID)
 )";
 
 $result = $connection->query($query);
