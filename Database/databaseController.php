@@ -747,6 +747,75 @@ function editReview($un, $pw, $hostName, $database, $customerID, $itemID, $numSt
     if (!$result) die($connection->error);
 }
 
+function reviewData($un, $pw, $hostName, $database, $customerID, $itemID){
+    $reviewArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM Reviews WHERE customerID = '" .$customerID ."' AND itemID = '".$itemID."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $reviewArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $reviewArray;
+}
+
+function itemReviewData($un, $pw, $hostName, $database, $itemID){
+    $reviewArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM Reviews WHERE itemID = '".$itemID."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $reviewArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $reviewArray;
+}
+
+function customerReviewData($un, $pw, $hostName, $database, $customerID){
+    $reviewArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM Reviews WHERE customerID = '".$customerID."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $reviewArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $reviewArray;
+}
+
 /***********************************************************/
 //History FUNCTIONS
 function addHistory($un, $pw, $hostName, $database, $orderID, $customerID){
