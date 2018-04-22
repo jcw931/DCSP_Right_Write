@@ -647,6 +647,87 @@ function existingUsername($un, $pw, $hostName, $database, $username){
     }
 }
 
+/***********************************************************/
+//Cart FUNCTIONS
+function addCart($un, $pw, $hostName, $database, $cartID, $ItemID, $itemQty){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "INSERT INTO Cart (cartID, ItemID, itemQty) "
+        . "VALUES('$cartID', '$ItemID', '$itemQty')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function removeCart($un, $pw, $hostName, $database, $cartID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "DELETE  FROM Cart WHERE cartID = '" .$cartID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function removeItemFromCart($un, $pw, $hostName, $database, $cartID, $ItemID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "DELETE  FROM Cart WHERE cartID = '" .$cartID. "' AND ItemID = '" .$ItemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+/****************************************************************************************/
+//Order Functions
+function addToOrder($un, $pw, $hostName, $database, $orderID, $custID, $itemID, $date, $itemQty, $itemPrice){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query  = "INSERT INTO Orders (orderID, customerID, itemID, date, itemQty, itemPrice) "
+        . "VALUES('$orderID', '$custID', '$itemID', '$date', '$itemQty', '$itemPrice')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+}
+
+function orderData($un, $pw, $hostName, $database, $orderID){
+    $orderArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM Orders WHERE orderID = '" .$orderID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $orderArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $orderArray;
+}
+
+/****************************************************************************************/
+//ID functions
+
 function newID($un, $pw, $hostName, $database, $type){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if ($connection->connect_error) {
