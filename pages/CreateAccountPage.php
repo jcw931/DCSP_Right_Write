@@ -288,10 +288,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		if ($name == '')
 			return False;
 		
-		// Name must start with a capital letter.
-		else if (!((ord(substr($name, 0)) >= 65) && (ord(substr($name, 0)) <= 90)))
-			return False;
-		
 		else {
 			// Name must only contain letters and spaces.
 			for ($i = 0; $i < strlen($name); $i++) {

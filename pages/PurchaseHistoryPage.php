@@ -55,6 +55,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
 				echo ' ';
+				
+				goto_login();
 			}
 		?>
 		<input type="text" placeholder="Search..">
@@ -124,6 +126,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       </div>
     </div>
   </div>
+ 
+<?php
+	function goto_mustlogin() {
+		header("Location: MustLoginPage.php");
+		exit;
+	}
+?>
 
 </body>
 </html>
