@@ -747,6 +747,63 @@ function editReview($un, $pw, $hostName, $database, $customerID, $itemID, $numSt
     if (!$result) die($connection->error);
 }
 
+/***********************************************************/
+//History FUNCTIONS
+function addHistory($un, $pw, $hostName, $database, $orderID, $customerID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "INSERT INTO History (orderID, customerID) "
+        . "VALUES('$orderID', '$customerID')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function allHistoryData($un, $pw, $hostName, $database, $orderID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "SELECT * FROM History WHERE orderID = '" . $orderID. "'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $historyArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $historyArray;
+}
+
+function customerHistory($un, $pw, $hostName, $database, $customerID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "SELECT * FROM History WHERE customerID = '" . $customerID. "'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $historyArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $historyArray;
+}
+
 /****************************************************************************************/
 //Order Functions
 function addToOrder($un, $pw, $hostName, $database, $orderID, $custID, $itemID, $date, $itemQty, $itemPrice){
