@@ -61,12 +61,14 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	<p><b>View or Edit your Account Information</b></p>
 </div>
 
+
   <!-- Product grid -->
 <div class="w3-row w3-grayscale">
 			<?php
 				require_once './../Database/login.php';
 				require_once './../Database/databaseController.php';
 				require_once './../classes/Accounts.php';
+				
 				
 				// Executes proper content for a logged-in user.
 				if (isset($_SESSION['type'])) {
@@ -157,14 +159,15 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 							}
 						}
 					}
-					
 					// Initialize UserAccount object variable.
 					$account = '';
 					
 					// If the user is a Customer, creates a Customer account object.
 					if ($_SESSION['type'] == 'Customer') {
 						$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
+						
 						$account = new Customer($result['customerID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['address'], $result['cartID']);
+
 					}
 					// If the user is a Vendor, creates a Vendor account object.
 					else if ($_SESSION['type'] == 'Vendor') {
@@ -177,7 +180,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 						$account = new Admin($result['adminID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email']);
 					}
 				
-
+					
 					// Allows users to change their personal information (first name, last name, email address).
 					echo '<form method="post" action="AccountPage.php">';
 					echo '<div class="w3-col l3 s6">';
@@ -222,13 +225,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 						if (!$validAddress)
 							echo '<p style="color: red">Please enter valid address information.</p>';
 						
-						echo '<div class="w3-container"><p><b>New Street Address:</b></p><p><input type="text" name="street"></p></div>';
+						echo '<div class="w3-container"><p><b>New Street Address:</b></p><p><input type="text" name="street" value=' . $_POST['street'] . '></p></div>';
 						
-						echo '<div class="w3-container"><p><b>New City:</b></p><p><input type="text" name="city"></p></div>';
+						echo '<div class="w3-container"><p><b>New City:</b></p><p><input type="text" name="city" value=' . $_POST['city'] . '></p></div>';
 						
-						echo '<div class="w3-container"><p><b>New State:</b></p><p><input type="text" name="state"></p></div>';
+						echo '<div class="w3-container"><p><b>New State:</b></p><p><input type="text" name="state" value=' . $_POST['state'] . '></p></div>';
 						
-						echo '<div class="w3-container"><p><b>New Zip:</b></p><p><input type="text" name="zip"></p></div>';
+						echo '<div class="w3-container"><p><b>New Zip:</b></p><p><input type="text" name="zip" value=' . $_POST['zip'] . '></p></div>';
 						
 						// TO DO: View Purchase History
 						
