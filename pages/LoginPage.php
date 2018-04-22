@@ -149,8 +149,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		return $answer;
 	}
 	
-	function goto_home()
-	{
+	function goto_home() {
 		header("Location: HomePage.php");
 		exit;
 	}
@@ -158,16 +157,3 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

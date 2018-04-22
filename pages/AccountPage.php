@@ -186,12 +186,12 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					
 					echo '<div class="w3-container">';
 					if (!$validFName)
-						echo '<p style="color: red">First Name cannot be empty, and must start with a capital letter.</p>';
+						echo '<p style="color: red">First Name cannot be empty, and must only contain letters.</p>';
 					echo '<p><b>First Name:</b></p><p><input type="text" name="firstname" value=' . $account->getFname() . '></p></div>';
 					
 					echo '<div class="w3-container">';
 					if (!$validLName)
-						echo '<p style="color: red">Last Name cannot be empty, and must start with a capital letter.</p>';
+						echo '<p style="color: red">Last Name cannot be empty, and must only contain letters.</p>';
 					echo '<p><b>Last Name:</b></p><p><input type="text" name="lastname" value=' . $account->getLname() . '></p></div>';
 					
 					echo '<div class="w3-container">';
@@ -243,7 +243,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 						echo '<div class="w3-container"><p><b><u>Change Your Brand Name</u></b></p></div>';
 						
 						if (!$validBrand)
-							echo '<p style="color: red">Brand cannot be empty, and must start with a capital letter.</p>';
+							echo '<p style="color: red">Brand name cannot be empty, and must only contain letters.</p>';
 						
 						echo '<div class="w3-container"><p><b>Brand:</b> <input type="text" name="brand" value=' . $account->getBrand() . '></p></div>';
 
@@ -266,6 +266,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 							echo '<p style="color: red">Passwords must be exact matches.</p>';
 						else if ($passProblem == 'Short')
 							echo '<p style="color: red">Passwords must be at least 6 characters long.</p>';
+						else if ($passProblem == 'Start')
+							echo '<p style="color: red">Passwords must start with a letter.</p>';
 						else if ($passProblem == 'Character')
 							echo '<p style="color: red">Passwords must have at least 1 uppercase letter, lowercase letter, and number.</p>';
 					}
@@ -290,6 +292,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	<?php
 		// Validates names.
 		function validateName($name) {
+			
 			// Name can't be empty.
 			if ($name == '')
 				return False;
@@ -298,19 +301,38 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			else if (!((ord(substr($name, 0)) >= 65) && (ord(substr($name, 0)) <= 90)))
 				return False;
 			
-			else
+			else {
+				// Name must only contain letters and spaces.
+				for ($i = 0; $i < strlen($name); $i++) {
+					if (!(((ord(substr($name, $i)) >= 65) && (ord(substr($name, $i)) <= 90)) || ((ord(substr($name, $i)) >= 97) && (ord(substr($name, $i)) <= 122)) || (ord(substr($name, $i)) == 32)))
+						return False;
+				}
 				return True;
+			}
 		}
 		
 		
 		// Validates addresses.
 		function validateAddress($street, $city, $state, $zip) {
+			
 			// Street cannot be empty.
 			if ($street == '')
 				return False;
 			
+			// Street must start with a number.
+			else if (!((ord(substr($street, 0)) >= 48) && (ord(substr($street, 0)) <= 57)))
+				return False;
+			
+			// Street must only contain letters, numbers, and spaces.
+			else {
+				for ($i = 0; $i < strlen($street); $i++) {
+					if (!(((ord(substr($street, $i)) >= 65) && (ord(substr($street, $i)) <= 90)) || ((ord(substr($street, $i)) >= 97) && (ord(substr($street, $i)) <= 122)) || ((ord(substr($street, $i)) >= 48) && (ord(substr($street, $i)) <= 57)) || (ord(substr($street, $i)) == 32)))
+						return False;
+				}
+			}
+			
 			// City and state must qualify as names.
-			else if (!(validateName($city) && validateName($state)))
+			if (!(validateName($city) && validateName($state)))
 				return False;
 			
 			// Zip must be exactly 5 digits long.
@@ -330,8 +352,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		}
 			
 		
-		// Validates passwords. Returns 'Valid' if they are valid, else returns 'Mismatch', 'Short', or 'Character' depending on what the problem is.
+		// Validates passwords. Returns 'Valid' if they are valid, else returns 'Mismatch', 'Short', 'Start', or 'Character' depending on what the problem is.
 		function validatePasswords($pass1, $pass2) {
+			
 			// Passwords must be identical.
 			if ($pass1 != $pass2)
 				return 'Mismatch';
@@ -340,6 +363,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			// At this point, only pass1 needs to be checked because pass1 and pass2 are identical.
 			else if (strlen($pass1) < 6)
 				return 'Short';
+			
+			// Passwords must start with a letter.
+			
+			else if (!(((ord(substr($pass1, 0)) >= 65) && (ord(substr($pass1, 0)) <= 90)) || ((ord(substr($pass1, 0)) >= 97) && (ord(substr($pass1, 0)) <= 122))))
+				return 'Start';
 			
 			// Passwords must have at least one uppercase letter, lowercase letter, and number.
 			$upper = $lower = $number = False;
@@ -366,6 +394,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		// Given a uname and pword: returns "invalid" if uname and pword do not match a database account;
 		// else returns "customer", "vendor", or "admin" based on the type of the user's account.
 		function check_credentials($un, $pw, $hostName, $database, $uname, $pword) {
+			
 			require_once './../Database/databaseController.php';
 			$answer = '';
 			$result = validUsernameData($un, $pw, $hostName, $database, $uname);
