@@ -79,7 +79,8 @@ else {
 $query = "CREATE TABLE Cart (
   cartID VARCHAR(32) NOT NULL,
   ItemID VARCHAR(32) NOT NULL,
-  itemQty INTEGER NOT NULL
+  itemQty INTEGER NOT NULL,
+  PRIMARY KEY (cartID, ItemID)
 )";
 
 $result = $connection->query($query);
@@ -185,7 +186,8 @@ $query = "CREATE TABLE Reviews (
   customerID VARCHAR(32) NOT NULL,
   itemID VARCHAR(32) NOT NULL,
   numStarts INTEGER NOT NULL,
-  reviewText VARCHAR(240) NOT NULL
+  reviewText VARCHAR(240) NOT NULL,
+  PRIMARY KEY (customerID, itemID)
 )";
 
 $result = $connection->query($query);
