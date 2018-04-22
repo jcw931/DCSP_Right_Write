@@ -577,6 +577,46 @@ function existingUsername($un, $pw, $hostName, $database, $username){
     }
 }
 
+/***********************************************************/
+//Cart FUNCTIONS
+function addCart($un, $pw, $hostName, $database, $cartID, $ItemID, $itemQty){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "INSERT INTO Cart (cartID, ItemID, itemQty) "
+        . "VALUES('$cartID', '$ItemID', '$itemQty')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function removeCart($un, $pw, $hostName, $database, $cartID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "DELETE  FROM Cart WHERE cartID = '" .$cartID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function removeItemFromCart($un, $pw, $hostName, $database, $cartID, $ItemID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "DELETE  FROM Cart WHERE cartID = '" .$cartID. "' AND ItemID = '" .$ItemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+
 function newID($un, $pw, $hostName, $database, $type){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if ($connection->connect_error) {
