@@ -662,6 +662,27 @@ function addCart($un, $pw, $hostName, $database, $cartID, $ItemID, $itemQty){
     if (!$result) die($connection->error);
 }
 
+function allCartData($un, $pw, $hostName, $database, $cartID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "SELECT * FROM Cart WHERE cartID = '" . $cartID. "'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $itemsArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $itemsArray;
+}
+
 function removeCart($un, $pw, $hostName, $database, $cartID){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
@@ -684,6 +705,172 @@ function removeItemFromCart($un, $pw, $hostName, $database, $cartID, $ItemID){
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
+}
+
+/***********************************************************/
+//Review FUNCTIONS
+function addReview($un, $pw, $hostName, $database, $customerID, $itemID, $numStars, $reviewText){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "INSERT INTO Reviews (customerID, itemID, numStarts, reviewText) "
+        . "VALUES('$customerID', '$itemID', '$numStars', '$reviewText')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function removeReview($un, $pw, $hostName, $database, $customerID, $itemID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "DELETE  FROM Reviews WHERE customerID = '" .$customerID ."' AND itemID = '" . $itemID . "'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function editReview($un, $pw, $hostName, $database, $customerID, $itemID, $numStars, $reviewText){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "UPDATE Reviews SET numStarts = " .$numStars .", reviewText = '" . $reviewText . "' WHERE customerID = '". $customerID ."' AND itemID = '" .$itemID ."'";
+
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function reviewData($un, $pw, $hostName, $database, $customerID, $itemID){
+    $reviewArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM Reviews WHERE customerID = '" .$customerID ."' AND itemID = '".$itemID."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $reviewArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $reviewArray;
+}
+
+function itemReviewData($un, $pw, $hostName, $database, $itemID){
+    $reviewArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM Reviews WHERE itemID = '".$itemID."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $reviewArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $reviewArray;
+}
+
+function customerReviewData($un, $pw, $hostName, $database, $customerID){
+    $reviewArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM Reviews WHERE customerID = '".$customerID."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $reviewArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $reviewArray;
+}
+
+/***********************************************************/
+//History FUNCTIONS
+function addHistory($un, $pw, $hostName, $database, $orderID, $customerID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "INSERT INTO History (orderID, customerID) "
+        . "VALUES('$orderID', '$customerID')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function allHistoryData($un, $pw, $hostName, $database, $orderID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "SELECT * FROM History WHERE orderID = '" . $orderID. "'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $historyArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $historyArray;
+}
+
+function customerHistory($un, $pw, $hostName, $database, $customerID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "SELECT * FROM History WHERE customerID = '" . $customerID. "'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $historyArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $historyArray;
 }
 
 /****************************************************************************************/
