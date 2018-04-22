@@ -399,6 +399,29 @@ function allPenData($un, $pw, $hostName, $database){
     return $penArray;
 }
 
+function editPen($un, $pw, $hostName, $database, $itemID, $editField, $newData){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    if($editField =="price"){
+        $query = "UPDATE Pens SET price = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="qty"){
+        $query = "UPDATE Pens SET qty = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="imagePath"){
+        $query = "UPDATE Pens SET imagePath = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+}
+
 /***********************************************************/
 //WoodenPencil FUNCTIONS
 
@@ -473,6 +496,28 @@ function allWoodenPencilData($un, $pw, $hostName, $database){
     return $wpArray;
 }
 
+function editWoodenPencil($un, $pw, $hostName, $database, $itemID, $editField, $newData){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    if($editField =="price"){
+        $query = "UPDATE WoodenPencil SET price = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="qty"){
+        $query = "UPDATE WoodenPencil SET qty = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="imagePath"){
+        $query = "UPDATE WoodenPencil SET imagePath = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+}
 /***********************************************************/
 //MechanicalPencil FUNCTIONS
 function addMechanicalPencil($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $leadWeight, $gripType, $leadColor,$imagePath ){
@@ -546,6 +591,31 @@ function allMechanicalPencilData($un, $pw, $hostName, $database){
     return $mpArray;
 }
 
+function editMechanicalPencil($un, $pw, $hostName, $database, $itemID, $editField, $newData){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    if($editField =="price"){
+        $query = "UPDATE MechanicalPencil SET price = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="qty"){
+        $query = "UPDATE MechanicalPencil SET qty = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="imagePath"){
+        $query = "UPDATE MechanicalPencil SET imagePath = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+}
+
+
+//Other Useful functions
 /************************************************************************************************************************/
 function validUsernameData($un, $pw, $hostName, $database, $username){
     if(validCustomerUsername($un, $pw, $hostName, $database, $username)){
@@ -616,6 +686,8 @@ function removeItemFromCart($un, $pw, $hostName, $database, $cartID, $ItemID){
     if (!$result) die($connection->error);
 }
 
+/****************************************************************************************/
+//ID functions
 
 function newID($un, $pw, $hostName, $database, $type){
     $connection = new mysqli($hostName, $un, $pw, $database);
