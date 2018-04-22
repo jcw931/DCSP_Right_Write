@@ -1,0 +1,8 @@
+customer c0001
+vendor v0001
+admin a0001
+cart cart0001
+order order00001
+pen pen0001
+wood wood0001
+mech mech0001
