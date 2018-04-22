@@ -99,7 +99,8 @@ $query = "CREATE TABLE Customers (
   email VARCHAR(50) NOT NULL,
   customerID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
   cartID VARCHAR(32) NOT NULL,
-  address VARCHAR (150) NOT NULL
+  address VARCHAR(150) NOT NULL,
+  hpItem VARCHAR (32)
 )";
 
 $result = $connection->query($query);
@@ -195,16 +196,13 @@ else {
   echo "Review table created <br>";
 }
 
+$query  = "CREATE TABLE IDTracker (customerID VARCHAR(32) NOT NULL UNIQUE,
+                                       vendorID VARCHAR(32) NOT NULL UNIQUE,
+                                       adminID VARCHAR(32) NOT NULL UNIQUE,
+                                       cartID VARCHAR(32) NOT NULL UNIQUE,
+                                       itemID VARCHAR(32) NOT NULL UNIQUE,
+                                       orderID VARCHAR(32) NOT NULL UNIQUE)";
 
-//Database table to hold Ids
-$query = "CREATE TABLE IDTracker (
-  customerID VARCHAR(32) NOT NULL,
-  vendorID VARCHAR(32) NOT NULL,
-  adminID VARCHAR (32) NOT NULL,
-  cartID VARCHAR (32) NOT NULL,
-  itemID VARCHAR (32) NOT NULL,
-  orderID VARCHAR (32) NOT NULL
-)";
 
 $result = $connection->query($query);
 if(!$result){
@@ -213,7 +211,6 @@ if(!$result){
 else {
     echo "IDTracker table created <br>";
 }
-
 
 $result->close();
 $connection->close();
