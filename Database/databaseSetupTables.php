@@ -99,7 +99,8 @@ $query = "CREATE TABLE Customers (
   email VARCHAR(50) NOT NULL,
   customerID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
   cartID VARCHAR(32) NOT NULL,
-  address VARCHAR (150) NOT NULL
+  address VARCHAR(150) NOT NULL,
+  hpItem VARCHAR (32)
 )";
 
 $result = $connection->query($query);

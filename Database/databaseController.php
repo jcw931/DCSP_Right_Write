@@ -76,6 +76,11 @@ function editCustomer($un, $pw, $hostName, $database, $username, $editField, $ne
         $result = $connection->query($query);
         if (!$result) die($connection->error);
     }
+    else if($editField =="hpItem"){
+        $query = "UPDATE Customers SET hpItem = '" .$newData ."' WHERE username = '" .$username ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
 }
 
 function allCustomerData($un, $pw, $hostName, $database, $username){
