@@ -72,8 +72,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			$password = $_POST['password'];
 			$email = $_POST['email'];
 			$address = $_POST['address'];
-			$userID = newID($username, $password, $hostName, $database, "customer");
-			$cartID = newID($username, $password, $hostName, $database, "cart");
+			$userID = newID($un, $pw, $hostName, $database, "customer");
+			$cartID = newID($un, $pw, $hostName, $database, "cart");
 			addCustomer($un, $pw, $hostName, $database, $username, $password, $firstname, $lastname, $email, $userID, $cartID, $address);
 			$var = new Customer($userID, $firstname, $lastname, $username, $password, $email, $address, $cartID);
 			
@@ -86,70 +86,100 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			$username = $_POST['username'];
 			$password = $_POST['password'];
 			$email = $_POST['email'];
-			$userID = newID($username, $password, $hostName, $database, "vendor");
+			$userID = newID($un, $pw, $hostName, $database, "vendor");
 			$brand = $_POST['brand'];
 			$var = new Vendor($userID, $firstname, $lastname, $username, $password, $email, $brand);
 		}	
 	}
 ?>
-  
-  
-  
+ 
+
+ 
+ 
+ 
 <form method="post" action="CreateAccountPage.php">
-	
-  Welcome to the Create Account page! <br><br>
-	
-  <b>What type of account would you like?</b><br>
-   <input type="radio" name="type_user" value="customer" checked> Customer<br>
-  <input type="radio" name="type_user" value="vendor"> Vendor<br><br>
-  <b>First name:</b><br>
-  <input type="text" name="firstname"><br>
-  <b>Last name:</b><br>
-  <input type="text" name="lastname"><br>
-  <b>Email Address:</b><br>
-  <input type="text" name="email"><br>
-  <b>Username:</b><br>
-  <input type="text" name="username"><br>
-  <b>Password:</b><br>
-  <input type="password" name="password"><br>
-  <b>Address:</b><br>
-  <input type="text" name="address"><br>
-  <b>Brand:</b> (required for vendor)<br>
-  <input type="text" name="brand"><br><br>
-  <input type="submit" value="Create Account"><br><br>
-  
-  want to cancel? click <a href="LoginPage.php">here</a> to go back to the login page.
-  
+
+	<div class="w3-row w3-grayscale">
+
+		<div class="w3-col l3 s6">
+			<div class="w3-container">
+				<p>Welcome to the Create Account page!</p>
+			</div>
+			<div class="w3-container">
+				<p><b>What type of account would you like?</b></p>
+				<p><input type="radio" name="type_user" value="customer" checked> Customer<br>
+				<input type="radio" name="type_user" value="vendor"> Vendor</p>
+			</div>
+			<div class="w3-container">
+				<p><b>First name:</b></p>
+				<p><input type="text" name="firstname"></p>
+			</div>
+			<div class="w3-container">
+				<p><b>Last name:</b></p>
+				<p><input type="text" name="lastname"></p>
+			</div>
+			<div class="w3-container">
+				<p><b>Email Address:</b></p>
+				<p><input type="text" name="email"></p>
+			</div>
+			<div class="w3-container">
+				<p><b>Username:</b></p>
+				<p><input type="text" name="username"></p>
+			</div>
+			<div class="w3-container">
+				<p><b>Password:</b></p>
+				<p><input type="password" name="password1"></p>
+			</div>
+			<div class="w3-container">
+				<p><b>Re-Enter Password:</b></p>
+				<p><input type="password" name="password2"></p>
+			</div>
+		</div>
+		
+		<div class="w3-col l3 s6">
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container"><p></p></div>
+			<div class="w3-container">
+				<p><b>Street Address</b> (for customers only):</p>
+				<p><input type="text" name="street"></p>
+			</div>
+			<div class="w3-container">
+				<p><b>City</b> (for customers only):</b></p>
+				<p><input type="text" name="city"></p>
+			</div>
+			<div class="w3-container">
+				<p><b>State</b> (for customers only):</b></p>
+				<p><input type="text" name="state"></p>
+			</div>
+			<div class="w3-container">
+				<p><b>Postal Code</b> (for customers only):</b></p>
+				<p><input type="text" name="zip"></p>
+			</div>
+			<div class="w3-container">
+				<p><b>Brand</b> (for vendors only):</p>
+				<p><input type="text" name="brand"></p>
+			</div>
+			<div class="w3-container">
+				<p><input type="submit" value="Create Account"></p>
+			</div>
+			<div class="w3-container">
+				<p>Already have an account? <a href="LoginPage.php">Log In</a> here.</p>
+			</div>
+		</div>
+	  
+	</div>
+
 </form>
 
-	
-
-<script>
-// Accordion 
-function myAccFunc() {
-    var x = document.getElementById("demoAcc");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else {
-        x.className = x.className.replace(" w3-show", "");
-    }
-}
-
-// Click on the "Jeans" link on page load to open the accordion for demo purposes
-document.getElementById("myBtn").click();
-
-
-// Script to open and close sidebar
-function w3_open() {
-    document.getElementById("mySidebar").style.display = "block";
-    document.getElementById("myOverlay").style.display = "block";
-}
- 
-function w3_close() {
-    document.getElementById("mySidebar").style.display = "none";
-    document.getElementById("myOverlay").style.display = "none";
-}
-</script>
 
 </body>
 </html>
