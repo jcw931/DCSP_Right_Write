@@ -197,11 +197,11 @@ else {
 }
 
 $query  = "CREATE TABLE IDTracker (customerID VARCHAR(32) NOT NULL UNIQUE,
-                                       vendorID VARCHAR(32) NOT NULL UNIQUE,
-                                       adminID VARCHAR(32) NOT NULL UNIQUE,
-                                       cartID VARCHAR(32) NOT NULL UNIQUE,
-                                       itemID VARCHAR(32) NOT NULL UNIQUE,
-                                       orderID VARCHAR(32) NOT NULL UNIQUE)";
+                                   vendorID VARCHAR(32) NOT NULL UNIQUE,
+                                   adminID VARCHAR(32) NOT NULL UNIQUE,
+                                   cartID VARCHAR(32) NOT NULL UNIQUE,
+                                   itemID VARCHAR(32) NOT NULL UNIQUE,
+                                   orderID VARCHAR(32) NOT NULL UNIQUE)";
 
 
 $result = $connection->query($query);
