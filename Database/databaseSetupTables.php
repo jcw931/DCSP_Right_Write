@@ -77,7 +77,7 @@ else {
 
 //Database table to hold user cart database
 $query = "CREATE TABLE Cart (
-  cartID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  cartID VARCHAR(32) NOT NULL,
   ItemID VARCHAR(32) NOT NULL,
   itemQty INTEGER NOT NULL
 )";
@@ -150,7 +150,7 @@ else {
 
 //Databse table to hold past orders
 $query = "CREATE TABLE Orders (
-  orderID VARCHAR(32) NOT NULL UNIQUE PRIMARY KEY,
+  orderID VARCHAR(32) NOT NULL,
   customerID VARCHAR(32) NOT NULL,
   itemID VARCHAR(32) NOT NULL,
   date VARCHAR(32) NOT NULL,
@@ -197,11 +197,11 @@ else {
 }
 
 $query  = "CREATE TABLE IDTracker (customerID VARCHAR(32) NOT NULL UNIQUE,
-                                       vendorID VARCHAR(32) NOT NULL UNIQUE,
-                                       adminID VARCHAR(32) NOT NULL UNIQUE,
-                                       cartID VARCHAR(32) NOT NULL UNIQUE,
-                                       itemID VARCHAR(32) NOT NULL UNIQUE,
-                                       orderID VARCHAR(32) NOT NULL UNIQUE)";
+                                   vendorID VARCHAR(32) NOT NULL UNIQUE,
+                                   adminID VARCHAR(32) NOT NULL UNIQUE,
+                                   cartID VARCHAR(32) NOT NULL UNIQUE,
+                                   itemID VARCHAR(32) NOT NULL UNIQUE,
+                                   orderID VARCHAR(32) NOT NULL UNIQUE)";
 
 
 $result = $connection->query($query);

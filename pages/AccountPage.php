@@ -225,13 +225,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 						if (!$validAddress)
 							echo '<p style="color: red">Please enter valid address information.</p>';
 						
-						echo '<div class="w3-container"><p><b>New Street Address:</b></p><p><input type="text" name="street"></p></div>';
+						echo '<div class="w3-container"><p><b>New Street Address:</b></p><p><input type="text" name="street" value=' . $_POST['street'] . '></p></div>';
 						
-						echo '<div class="w3-container"><p><b>New City:</b></p><p><input type="text" name="city"></p></div>';
+						echo '<div class="w3-container"><p><b>New City:</b></p><p><input type="text" name="city" value=' . $_POST['city'] . '></p></div>';
 						
-						echo '<div class="w3-container"><p><b>New State:</b></p><p><input type="text" name="state"></p></div>';
+						echo '<div class="w3-container"><p><b>New State:</b></p><p><input type="text" name="state" value=' . $_POST['state'] . '></p></div>';
 						
-						echo '<div class="w3-container"><p><b>New Zip:</b></p><p><input type="text" name="zip"></p></div>';
+						echo '<div class="w3-container"><p><b>New Zip:</b></p><p><input type="text" name="zip" value=' . $_POST['zip'] . '></p></div>';
 						
 						// TO DO: View Purchase History
 						

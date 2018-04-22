@@ -72,9 +72,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		// Validate the user's input.
 		$validFName = validateName($_POST['firstname']);
 		$validLName = validateName($_POST['lastname']);
-		$userProblem = validateUsername($_POST['username']);
+		
+		$userProblem = validateUsername($un, $pw, $hostName, $database, $_POST['username']);
 		if ($userProblem != 'Valid')
 			$validUname = False;
+
 		$passProblem = validatePasswords($_POST['password1'], $_POST['password1']);
 		if ($passProblem != 'Valid')
 			$validPass = False;
@@ -92,11 +94,15 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				$cartID = newID($un, $pw, $hostName, $database, "cart");
 				$address_string = $_POST['street'] . ' ' . $_POST['city'] . ', ' . $_POST['state'] . ' ' . $_POST['zip'];
 				
-				addCustomer($un, $pw, $hostName, $database, $_POST['username'], $_POST['password1'], $_POST['firstname'], $_POST['lastname'], $_POST['email'], $userID, $cartID, $address_string);
+				$psalt = "qm&h*" . $_POST['password1'] . "pg!@";
+				$token = hash('ripemd128', $psalt);
+				
+				addCustomer($un, $pw, $hostName, $database, $_POST['username'], $token, $_POST['firstname'], $_POST['lastname'], $_POST['email'], $userID, $cartID, $address_string);
 				
 				// Go to "successful account creation" page.
 				goto_success();
 			}
+		}
 			
 		// If the user wants a vendor account, perform vendor-specific actions.
 		else if ($_POST['type_user'] == "vendor") {
@@ -108,53 +114,113 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				
 				$vendorID = newID($un, $pw, $hostName, $database, "vendor");
 				
-				addVendor($un, $pw, $hostName, $database, $_POST['username'], $_POST['password1'], $_POST['firstname'], $_POST['lastname'], $_POST['email'], $vendorID, $_POST['brand']);
+				$psalt = "qm&h*" . $_POST['password1'] . "pg!@";
+				$token = hash('ripemd128', $psalt);
+				
+				addVendor($un, $pw, $hostName, $database, $_POST['username'], $token, $_POST['firstname'], $_POST['lastname'], $_POST['email'], $vendorID, $_POST['brand']);
 				
 				// Go to "successful account creation" page.
 				goto_success();
 			}
+		}
+	}
 ?>
- 
 <form method="post" action="CreateAccountPage.php">
 
 	<div class="w3-row w3-grayscale">
 
 		<div class="w3-col l3 s6">
+		
 			<div class="w3-container">
-				<p>Welcome to the Create Account page!</p>
+				<p>Create a New Account</p>
 			</div>
+			
 			<div class="w3-container">
 				<p><b>What type of account would you like?</b></p>
-				<p><input type="radio" name="type_user" value="customer" checked> Customer<br>
-				<input type="radio" name="type_user" value="vendor"> Vendor</p>
+				<?php
+					if (isset($_POST['type_user'])) {
+						if ($_POST['type_user'] == "customer") {
+							echo '<p><input type="radio" name="type_user" value="customer" checked> Customer<br>';
+							echo '<input type="radio" name="type_user" value="vendor"> Vendor</p>';
+						}
+						else if ($_POST['type_user'] == "vendor") {
+							echo '<p><input type="radio" name="type_user" value="customer"> Customer<br>';
+							echo '<input type="radio" name="type_user" value="vendor" checked> Vendor</p>';
+						}
+					}
+					else {
+						echo '<p><input type="radio" name="type_user" value="customer" checked> Customer<br>';
+						echo '<input type="radio" name="type_user" value="vendor"> Vendor</p>';
+					}
+				?>
 			</div>
+			
 			<div class="w3-container">
+				<?php
+					if (!$validFName)
+						echo '<p style="color: red">First Name cannot be empty, and must only contain letters.</p>';
+				?>
 				<p><b>First name:</b></p>
-				<p><input type="text" name="firstname"></p>
+				<p><input type="text" name="firstname" value="<?php echo $_POST['firstname'] ?>"></p>
 			</div>
+			
 			<div class="w3-container">
+				<?php
+					if (!$validLName)
+						echo '<p style="color: red">Last Name cannot be empty, and must only contain letters.</p>';
+				?>
 				<p><b>Last name:</b></p>
-				<p><input type="text" name="lastname"></p>
+				<p><input type="text" name="lastname" value="<?php echo $_POST['lastname'] ?>"></p>
 			</div>
+			
 			<div class="w3-container">
+				<?php
+					if (!$validEmail)
+						echo '<p style="color: red">Email Address must be valid.</p>';
+				?>
 				<p><b>Email Address:</b></p>
-				<p><input type="text" name="email"></p>
+				<p><input type="text" name="email" value="<?php echo $_POST['email'] ?>"></p>
 			</div>
+			
 			<div class="w3-container">
+				<?php
+					if (!$validUname) {
+						if ($userProblem == 'Empty')
+							echo '<p style="color: red">Username cannot be empty.</p>';
+						else if ($userProblem == 'Start')
+							echo '<p style="color: red">Username must start with a letter.</p>';
+						else if ($userProblem == 'Exists')
+							echo '<p style="color: red">An account with this username already exists.</p>';
+					}
+				?>
 				<p><b>Username:</b></p>
-				<p><input type="text" name="username"></p>
+				<p><input type="text" name="username" value="<?php echo $_POST['username'] ?>"></p>
 			</div>
+			
 			<div class="w3-container">
+				<?php
+					if (!$validPass) {
+						if ($passProblem == 'Mismatch')
+							echo '<p style="color: red">Passwords must be exact matches.</p>';
+						else if ($passProblem == 'Short')
+							echo '<p style="color: red">Passwords must be at least 6 characters long.</p>';
+						else if ($passProblem == 'Character')
+							echo '<p style="color: red">Passwords must have at least 1 uppercase letter, lowercase letter, and number.</p>';
+					}
+				?>
 				<p><b>Password:</b></p>
 				<p><input type="password" name="password1"></p>
 			</div>
+			
 			<div class="w3-container">
 				<p><b>Re-Enter Password:</b></p>
 				<p><input type="password" name="password2"></p>
 			</div>
+			
 		</div>
 		
 		<div class="w3-col l3 s6">
+		
 			<div class="w3-container"><p></p></div>
 			<div class="w3-container"><p></p></div>
 			<div class="w3-container"><p></p></div>
@@ -166,32 +232,48 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			<div class="w3-container"><p></p></div>
 			<div class="w3-container"><p></p></div>
 			<div class="w3-container"><p></p></div>
+			
 			<div class="w3-container">
+				<?php
+					if (!$validAddress)
+						echo '<p style="color: red">Please enter valid address information.</p>';
+				?>
 				<p><b>Street Address</b> (for customers only):</p>
-				<p><input type="text" name="street"></p>
+				<p><input type="text" name="street" value="<?php echo $_POST['street'] ?>"></p>
 			</div>
+			
 			<div class="w3-container">
 				<p><b>City</b> (for customers only):</b></p>
-				<p><input type="text" name="city"></p>
+				<p><input type="text" name="city" value="<?php echo $_POST['city'] ?>"></p>
 			</div>
+			
 			<div class="w3-container">
 				<p><b>State</b> (for customers only):</b></p>
-				<p><input type="text" name="state"></p>
+				<p><input type="text" name="state" value="<?php echo $_POST['state'] ?>"></p>
 			</div>
+			
 			<div class="w3-container">
 				<p><b>Postal Code</b> (for customers only):</b></p>
-				<p><input type="text" name="zip"></p>
+				<p><input type="text" name="zip" value="<?php echo $_POST['zip'] ?>"></p>
 			</div>
+			
 			<div class="w3-container">
+				<?php
+					if (!$validBrand)
+						echo '<p style="color: red">Brand name cannot be empty, and must only contain letters.</p>';
+				?>
 				<p><b>Brand</b> (for vendors only):</p>
-				<p><input type="text" name="brand"></p>
+				<p><input type="text" name="brand" value="<?php echo $_POST['brand'] ?>"></p>
 			</div>
+			
 			<div class="w3-container">
 				<p><input type="submit" value="Create Account"></p>
 			</div>
+			
 			<div class="w3-container">
 				<p>Already have an account? <a href="LoginPage.php">Log In</a> here.</p>
 			</div>
+			
 		</div>
 	  
 	</div>
@@ -295,10 +377,12 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			return 'Character';
 	}
 	
-	function validateUsername($username) {
+	function validateUsername($un, $pw, $hostName, $database, $username) {
 		
 		// Username can't be empty.
-		if ($name == '')
+		echo '<p style="color: red">' . $username . '</p>';
+		
+		if ($username == '')
 			return 'Empty';
 		
 		// Username must start with a letter.
@@ -311,8 +395,12 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				if (!(((ord(substr($username, 0)) >= 65) && (ord(substr($username, 0)) <= 90)) || ((ord(substr($username, 0)) >= 97) && (ord(substr($username, 0)) <= 122)) || ((ord(substr($pass1, $i)) >= 48) && (ord(substr($pass1, $i)) <= 57))))
 					return 'Letter';
 			}
-			return 'Valid';
 		}
+		
+		if (existingUsername($un, $pw, $hostName, $database, $username))
+			return 'Exists';
+		else
+			return 'Valid';
 	}
 	
 	function goto_success() {
