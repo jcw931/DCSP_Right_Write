@@ -686,6 +686,8 @@ function removeItemFromCart($un, $pw, $hostName, $database, $cartID, $ItemID){
     if (!$result) die($connection->error);
 }
 
+/****************************************************************************************/
+//ID functions
 
 function newID($un, $pw, $hostName, $database, $type){
     $connection = new mysqli($hostName, $un, $pw, $database);
