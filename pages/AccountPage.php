@@ -61,12 +61,14 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	<p><b>View or Edit your Account Information</b></p>
 </div>
 
+
   <!-- Product grid -->
 <div class="w3-row w3-grayscale">
 			<?php
 				require_once './../Database/login.php';
 				require_once './../Database/databaseController.php';
 				require_once './../classes/Accounts.php';
+				
 				
 				// Executes proper content for a logged-in user.
 				if (isset($_SESSION['type'])) {
@@ -157,14 +159,15 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 							}
 						}
 					}
-					
 					// Initialize UserAccount object variable.
 					$account = '';
 					
 					// If the user is a Customer, creates a Customer account object.
 					if ($_SESSION['type'] == 'Customer') {
 						$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
+						
 						$account = new Customer($result['customerID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['address'], $result['cartID']);
+
 					}
 					// If the user is a Vendor, creates a Vendor account object.
 					else if ($_SESSION['type'] == 'Vendor') {
@@ -177,7 +180,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 						$account = new Admin($result['adminID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email']);
 					}
 				
-
+					
 					// Allows users to change their personal information (first name, last name, email address).
 					echo '<form method="post" action="AccountPage.php">';
 					echo '<div class="w3-col l3 s6">';
