@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>The Right Write - Login</title>
+<title>Login - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -68,21 +68,30 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <p class="w3-left">Login</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
-		<a href="AccountPage.php">Account</a>
 		<?php
 			session_start();
-			if ($_SESSION['uname']) {
-				echo '<a href="LogoutPage.php">Logout</a>';
+			if (isset($_SESSION['uname'])) {
+				echo '<a href="AccountPage.php">Account</a>';
+				echo ' ';
+				echo '<a href="LogoutPage.php">Logout</a>'; 
+				echo ' ';
+				echo '<a href="CartPage.php">Cart</a>';
+				echo ' ';
 			}
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
+				echo ' ';
 			}
 		?>
-		<a href="CartPage.php">Cart (0)</a>
 		<input type="text" placeholder="Search..">
     </p>
   </header>
 
+<div class="w3-container w3-text-grey">
+	<p><b>Log In to Your Account</b></p>
+</div>
+  
+  
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
   
@@ -97,15 +106,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				</p>
 			</div>
 			<div class="w3-container">
-				<p>Username<br></p>
-			</div>
-			<div class="w3-container">
+				<p><b>Username</b></p>
 				<input type="text" name="username" value="<?php echo $_POST['username'] ?>"> <br>
 			</div>
 			<div class="w3-container">
-				<p>Password<br></p>
-			</div>
-			<div class="w3-container">
+				<p><b>Password</b></p>
 				<input type="password" name="password" value="<?php echo $_POST['password'] ?>"> <br>
 			</div>
 			<div class="w3-container">

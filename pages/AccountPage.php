@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>The Right Write - Account</title>
+<title>Account - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -37,24 +37,28 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <p class="w3-left">Account</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
-		<a href="AccountPage.php">Account</a>
 		<?php
 			session_start();
 			if (isset($_SESSION['uname'])) {
-			echo '<a href="LogoutPage.php">Logout</a>';
+				echo '<a href="AccountPage.php">Account</a>';
+				echo ' ';
+				echo '<a href="LogoutPage.php">Logout</a>'; 
+				echo ' ';
+				echo '<a href="CartPage.php">Cart</a>';
+				echo ' ';
 			}
-			else { // if no user is logged in
-			echo '<a href="LoginPage.php">Login</a>';
+			else {
+				echo '<a href="LoginPage.php">Login</a>';
+				echo ' ';
 			}
 		?>
-		<a href="CartPage.php">Cart (0)</a>
 		<input type="text" placeholder="Search..">
     </p>
   </header>
 
 
-<div class="w3-container w3-text-grey" id="jeans">
-	<p>View or Edit your Account Information</p>
+<div class="w3-container w3-text-grey">
+	<p><b>View or Edit your Account Information</b></p>
 </div>
 
   <!-- Product grid -->
@@ -266,8 +270,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 							echo '<p style="color: red">Passwords must be exact matches.</p>';
 						else if ($passProblem == 'Short')
 							echo '<p style="color: red">Passwords must be at least 6 characters long.</p>';
-						else if ($passProblem == 'Start')
-							echo '<p style="color: red">Passwords must start with a letter.</p>';
 						else if ($passProblem == 'Character')
 							echo '<p style="color: red">Passwords must have at least 1 uppercase letter, lowercase letter, and number.</p>';
 					}
@@ -280,6 +282,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
 					echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
 					echo '</form>';
+					
+					echo '<div class="w3-container"><p><a href="PurchaseHistoryPage.php">View Purchase History</a></p></div>';
+					
 					echo '</div>';
 				}
 				
@@ -352,7 +357,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		}
 			
 		
-		// Validates passwords. Returns 'Valid' if they are valid, else returns 'Mismatch', 'Short', 'Start', or 'Character' depending on what the problem is.
+		// Validates passwords. Returns 'Valid' if they are valid, else returns 'Mismatch', 'Short', or 'Character' depending on what the problem is.
 		function validatePasswords($pass1, $pass2) {
 			
 			// Passwords must be identical.
@@ -363,11 +368,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			// At this point, only pass1 needs to be checked because pass1 and pass2 are identical.
 			else if (strlen($pass1) < 6)
 				return 'Short';
-			
-			// Passwords must start with a letter.
-			
-			else if (!(((ord(substr($pass1, 0)) >= 65) && (ord(substr($pass1, 0)) <= 90)) || ((ord(substr($pass1, 0)) >= 97) && (ord(substr($pass1, 0)) <= 122))))
-				return 'Start';
 			
 			// Passwords must have at least one uppercase letter, lowercase letter, and number.
 			$upper = $lower = $number = False;

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>The Right Write - Cart</title>
+<title>Cart - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -37,17 +37,21 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <p class="w3-left">Cart</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
-		<a href="AccountPage.php">Account</a>
 		<?php
 			session_start();
 			if (isset($_SESSION['uname'])) {
-			echo '<a href="LogoutPage.php">Logout</a>';
+				echo '<a href="AccountPage.php">Account</a>';
+				echo ' ';
+				echo '<a href="LogoutPage.php">Logout</a>'; 
+				echo ' ';
+				echo '<a href="CartPage.php">Cart</a>';
+				echo ' ';
 			}
-			else { // if no user is logged in
-			echo '<a href="LoginPage.php">Login</a>';
+			else {
+				echo '<a href="LoginPage.php">Login</a>';
+				echo ' ';
 			}
 		?>
-		<a href="CartPage.php">Cart (0)</a>
 		<input type="text" placeholder="Search..">
     </p>
   </header>
