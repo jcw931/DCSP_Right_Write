@@ -184,7 +184,7 @@ $query = "CREATE TABLE Reviews (
   customerID VARCHAR(32) NOT NULL,
   itemID VARCHAR(32) NOT NULL,
   numStarts INTEGER NOT NULL,
-  reviewTest VARCHAR(240) NOT NULL
+  reviewText VARCHAR(240) NOT NULL
 )";
 
 $result = $connection->query($query);
@@ -194,6 +194,26 @@ if(!$result){
 else {
   echo "Review table created <br>";
 }
+
+
+//Database table to hold Ids
+$query = "CREATE TABLE IDTracker (
+  customerID VARCHAR(32) NOT NULL,
+  vendorID VARCHAR(32) NOT NULL,
+  adminID VARCHAR (32) NOT NULL,
+  cartID VARCHAR (32) NOT NULL,
+  itemID VARCHAR (32) NOT NULL,
+  orderID VARCHAR (32) NOT NULL
+)";
+
+$result = $connection->query($query);
+if(!$result){
+    die($connection->error);
+}
+else {
+    echo "IDTracker table created <br>";
+}
+
 
 $result->close();
 $connection->close();
