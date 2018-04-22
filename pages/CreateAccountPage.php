@@ -47,40 +47,40 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   </header>
   
 <?php
-	require_once "LoginPage.php";
 	require_once "./../classes/Accounts.php";
 	require_once "./../Database/login.php";
 	require_once "./../Database/databaseController.php";
 	
 	$type_user = $firstname = $lastname = $email = $username = $password = $address = $userID = $cartID = $brand = "";
-	
+	if(isset($_POST['type_user'])){
 	//customer
-	if ($_POST['type_user'] == "customer"){
-		
-		$firstname = $_POST['firstname'];
-		$lastname = $_POST['lastname'];
-		$username = $_POST['username'];
-		$password = $_POST['password'];
-		$email = $_POST['email'];
-		$address = $_POST['address'];
-		$userID = newID($username, $password, $hostName, $database, "customer");
-		$cartID = newID($username, $password, $hostName, $database, "cart");
-		addCustomer($un, $pw, $hostName, $database, $username, $password, $firstname, $lastname, $email, $userID, $cartID, $address);
-		$var = new Customer($userID, $firstname, $lastname, $username, $password, $email, $address, $cartID);
-		
+		if ($_POST['type_user'] == "customer"){
+			
+			$firstname = $_POST['firstname'];
+			$lastname = $_POST['lastname'];
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+			$email = $_POST['email'];
+			$address = $_POST['address'];
+			$userID = newID($username, $password, $hostName, $database, "customer");
+			$cartID = newID($username, $password, $hostName, $database, "cart");
+			addCustomer($un, $pw, $hostName, $database, $username, $password, $firstname, $lastname, $email, $userID, $cartID, $address);
+			$var = new Customer($userID, $firstname, $lastname, $username, $password, $email, $address, $cartID);
+			
+		}
+		//vendor
+		else if ($_POST['type_user'] == "vendor"){
+			
+			$firstname = $_POST['firstname'];
+			$lastname = $_POST['lastname'];
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+			$email = $_POST['email'];
+			$userID = newID($username, $password, $hostName, $database, "vendor");
+			$brand = $_POST['brand'];
+			$var = new Vendor($userID, $firstname, $lastname, $username, $password, $email, $brand);
+		}	
 	}
-	//vendor
-	else if ($_POST['type_user'] == "vendor"){
-		
-		$firstname = $_POST['firstname'];
-		$lastname = $_POST['lastname'];
-		$username = $_POST['username'];
-		$password = $_POST['password'];
-		$email = $_POST['email'];
-		$userID = newID($username, $password, $hostName, $database, "vendor");
-		$brand = $_POST['brand'];
-		$var = new Vendor($userID, $firstname, $lastname, $username, $password, $email, $brand);
-		
 ?>
   
   
@@ -91,7 +91,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	
   <b>What type of account would you like?</b><br>
    <input type="radio" name="type_user" value="customer" checked> Customer<br>
-  <input type="radio" name="type_user" value="vendor"> Vendor<br>
+  <input type="radio" name="type_user" value="vendor"> Vendor<br><br>
   <b>First name:</b><br>
   <input type="text" name="firstname"><br>
   <b>Last name:</b><br>
@@ -104,7 +104,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   <input type="password" name="password"><br>
   <b>Address:</b><br>
   <input type="text" name="address"><br>
-  <b>Brand:</b> (required for vendor)
+  <b>Brand:</b> (required for vendor)<br>
   <input type="text" name="brand"><br><br>
   <input type="submit" value="Create Account"><br><br>
   
