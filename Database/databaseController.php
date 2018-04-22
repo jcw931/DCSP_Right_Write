@@ -662,6 +662,27 @@ function addCart($un, $pw, $hostName, $database, $cartID, $ItemID, $itemQty){
     if (!$result) die($connection->error);
 }
 
+function allCartData($un, $pw, $hostName, $database, $cartID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "SELECT * FROM Cart WHERE cartID = '" . $cartID. "'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $itemsArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $itemsArray;
+}
+
 function removeCart($un, $pw, $hostName, $database, $cartID){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
@@ -681,6 +702,46 @@ function removeItemFromCart($un, $pw, $hostName, $database, $cartID, $ItemID){
     }
 
     $query  = "DELETE  FROM Cart WHERE cartID = '" .$cartID. "' AND ItemID = '" .$ItemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+/***********************************************************/
+//Review FUNCTIONS
+function addReview($un, $pw, $hostName, $database, $customerID, $itemID, $numStars, $reviewText){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "INSERT INTO Reviews (customerID, itemID, numStarts, reviewText) "
+        . "VALUES('$customerID', '$itemID', '$numStars', '$reviewText')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function removeReview($un, $pw, $hostName, $database, $customerID, $itemID){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "DELETE  FROM Reviews WHERE customerID = '" .$customerID ."' AND itemID = '" . $itemID . "'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
+function editReview($un, $pw, $hostName, $database, $customerID, $itemID, $numStars, $reviewText){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "UPDATE Reviews SET numStarts = " .$numStars .", reviewText = '" . $reviewText . "' WHERE customerID = '". $customerID ."' AND itemID = '" .$itemID ."'";
+
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
