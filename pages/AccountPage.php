@@ -53,194 +53,240 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   </header>
 
 
-  <div class="w3-container w3-text-grey" id="jeans">
-    <p>View or Edit your Account Information</p>
-  </div>
+<div class="w3-container w3-text-grey" id="jeans">
+	<p>View or Edit your Account Information</p>
+</div>
 
   <!-- Product grid -->
-  <div class="w3-row w3-grayscale">
-	<form method="post" action="AccountPage.php">
-		<div class="w3-col l3 s6">
+<div class="w3-row w3-grayscale">
 			<?php
 				require_once './../Database/login.php';
 				require_once './../Database/databaseController.php';
 				require_once './../classes/Accounts.php';
 				
-
-				// ACCOUNT ATTRIBUTES: $uID, $first, $last, $user, $pw, $mail
-				// CUSTOMER ATTRIBUTES: $address, $cart, $cartID, $history
-				// VENDOR ATTRIBUTES: $brand
-				// ADMIN ATTRIBUTES: none
-				
-				// If a user is logged in
+				// Executes proper content for a logged-in user.
 				if (isset($_SESSION['type'])) {
 					session_start();
 					
+					// Initialize boolean variables used for input verification.
 					$validFName = $validLName = $validEmail = $validAddress = $validBrand = $validPass = True;
 					$passProblem = 'None';
-					$newAddress = False;
 					
-					// If "Save Changes" gets pressed:
+					// If any "Save Changes" button gets pressed.
 					if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						
-						// Check if the changes were valid.
-						$validFName = validateName($_POST['firstname']);
-						$validLName = validateName($_POST['firstname']);
-						$validEmail = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-						
-						// Checks if any of the address fields were edited.
-						if (!(($_POST['street'] == '') && ($_POST['city'] == '') && ($_POST['state'] == '') && ($_POST['zip'] == ''))) {
-							$validAddress = validateAddress($_POST['street'], $_POST['city'], $_POST['state'], $_POST['zip']);
-							$newAddress = True;
-						}
-
-						if (isset($_POST['brand']))
-							$validBrand = validateName($_POST['brand']);
-						
-						
-						if (!(($_POST['pass1'] == '') && ($_POST['pass2'] == ''))) {
-							$passProblem = validatePasswords($_POST['pass1'], $_POST['pass2']);
-							if ($passProblem != 'Valid')
-								$validPass = False;
-						}
-						
-						if ($validFName && $validLName && $validEmail && $validAddress && $validBrand && $validPass) {
+						// Executes if personal information "Save Changes" was pressed.
+						if (isset($_POST['firstname'])) {
 							
-							if ($_SESSION['type'] == 'Customer') {
-								editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'fname', $_POST['firstname']);
-								editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'lname', $_POST['lastname']);
-								editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'email', $_POST['email']);
-								if ($newAddress) {
-									$address_string = $_POST['street'] . ' ' . $_POST['city'] . ', ' . $_POST['state'] . ' ' . $_POST['zip'];
-									editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'address', $address_string);
+							// Checks if the field entries are valid.
+							$validFName = validateName($_POST['firstname']);
+							$validLName = validateName($_POST['lastname']);
+							$validEmail = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+							
+							// If all entries are valid, updates database with new entries.
+							if ($validFName && $validLName && $validEmail) {
+								if ($_SESSION['type'] == 'Customer') {
+									editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'fname', $_POST['firstname']);
+									editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'lname', $_POST['lastname']);
+									editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'email', $_POST['email']);
 								}
-								if ($passProblem != 'None') {
-									$psalt = "qm&h*" . $_POST['pass1'] . "pg!@";
-									$token = hash('ripemd128', $psalt);
-									editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'password', $token);
+								else if ($_SESSION['type'] == 'Vendor') {
+									editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'fname', $_POST['firstname']);
+									editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'lname', $_POST['lastname']);
+									editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'email', $_POST['email']);
 								}
+								else if ($_SESSION['type'] == 'Admin') {
+									editAdmin($un, $pw, $hostName, $database, $_SESSION['uname'], 'fname', $_POST['firstname']);
+									editAdmin($un, $pw, $hostName, $database, $_SESSION['uname'], 'lname', $_POST['lastname']);
+									editAdmin($un, $pw, $hostName, $database, $_SESSION['uname'], 'email', $_POST['email']);
+								}
+								echo '<div class="w3-container"><p>Personal Information saved.</p></div>';	
 							}
-							else if ($_SESSION['type'] == 'Vendor') {
-								editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'fname', $_POST['firstname']);
-								editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'lname', $_POST['lastname']);
-								editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'email', $_POST['email']);
+						}
+						
+						// Executes if address field "Save Changes" was pressed.
+						else if (isset($_POST['street'])) {
+							
+							// Checks if any of the address fields were edited.
+							$validAddress = validateAddress($_POST['street'], $_POST['city'], $_POST['state'], $_POST['zip']);
+							
+							// If address fields are valid, formats them into a string and sends it to the database.
+							if ($validAddress) {
+								$address_string = $_POST['street'] . ' ' . $_POST['city'] . ', ' . $_POST['state'] . ' ' . $_POST['zip'];
+								editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'address', $address_string);
+								echo '<div class="w3-container"><p>Address Information saved.</p></div>';
+							}
+						}
+						
+						// Executes if brand field "Save Changes" was pressed.
+						else if (isset($_POST['brand'])) {
+							
+							// Checks if the given brand name is valid.
+							$validBrand = validateName($_POST['brand']);
+							
+							// If brand name is valid, sends it to the database.
+							if ($validBrand) {
 								editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'brand', $_POST['brand']);
+								echo '<div class="w3-container"><p>Brand Information saved.</p></div>';
 							}
-							else if ($_SESSION['type'] == 'Admin') {
-								editAdmin($un, $pw, $hostName, $database, $_SESSION['uname'], 'fname', $_POST['firstname']);
-								editAdmin($un, $pw, $hostName, $database, $_SESSION['uname'], 'lname', $_POST['lastname']);
-								editAdmin($un, $pw, $hostName, $database, $_SESSION['uname'], 'email', $_POST['email']);
+						}
+						
+						// Executes if "Change Password" was pressed.
+						else if (isset($_POST['pass1'])) {
+							
+							// Validates the passwords. Determines if they are valid, or why they are invalid.
+							$passProblem = check_credentials($un, $pw, $hostName, $database, $_SESSION['uname'], $_POST ['cpass']);
+							if ($passProblem == 'Invalid')
+								$validPass = False;
+							else {
+								$passProblem = validatePasswords($_POST['pass1'], $_POST['pass2']);
+								if ($passProblem != 'Valid')
+									$validPass = False;
 							}
-							echo '<div class="w3-container"><p>Changes Saved!</p></div>';
+							
+							// If the passwords match and are valid, salts and hashes the new password then sends it to the database.
+							if ($validPass) {
+								$psalt = "qm&h*" . $_POST['pass1'] . "pg!@";
+								$token = hash('ripemd128', $psalt);
+								editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'password', $token);
+								echo '<div class="w3-container"><p>Password successfully changed.</p></div>';
+							}
 						}
 					}
 					
-					
+					// Initialize UserAccount object variable.
 					$account = '';
 					
-					echo '<div class="w3-container"><p><b>Account Type:</b> ' . $_SESSION['type'] . '</p></div>';
-					
+					// If the user is a Customer, creates a Customer account object.
 					if ($_SESSION['type'] == 'Customer') {
 						$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
 						$account = new Customer($result['customerID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['address'], $result['cartID']);
 					}
+					// If the user is a Vendor, creates a Vendor account object.
 					else if ($_SESSION['type'] == 'Vendor') {
 						$result = allVendorData($un, $pw, $hostName, $database, $_SESSION['uname']);
 						$account = new Vendor($result['vendorID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['brand']);
 					}
+					// If the user is an Admin, creates an Admin account object.
 					else if ($_SESSION['type'] == 'Admin') {
 						$result = allAdminData($un, $pw, $hostName, $database, $_SESSION['uname']);
 						$account = new Admin($result['adminID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email']);
 					}
+				
+
+					// Allows users to change their personal information (first name, last name, email address).
+					echo '<form method="post" action="AccountPage.php">';
+					echo '<div class="w3-col l3 s6">';
 					
+					echo '<div class="w3-container"><p><b><u>Change Your Personal Information</u></b></p></div>';
 					
-					echo '<div class="w3-container"><p><b>Username:</b> ' . $account->getUname() . '</p></div>';
+					echo '<div class="w3-container"><p><b>Account Type:</b></p><p>' . $_SESSION['type'] . '</p></div>';
 					
+					echo '<div class="w3-container"><p><b>Username:</b></p><p>' . $account->getUname() . '</p></div>';
 					
 					echo '<div class="w3-container">';
 					if (!$validFName)
 						echo '<p style="color: red">First Name cannot be empty, and must start with a capital letter.</p>';
-					echo '<p><b>First Name:</b> <input type="text" name="firstname" value=' . $account->getFname() . '></p></div>';
+					echo '<p><b>First Name:</b></p><p><input type="text" name="firstname" value=' . $account->getFname() . '></p></div>';
 					
 					echo '<div class="w3-container">';
 					if (!$validLName)
 						echo '<p style="color: red">Last Name cannot be empty, and must start with a capital letter.</p>';
-					echo '<p><b>Last Name:</b> <input type="text" name="lastname" value=' . $account->getLname() . '></p></div>';
+					echo '<p><b>Last Name:</b></p><p><input type="text" name="lastname" value=' . $account->getLname() . '></p></div>';
 					
 					echo '<div class="w3-container">';
 					if (!$validEmail)
 						echo '<p style="color: red">Email Address must be valid.</p>';
-					echo '<p><b>Email Address:</b> <input type="text" name="email" value=' . $account->getEmail() . '></p></div>';
+					echo '<p><b>Email Address:</b></p><p><input type="text" name="email" value=' . $account->getEmail() . '></p></div>';
 					
+					echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
+					echo '</form>';
+					echo '</div>';
+				
+					
+					// Allows Customers to change their home address.
 					if ($_SESSION['type'] == 'Customer') {
-						echo '<div class="w3-container">';
-						echo '<p>If you do not want to change your address, then leave these fields blank.</p>';
-						echo '<p><b>Current Address:</b> ' . $account->getAddress() . '</p>';
+						
+						echo '<form method="post" action="AccountPage.php">';
+						
+						echo '<div class="w3-col l3 s6">';
+						
+						echo '<div class="w3-container"><p><b><u>Change Your Address Information</u></b></p></div>';
+						
+						echo '<div class="w3-container"><p><b>Current Address:</b></p><p>' . $account->getAddress() . '</p></div>';
+						
 						if (!$validAddress)
 							echo '<p style="color: red">Please enter valid address information.</p>';
-						echo '<p><b>New Street Address:</b> <input type="text" name="street"></p>';
-						echo '<p><b>New City:</b> <input type="text" name="city"></p>';
-						echo '<p><b>New State:</b> <input type="text" name="state"></p>';
-						echo '<p><b>New Zip:</b> <input type="text" name="zip"></p></div>';
+						
+						echo '<div class="w3-container"><p><b>New Street Address:</b></p><p><input type="text" name="street"></p></div>';
+						
+						echo '<div class="w3-container"><p><b>New City:</b></p><p><input type="text" name="city"></p></div>';
+						
+						echo '<div class="w3-container"><p><b>New State:</b></p><p><input type="text" name="state"></p></div>';
+						
+						echo '<div class="w3-container"><p><b>New Zip:</b></p><p><input type="text" name="zip"></p></div>';
+						
 						// TO DO: View Purchase History
+						
+						echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
+						echo '</form>';
+						echo '</div>';
 					}
 					
+					
+					// Allows Vendors to change their brand name.
 					else if ($_SESSION['type'] == 'Vendor') {
-						echo '<div class="w3-container">';
+						
+						echo '<form method="post" action="AccountPage.php">';
+						echo '<div class="w3-col l3 s6">';
+						
+						echo '<div class="w3-container"><p><b><u>Change Your Brand Name</u></b></p></div>';
+						
 						if (!$validBrand)
 							echo '<p style="color: red">Brand cannot be empty, and must start with a capital letter.</p>';
-						echo '<p><b>Brand:</b> <input type="text" name="brand" value=' . $account->getBrand() . '></p></div>';
+						
+						echo '<div class="w3-container"><p><b>Brand:</b> <input type="text" name="brand" value=' . $account->getBrand() . '></p></div>';
+
+						echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
+						echo '</form>';
+						echo '</div>';
 					}
 					
-					echo '<div class="w3-container">';
-					echo '<p>If you do not want to change your password, then leave these fields blank.</p>';
+					
+					// Allows users to change their password.
+					echo '<form method="post" action="AccountPage.php">';
+					echo '<div class="w3-col l3 s6">';
+					
+					echo '<div class="w3-container"><p><b><u>Change Your Password</u></b></p></div>';
+					
 					if (!$validPass) {
-						if ($passProblem == 'Mismatch')
+						if ($passProblem == 'Invalid')
+							echo '<p style="color: red">Your "Current Password" was incorrect.</p>';
+						else if ($passProblem == 'Mismatch')
 							echo '<p style="color: red">Passwords must be exact matches.</p>';
 						else if ($passProblem == 'Short')
 							echo '<p style="color: red">Passwords must be at least 6 characters long.</p>';
 						else if ($passProblem == 'Character')
 							echo '<p style="color: red">Passwords must have at least 1 uppercase letter, lowercase letter, and number.</p>';
 					}
-					echo '<p><b>New Password:</b> <input type="password" name="pass1"></p>';
-					echo '<p><b>Re-Enter New Password:</b> <input type="password" name="pass2"></p></div>';
-				
-					echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
-				
-				
-					/*
+					
+					echo '<div class="w3-container"><p><b>Current Password:</b></p><p><input type="password" name="cpass"></p>';
+					
+					echo '<p><b>New Password:</b></p><p><input type="password" name="pass1"></p>';
+					
+					echo '<p><b>Re-Enter New Password:</b></p><p><input type="password" name="pass2"></p></div>';
 
-					<div class="w3-container">
-						<p><input type="submit" value="Save Changes"></p>
-					</div>
-					<div class="w3-container">
-						<p>Don't have an account? <a href="CreateAccountPage.php">Create Account</a></p>'
-					</div>
-					
-					NEED:
-					Password: minimum 6 digits; include at least one capital letter, lowercase letter, and number)
-					
-					CUSTOMER:
-					Home address
-					Purchase history
-					
-					VENDOR:
-					Brand
-					
-					ADMIN:
-					
-					*/
+					echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
+					echo '</form>';
+					echo '</div>';
 				}
 				
 				// If a user is not logged in
-				else {
+				else
 					echo '<div class="w3-container"><p>You must <a href="LoginPage.php">Log In</a> to view your account information.<br></p></div>';
-				}
 			?>
-		</div>
-	</form>
-
-  </div>
+ </div>
+  
 	<?php
 		// Validates names.
 		function validateName($name) {
@@ -297,11 +343,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			
 			// Passwords must have at least one uppercase letter, lowercase letter, and number.
 			$upper = $lower = $number = False;
-			
 			for ($i = 0; $i < strlen($pass1); $i++) {
 				if ($upper && $lower && $number)
 					break;
-				
 				else {
 					if ((ord(substr($pass1, $i)) >= 65) && (ord(substr($pass1, $i)) <= 90))
 						$upper = True;
@@ -312,31 +356,41 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				}
 			}
 			
+			// If all conditions are properly fulfilled, returns 'Valid'.
 			if ($upper && $lower && $number)
 				return 'Valid';
 			else
 				return 'Character';
 		}
+		
+		// Given a uname and pword: returns "invalid" if uname and pword do not match a database account;
+		// else returns "customer", "vendor", or "admin" based on the type of the user's account.
+		function check_credentials($un, $pw, $hostName, $database, $uname, $pword) {
+			require_once './../Database/databaseController.php';
+			$answer = '';
+			$result = validUsernameData($un, $pw, $hostName, $database, $uname);
+			if ($result != False) {
+				$psalt = "qm&h*" . $pword . "pg!@";
+				$token = hash('ripemd128', $psalt);
+				if ($token == $result['password']) {
+					if ($result['customerID'][0] == 'c') {
+						$answer = 'Customer';
+					}
+					else if ($result['vendorID'][0] == 'v') {
+						$answer = 'Vendor';
+					}
+					else if ($result['adminID'][0] == 'a') {
+						$answer = 'Admin';
+					}
+				}
+				else
+					$answer = 'Invalid';
+			}
+			else {
+				$answer = 'Invalid';
+			}
+			return $answer;
+		}
 	?>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
