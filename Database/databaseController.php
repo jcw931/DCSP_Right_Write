@@ -405,13 +405,48 @@ function editPen($un, $pw, $hostName, $database, $itemID, $editField, $newData){
         die($connection -> connect_error);
     }
 
-    if($editField =="price"){
+    if($editField =="name"){
+        $query = "UPDATE Pens SET name = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="price"){
         $query = "UPDATE Pens SET price = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
         $result = $connection->query($query);
         if (!$result) die($connection->error);
     }
     else if($editField =="qty"){
         $query = "UPDATE Pens SET qty = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="description"){
+        $query = "UPDATE Pens SET description = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="itemColor"){
+        $query = "UPDATE Pens SET itemColor = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="brand"){
+        $query = "UPDATE Pens SET brand = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="tipType"){
+        $query = "UPDATE Pens SET price = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="refill"){
+        $query = "UPDATE Pens SET price = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="inkColor"){
+        $query = "UPDATE Pens SET inkColor = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
         $result = $connection->query($query);
         if (!$result) die($connection->error);
     }
@@ -502,13 +537,53 @@ function editWoodenPencil($un, $pw, $hostName, $database, $itemID, $editField, $
         die($connection -> connect_error);
     }
 
-    if($editField =="price"){
+    if($editField =="name"){
+        $query = "UPDATE WoodenPencil SET name = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="price"){
         $query = "UPDATE WoodenPencil SET price = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
         $result = $connection->query($query);
         if (!$result) die($connection->error);
     }
     else if($editField =="qty"){
         $query = "UPDATE WoodenPencil SET qty = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="description"){
+        $query = "UPDATE WoodenPencil SET description = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="brand"){
+        $query = "UPDATE WoodenPencil SET brand = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="itemColor"){
+        $query = "UPDATE WoodenPencil SET itemColor = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="number"){
+        $query = "UPDATE WoodenPencil SET number = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="woodType"){
+        $query = "UPDATE WoodenPencil SET woodType = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="refill"){
+        $query = "UPDATE WoodenPencil SET refill = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="inkColor"){
+        $query = "UPDATE WoodenPencil SET inkColor = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
         $result = $connection->query($query);
         if (!$result) die($connection->error);
     }
@@ -597,13 +672,48 @@ function editMechanicalPencil($un, $pw, $hostName, $database, $itemID, $editFiel
         die($connection -> connect_error);
     }
 
-    if($editField =="price"){
+    if($editField =="name"){
+        $query = "UPDATE MechanicalPencil SET name = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="price"){
         $query = "UPDATE MechanicalPencil SET price = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
         $result = $connection->query($query);
         if (!$result) die($connection->error);
     }
     else if($editField =="qty"){
         $query = "UPDATE MechanicalPencil SET qty = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="description"){
+        $query = "UPDATE MechanicalPencil SET description = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="itemColor"){
+        $query = "UPDATE MechanicalPencil SET itemColor = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="brand"){
+        $query = "UPDATE MechanicalPencil SET brand = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="leadWeight"){
+        $query = "UPDATE MechanicalPencil SET leadWeight = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="gripType"){
+        $query = "UPDATE MechanicalPencil SET gripType = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
+        $result = $connection->query($query);
+        if (!$result) die($connection->error);
+    }
+    else if($editField =="leadColor"){
+        $query = "UPDATE MechanicalPencil SET leadColor = '" .$newData ."' WHERE itemID = '" .$itemID ."'";
         $result = $connection->query($query);
         if (!$result) die($connection->error);
     }
