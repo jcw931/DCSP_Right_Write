@@ -687,6 +687,45 @@ function removeItemFromCart($un, $pw, $hostName, $database, $cartID, $ItemID){
 }
 
 /****************************************************************************************/
+//Order Functions
+function addToOrder($un, $pw, $hostName, $database, $orderID, $custID, $itemID, $date, $itemQty, $itemPrice){
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query  = "INSERT INTO Orders (orderID, customerID, itemID, date, itemQty, itemPrice) "
+        . "VALUES('$orderID', '$custID', '$itemID', '$date', '$itemQty', '$itemPrice')";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+}
+
+function orderData($un, $pw, $hostName, $database, $orderID){
+    $orderArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM Orders WHERE orderID = '" .$orderID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $orderArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $orderArray;
+}
+
+/****************************************************************************************/
 //ID functions
 
 function newID($un, $pw, $hostName, $database, $type){
