@@ -662,6 +662,19 @@ function addCart($un, $pw, $hostName, $database, $cartID, $ItemID, $itemQty){
     if (!$result) die($connection->error);
 }
 
+function changeItemQuant($un, $pw, $hostName, $database, $cartID, $ItemID, $itemQty) {
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error){
+        die($connection->connect_error);
+    }
+
+    $query  = "UPDATE Cart SET itemQty = '".$itemQty. "' "
+        . "WHERE cartID = '". $cartID."' AND itemID = '". $ItemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+}
+
 function allCartData($un, $pw, $hostName, $database, $cartID){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error){
