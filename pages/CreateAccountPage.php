@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title>Create Account - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -19,7 +19,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
     <a href="HomePage.php"><h3 class="w3-wide"><b><img src="TheRightWrite.png" width="210" height="150"></b></h3></a>
   </div>
-  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+  <div class="w3-padding-64 w3-large w3-text-black" style="font-weight:bold">
     <a href="#" class="w3-bar-item w3-button">Wooden Pencils</a>
     <a href="#" class="w3-bar-item w3-button">Mechanical Pencils</a>
     <a href="#" class="w3-bar-item w3-button">Pens</a>
@@ -37,12 +37,22 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <p class="w3-left">Create Account</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
-		<a href="AccountPage.php">Account</a>
-		<a href="LoginPage.php">Login</a>
-		<a href="CartPage.php">Cart (0)</a>
-      <div style="float:right" class="topnav">
-	  <input type="text" placeholder="Search..">
-	</div>
+		<?php
+			session_start();
+			if (isset($_SESSION['uname'])) {
+				echo '<a href="AccountPage.php">Account</a>';
+				echo ' ';
+				echo '<a href="LogoutPage.php">Logout</a>'; 
+				echo ' ';
+				echo '<a href="CartPage.php">Cart</a>';
+				echo ' ';
+			}
+			else {
+				echo '<a href="LoginPage.php">Login</a>';
+				echo ' ';
+			}
+		?>
+		<input type="text" placeholder="Search..">
     </p>
   </header>
   

@@ -11,8 +11,6 @@
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
-
-
 <body class="w3-content" style="max-width:2400px">
 
 <!-- Sidebar/menu -->
