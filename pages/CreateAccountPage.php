@@ -20,9 +20,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <a href="HomePage.php"><h3 class="w3-wide"><b><img src="TheRightWrite.png" width="210" height="150"></b></h3></a>
   </div>
   <div class="w3-padding-64 w3-large w3-text-black" style="font-weight:bold">
-    <a href="#" class="w3-bar-item w3-button">Wooden Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Mechanical Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Pens</a>
+    <a href="WoodenPencilPage.php" class="w3-bar-item w3-button">Wooden Pencils</a>
+    <a href="MechanicalPencilPage.php" class="w3-bar-item w3-button">Mechanical Pencils</a>
+    <a href="PenPage.php" class="w3-bar-item w3-button">Pens</a>
   </div>
 </nav>
 
@@ -55,7 +55,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				echo ' ';
 			}
 		?>
-		<input type="text" placeholder="Search..">
+		<a href="SearchPage.php">Search</a>
     </p>
   </header>
   

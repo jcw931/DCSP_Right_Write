@@ -60,7 +60,7 @@ require_once "displayFunctions.php";
                 echo ' ';
             }
             ?>
-            <input type="text" placeholder="Search..">
+            <a href="SearchPage.php">Search</a>
         </p>
     </header>
 
