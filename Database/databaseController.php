@@ -502,6 +502,56 @@ function penByBrand($un, $pw, $hostName, $database, $brand) {
     return $penBrandArray;
 }
 
+function searchPens($un, $pw, $hostName, $database, $itemColor, $inkColor, $tipType, $refillable) {
+    $searchedPens = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    if ($itemColor == '') {
+        $itemColor = "IS NOT NULL";
+    }
+    else {
+        $itemColor = "= '$itemColor'";
+    }
+    if ($inkColor == '') {
+        $inkColor = "IS NOT NULL";
+    }
+    else {
+        $inkColor = "= '$inkColor'";
+    }
+    if ($tipType == '') {
+        $tipType = "IS NOT NULL";
+    }
+    else {
+        $tipType = "= '$tipType'";
+    }
+    if ($refillable == '') {
+        $refillable = "IS NOT NULL";
+    }
+    else {
+        $refillable = "= $refillable";
+    }
+
+    $query = "SELECT * FROM Pens WHERE itemColor ". $itemColor ." AND inkcolor ".$inkColor.
+        " AND tipType ". $tipType." AND refill ". $refillable."";
+    //echo $query;
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $searchedPens[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $searchedPens;
+}
+
 /***********************************************************/
 //WoodenPencil FUNCTIONS
 
@@ -683,6 +733,56 @@ function woodByBrand($un, $pw, $hostName, $database, $brand) {
 
     return $woodBrandArray;
 }
+
+function searchWoodPencils($un, $pw, $hostName, $database, $itemColor, $number, $woodType, $leadColor) {
+    $searchedWood = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    if ($itemColor == '') {
+        $itemColor = "IS NOT NULL";
+    }
+    else {
+        $itemColor = "= '$itemColor'";
+    }
+    if ($number == '') {
+        $number = "IS NOT NULL";
+    }
+    else {
+        $number = "= '$number'";
+    }
+    if ($woodType == '') {
+        $woodType = "IS NOT NULL";
+    }
+    else {
+        $woodType = "= '$woodType'";
+    }
+    if ($leadColor == '') {
+        $leadColor = "IS NOT NULL";
+    }
+    else {
+        $leadColor = "= '$leadColor'";
+    }
+
+    $query = "SELECT * FROM WoodenPencil WHERE itemColor ". $itemColor ." AND number ".$number.
+        " AND woodType ". $woodType." AND leadColor ". $leadColor."";
+    //echo $query;
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $searchedWood[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $searchedWood;
+}
 /***********************************************************/
 //MechanicalPencil FUNCTIONS
 function addMechanicalPencil($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $leadWeight, $gripType, $leadColor,$imagePath ){
@@ -858,6 +958,50 @@ function mechByBrand($un, $pw, $hostName, $database, $brand) {
     }
 
     return $mechBrandArray;
+}
+
+function searchMechPencils($un, $pw, $hostName, $database, $itemColor, $gripType, $leadWeight) {
+    $searchedMech = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    if ($itemColor == '') {
+        $itemColor = "IS NOT NULL";
+    }
+    else {
+        $itemColor = "= '$itemColor'";
+    }
+    if ($leadWeight == '') {
+        $leadWeight = "IS NOT NULL";
+    }
+    else {
+        $leadWeight = "= $leadWeight";
+    }
+    if ($gripType == '') {
+        $gripType = "IS NOT NULL";
+    }
+    else {
+        $gripType = "= '$gripType'";
+    }
+
+    $query = "SELECT * FROM MechanicalPencil WHERE itemColor ". $itemColor ." AND leadWeight ".$leadWeight.
+        " AND gripType ". $gripType;
+    //echo $query;
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $searchedMech[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $searchedMech;
 }
 
 //Other Inventory functions
