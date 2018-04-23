@@ -501,7 +501,7 @@ function removeWoodenPencil($un, $pw, $hostName, $database, $itemID){
         die($connection->connect_error);
     }
 
-    $query  = "DELETE  FROM WoodenPencils WHERE itemID = '" .$itemID ."'";
+    $query  = "DELETE  FROM WoodenPencil WHERE itemID = '" .$itemID ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -515,7 +515,7 @@ function woodenPencilsSearchAllData($un, $pw, $hostName, $database, $name){
         die($connection -> connect_error);
     }
 
-    $query = "SELECT * FROM WoodenPencils WHERE name = '" .$name ."'";
+    $query = "SELECT * FROM WoodenPencil WHERE name = '" .$name ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -538,7 +538,7 @@ function allWoodenPencilData($un, $pw, $hostName, $database){
         die($connection->connect_error);
     }
 
-    $query = "SELECT * FROM WoodenPencils";
+    $query = "SELECT * FROM WoodenPencil";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
