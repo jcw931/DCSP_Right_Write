@@ -16,7 +16,7 @@ $query = "CREATE TABLE Pens (
   itemColor VARCHAR(32) NOT NULL,
   brand VARCHAR(32) NOT NULL,
   tipType VARCHAR(32) NOT NULL,
-  refill INTEGER NOT NULL,
+  refill VARCHAR (10) NOT NULL,
   inkColor VARCHAR(32) NOT NULL,
   imagePath VARCHAR(80) NOT NULL
 )";
