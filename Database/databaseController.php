@@ -989,7 +989,7 @@ function searchMechPencils($un, $pw, $hostName, $database, $itemColor, $gripType
 
     $query = "SELECT * FROM MechanicalPencil WHERE itemColor ". $itemColor ." AND leadWeight ".$leadWeight.
         " AND gripType ". $gripType;
-    echo $query;
+    //echo $query;
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
