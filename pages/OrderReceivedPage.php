@@ -81,7 +81,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	<div class="w3-col l3 s6">
 	
 		<div class="w3-container">
-			<p><a href="PurchaseHistoryPage.php">View Your Order History</a></p>
+			<p><a href="OrderHistoryPage.php">View Your Order History</a></p>
 		</div>
 		
 		<div class="w3-container">

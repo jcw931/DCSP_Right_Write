@@ -289,7 +289,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					echo '</form>';
 					
 					if ($_SESSION['type'] == 'Customer')
-						echo '<div class="w3-container"><p><a href="PurchaseHistoryPage.php">View Purchase History</a></p></div>';
+						echo '<div class="w3-container"><p><a href="OrderHistoryPage.php">View Purchase History</a></p></div>';
 					
 					else if ($_SESSION['type'] == 'Vendor')
 						echo '<div class="w3-container"><p><a href="ManageInventoryPage.php">Manage Inventory</a></p></div>';

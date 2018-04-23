@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Purchase History - The Right Write</title>
+<title>Order History - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -36,7 +36,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   <!-- Top header -->
   <header class="w3-container w3-grey w3-xlarge">
-    <p class="w3-left">Purchase History</p>
+    <p class="w3-left">Order History</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
 		<?php
@@ -93,20 +93,20 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 		
 
-		//$history = customerHistory($un, $pw, $hostName, $database, $account->getUID());
-		/*
+		$history = customerHistory($un, $pw, $hostName, $database, $account->getUID());
+		
 		if (sizeof($history) == 0) {
 			echo '<div class="w3-container">';
 			echo '<p>You do not have any orders to display.</p>';
 			echo '</div>';
-		}*/
+		}
 		
-		//else {
+		else {
 		
-			for ($i = 0; $i < 5 /*sizeof($history)*/; $i++) {
+			for ($i = 0; $i < sizeof($history); $i++) {
 				echo '<div class="w3-container">';
 				echo '<form method="post" action="PurchaseHistoryPage.php">';
-				echo '<p><input type="submit" name="button" value="' . $i . '"></p>';
+				echo '<p><input type="submit" name="button" value="' . $history[$i]['orderID'] . '"></p>';
 				echo '</form>';
 				echo '</div>';
 			}
@@ -125,7 +125,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				echo '</p></div>';
 			}
 			
-		//}
+		}
 		
 	
 	
