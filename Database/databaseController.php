@@ -479,6 +479,29 @@ function editPen($un, $pw, $hostName, $database, $itemID, $editField, $newData){
     }
 }
 
+function penByBrand($un, $pw, $hostName, $database, $brand) {
+    $penBrandArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query = "SELECT * FROM Pens WHERE brand = '". $brand ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $penBrandArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $penBrandArray;
+}
+
 /***********************************************************/
 //WoodenPencil FUNCTIONS
 
@@ -637,6 +660,29 @@ function editWoodenPencil($un, $pw, $hostName, $database, $itemID, $editField, $
         if (!$result) die($connection->error);
     }
 }
+
+function woodByBrand($un, $pw, $hostName, $database, $brand) {
+    $woodBrandArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query = "SELECT * FROM WoodenPencil WHERE brand = '". $brand ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $woodBrandArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $woodBrandArray;
+}
 /***********************************************************/
 //MechanicalPencil FUNCTIONS
 function addMechanicalPencil($un, $pw, $hostName, $database, $itemID, $name, $price, $qty, $description, $itemColor, $brand, $leadWeight, $gripType, $leadColor,$imagePath ){
@@ -789,6 +835,46 @@ function editMechanicalPencil($un, $pw, $hostName, $database, $itemID, $editFiel
         $result = $connection->query($query);
         if (!$result) die($connection->error);
     }
+}
+
+function mechByBrand($un, $pw, $hostName, $database, $brand) {
+    $mechBrandArray = array();
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query = "SELECT * FROM MechanicalPencil WHERE brand = '". $brand ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $mechBrandArray[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $mechBrandArray;
+}
+
+//Other Inventory functions
+/************************************************************************************************************************/
+function allItemsByBrand($un, $pw, $hostName, $database, $brand) {
+    $allBrandArray = array();
+
+    $mechArray = mechByBrand($un, $pw, $hostName, $database, $brand);
+    $woodArray = woodByBrand($un, $pw, $hostName, $database, $brand);
+    $penArray = penByBrand($un, $pw, $hostName, $database, $brand);
+
+    $allBrandArray = array_merge($allBrandArray, $mechArray);
+    $allBrandArray = array_merge($allBrandArray, $woodArray);
+    $allBrandArray = array_merge($allBrandArray, $penArray);
+
+
+    return $allBrandArray;
 }
 
 
@@ -1071,7 +1157,7 @@ function addToOrder($un, $pw, $hostName, $database, $orderID, $custID, $itemID, 
         die($connection->connect_error);
     }
 
-    $query  = "INSERT INTO Orders (orderID, customerID, itemID, date, itemQty, itemPrice) "
+    $query  = "INSERT INTO Orders (orderID, customerID, itemID, date, itemQty, totalPrice) "
         . "VALUES('$orderID', '$custID', '$itemID', '$date', '$itemQty', '$itemPrice')";
 
     $result = $connection->query($query);

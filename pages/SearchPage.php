@@ -65,9 +65,29 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 			<div class="w3-container">
 				<p><b>Type of Writing Utensil:</b></p>
-				<p><input type="radio" name="utensil" value="wooden_pencil">Wooden Pencil<br>
-				<input type="radio" name="utensil" value="mechanical_pencil">Mechanical Pencil<br>
-				<input type="radio" name="utensil" value="pen">Pen</p>
+				<p><select name="utensil">
+					<option value="wooden_pencil">Wooden Pencil</option>
+					<option value="mech_pencil">Mechanical Pencil</option>
+					<option value="pen">Pen</option>
+				</select></p>
+			</div>
+			
+			<div class="w3-container">
+				<p><b>Item Color:</b></p>
+				<p><input type="radio" name="itemColor" value="pink"> Pink<br>
+				<input type="radio" name="itemColor" value="green"> Green<br>
+				<input type="radio" name="itemColor" value="blue"> Blue<br>
+				<input type="radio" name="itemColor" value="yellow"> Yellow<br>
+				<input type="radio" name="itemColor" value="purple"> Purple<br>
+				<input type="radio" name="itemColor" value="orange"> Orange<br>
+				<input type="radio" name="itemColor" value="red"> Red<br>
+				<input type="radio" name="itemColor" value="gray"> Gray<br>
+				<input type="radio" name="itemColor" value="white"> White<br>
+				<input type="radio" name="itemColor" value="black"> Black</p>
+			</div>
+			
+			<div class="w3-container">
+				<p><input type="submit" value="Submit Search"></p>
 			</div>
 			
 		</div>
@@ -77,18 +97,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 			<div class="w3-container">
 				<p><b>Pen Categories:</b></p>
-			</div>
-			
-			<div class="w3-container">
-				<p><b>Ink Color:</b></p>
-				<p><input type="radio" name="ink_color" value="pink">Pink<br>
-				<input type="radio" name="ink_color" value="green">Green<br>
-				<input type="radio" name="ink_color" value="blue">Blue<br>
-				<input type="radio" name="ink_color" value="yellow">Yellow<br>
-				<input type="radio" name="ink_color" value="purple">Purple<br>
-				<input type="radio" name="ink_color" value="red">Red<br>
-				<input type="radio" name="ink_color" value="white">White<br>
-				<input type="radio" name="ink_color" value="black">Black</p>
 			</div>
 			
 			<div class="w3-container">
@@ -102,8 +110,20 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			
 			<div class="w3-container">
 				<p><b>Refillable:</b></p>
-				<p><input type="radio" name="refill" value="no">No<br>
-				<input type="radio" name="refill" value="yes">Yes<br><br></p>
+				<p><input type="radio" name="refill" value="yes">Yes<br>
+				<input type="radio" name="refill" value="no">No</p>
+			</div>
+			
+			<div class="w3-container">
+				<p><b>Ink Color:</b></p>
+				<p><input type="radio" name="ink_color" value="pink">Pink<br>
+				<input type="radio" name="ink_color" value="green">Green<br>
+				<input type="radio" name="ink_color" value="blue">Blue<br>
+				<input type="radio" name="ink_color" value="yellow">Yellow<br>
+				<input type="radio" name="ink_color" value="purple">Purple<br>
+				<input type="radio" name="ink_color" value="red">Red<br>
+				<input type="radio" name="ink_color" value="white">White<br>
+				<input type="radio" name="ink_color" value="black">Black</p>
 			</div>
 			
 		</div>

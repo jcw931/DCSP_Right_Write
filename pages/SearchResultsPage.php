@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Manage Inventory - The Right Write</title>
+<title>Search Results - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -11,8 +11,6 @@
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
-
-
 <body class="w3-content" style="max-width:2400px">
 
 <!-- Sidebar/menu -->
@@ -36,113 +34,116 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   <!-- Top header -->
   <header class="w3-container w3-grey w3-xlarge">
-    <p class="w3-left">Manage Inventory</p>
+    <p class="w3-left">Search Results</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
 		<?php
-			require_once './../Database/login.php';
-			require_once './../Database/databaseController.php';
-			require_once './../classes/Accounts.php';
-			
 			session_start();
-			if (isset($_SESSION['type'])) {
+			if (isset($_SESSION['uname'])) {
 				echo '<a href="AccountPage.php">Account</a>';
 				echo ' ';
 				echo '<a href="LogoutPage.php">Logout</a>'; 
 				echo ' ';
 				echo '<a href="CartPage.php">Cart</a>';
 				echo ' ';
-				
-				// If the user is a Vendor, creates a Vendor account object.
-				if ($_SESSION['type'] == 'Vendor') {
-					$result = allVendorData($un, $pw, $hostName, $database, $_SESSION['uname']);
-					$account = new Vendor($result['vendorID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['brand']);
-				}
-				// If the user is a Customer or Admin, redirects to "Vendor Only" page.
-				else if (($_SESSION['type'] == 'Customer') || ($_SESSION['type'] == 'Admin'))
-					goto_vendoronly();
-				
-				
-				
-				
-				
 			}
-			
-			// If no user is logged in, redirects to login page.
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
 				echo ' ';
-				
-				goto_mustlogin();
 			}
 		?>
 		<input type="text" placeholder="Search..">
     </p>
   </header>
 
-
-  <div class="w3-container w3-text-grey">
-    <p>Manage Your Inventory</p>
-  </div>
-
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
     <div class="w3-col l3 s6">
-	<?php
 	
-		
-		
+      <div class="w3-container">
+        
+      </div>
+	  
+	  <?php
+		require_once "./../Database/login.php";
+		require_once "./../Database/databaseController.php";
+	  
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			
+			// If the user searched for pens
+			if ($_POST['utensil'] == 'pen') {
+				
+				$itemColor = $inkColor = $tipType = $refill = '';
+				
+				if (isset($_POST['itemColor']))
+					$itemColor = $_POST['itemColor'];
+				if (isset($_POST['ink_color']))
+					$inkColor = $_POST['ink_color'];
+				if (isset($_POST['tip_type']))
+					$tipType = $_POST['tip_type'];
+				if (isset($_POST['refill']))
+					$refill = $_POST['refill'];
 
-		$inventory = allItemsByBrand($un, $pw, $hostName, $database, $account->getBrand());
-		
-		if (sizeof($inventory) == 0) {
-			echo '<div class="w3-container">';
-			echo '<p>You do not have any inventory to display.</p>';
-			echo '</div>';
+				$results = searchPens($itemColor, $inkColor, $tipType, $refill);
+				
+				
+				
+				
+			}
+			
+			// If the user searched for wood pencils
+			else if ($_POST['utensil'] == 'wooden_pencil') {
+				
+				$itemColor = $number = $woodType = $leadColor = '';
+				
+				if (isset($_POST['itemColor']))
+					$itemColor = $_POST['itemColor'];
+				if (isset($_POST['number']))
+					$number = $_POST['number'];
+				if (isset($_POST['wood_type']))
+					$woodType = $_POST['wood_type'];
+				if (isset($_POST['lead_color']))
+					$leadColor = $_POST['lead_color'];
+				
+				$results = searchWoodPencils($itemColor, $number, $woodType, $leadColor);
+				
+				
+				
+				
+			}
+			
+			// If the user searched for mech pencils
+			else if ($_POST['utensil'] == 'mech_pencil') {
+				
+				$itemColor = $gripType = $leadWeight = '';
+				
+				if (isset($_POST['itemColor']))
+					$itemColor = $_POST['itemColor'];
+				if (isset($_POST['grip']))
+					$gripType = $_POST['grip'];
+				if (isset($_POST['lead_weight']))
+					$leadWeight = $_POST['lead_weight'];
+				
+				$results = searchMechPencils($itemColor, $gripType, $leadWeight);
+				
+			}
+			
+			
+			
+			
 		}
 		
-		//else {
-		
-			for ($i = 0; $i < sizeof($inventory); $i++) {
-				echo '<div class="w3-container">';
-				echo '<form method="post" action="ManageInventoryPage.php">';
-				echo '<p><input type="submit" name="button" value="' . $i . '"></p>';
-				echo '</form>';
-				echo '</div>';
-			}
-			
-			echo '</div><div class="w3-col l3 s6">';
-			
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				echo '<div class="w3-container"><p>';
-				
-				
-				
-				echo $_POST['button'];
-				
-				
-				
-				echo '</p></div>';
-			}
-			
-		//}
-		
-	
-	
-	
-	?>
+		// If no POST was received, redirects to search page.
+		else
+			goto_search();
+	  
+	  ?>
 	  
     </div>
   </div>
- 
 <?php
-	function goto_mustlogin() {
-		header("Location: MustLoginPage.php");
-		exit;
-	}
-	
-	function goto_vendoronly() {
-		header("Location: MustBeVendor.php");
+	function goto_search() {
+		header("Location: SearchPage.php");
 		exit;
 	}
 ?>

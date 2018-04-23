@@ -46,6 +46,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				echo ' ';
 				echo '<a href="CartPage.php">Cart</a>';
 				echo ' ';
+				
+				// If a user is logged in, redirects them to home page.
+				goto_home();
 			}
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
@@ -401,6 +404,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	
 	function goto_success() {
 		header("Location: AccountCreated.php");
+		exit;
+	}
+	
+	function goto_home() {
+		header("Location: HomePage.php");
 		exit;
 	}
 ?>
