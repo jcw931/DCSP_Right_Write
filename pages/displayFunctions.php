@@ -11,9 +11,9 @@ function displayAllWoodenPencils($un, $pw, $hostName, $database){
 
     foreach ($woodenPencilArr as $woodenPencil ){
         echo "<tr>";
-
+        $image = $woodenPencil['imagePath'];
         echo "<td>";
-        echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
+        echo "<image src=$image  style=\"width:500px;height:300px;\">";
         echo"</td>";
 
         echo "<td>";
@@ -46,9 +46,9 @@ function displayAllMechnicalPencils($un, $pw, $hostName, $database){
 
     foreach ($mechanicalPencilArr as $mechanicalPencil ){
         echo "<tr>";
-
+        $image = $mechanicalPencil['imagePath'];
         echo "<td>";
-        echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
+        echo "<image src=$image style=\"width:500px;height:300px;\">";
         echo"</td>";
 
         echo "<td>";
@@ -81,9 +81,9 @@ function displayAllPens($un, $pw, $hostName, $database){
 
     foreach ($penArr as $pen ){
         echo "<tr>";
-
+        $image = $pen['imagePath'];
         echo "<td>";
-        echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
+        echo "<image src=$image style=\"width:500px;height:300px;\">";
         echo"</td>";
 
         echo "<td>";
