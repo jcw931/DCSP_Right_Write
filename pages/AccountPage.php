@@ -288,7 +288,14 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
 					echo '</form>';
 					
-					echo '<div class="w3-container"><p><a href="PurchaseHistoryPage.php">View Purchase History</a></p></div>';
+					if ($_SESSION['type'] == 'Customer')
+						echo '<div class="w3-container"><p><a href="PurchaseHistoryPage.php">View Purchase History</a></p></div>';
+					
+					else if ($_SESSION['type'] == 'Vendor')
+						echo '<div class="w3-container"><p><a href="ManageInventoryPage.php">Manage Inventory</a></p></div>';
+					
+					else if ($_SESSION['type'] == 'Admin')
+						echo '<div class="w3-container"><p><a href="DatabasePage.php">Manage Database</a></p></div>';
 					
 					echo '</div>';
 				}

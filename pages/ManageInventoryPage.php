@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Order Received - The Right Write</title>
+<title>Manage Inventory - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -11,6 +11,8 @@
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
+
+
 <body class="w3-content" style="max-width:2400px">
 
 <!-- Sidebar/menu -->
@@ -34,14 +36,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   <!-- Top header -->
   <header class="w3-container w3-grey w3-xlarge">
-    <p class="w3-left">Order Received</p>
+    <p class="w3-left">Manage Inventory</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
 		<?php
 			require_once './../Database/login.php';
 			require_once './../Database/databaseController.php';
 			require_once './../classes/Accounts.php';
-			require_once './../classes/Cart.php';
 			
 			session_start();
 			if (isset($_SESSION['type'])) {
@@ -52,15 +53,22 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				echo '<a href="CartPage.php">Cart</a>';
 				echo ' ';
 				
-				// If the user is a Customer, creates a Customer account object.
-				if ($_SESSION['type'] == 'Customer') {
-					$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
-					$account = new Customer($result['customerID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['address'], $result['cartID']);
+				// If the user is a Vendor, creates a Vendor account object.
+				if ($_SESSION['type'] == 'Vendor') {
+					$result = allVendorData($un, $pw, $hostName, $database, $_SESSION['uname']);
+					$account = new Vendor($result['vendorID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['brand']);
 				}
-				// If the user is a Vendor or Admin, redirects to "Customer Only" page.
-				else if (($_SESSION['type'] == 'Vendor') || ($_SESSION['type'] == 'Admin'))
-					goto_customeronly();
+				// If the user is a Customer or Admin, redirects to "Vendor Only" page.
+				else if (($_SESSION['type'] == 'Customer') || ($_SESSION['type'] == 'Admin'))
+					goto_vendoronly();
+				
+				
+				
+				
+				
 			}
+			
+			// If no user is logged in, redirects to login page.
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
 				echo ' ';
@@ -71,40 +79,73 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		<input type="text" placeholder="Search..">
     </p>
   </header>
-  
-<div class="w3-container w3-text-grey">
-	<p><b>Your Order Has Been Placed</b></p>
-</div>
 
-<div class="w3-row w3-grayscale">
-  
-	<div class="w3-col l3 s6">
+
+  <div class="w3-container w3-text-grey">
+    <p>Manage Your Inventory</p>
+  </div>
+
+  <!-- Product grid -->
+  <div class="w3-row w3-grayscale">
+    <div class="w3-col l3 s6">
+	<?php
 	
-		<div class="w3-container">
-			<p><a href="PurchaseHistoryPage.php">View Your Order History</a></p>
-		</div>
 		
-		<div class="w3-container">
-			<p><a href="HomePage.php">Go to Home Page</a></p>
-		</div>
+		
 
-	</div>
-
-</div>
-
+		//$inventory = get vendor's inventory
+		/*
+		if (sizeof($inventory) == 0) {
+			echo '<div class="w3-container">';
+			echo '<p>You do not have any inventory to display.</p>';
+			echo '</div>';
+		}*/
+		
+		//else {
+		
+			for ($i = 0; $i < 5 /*sizeof($inventory)*/; $i++) {
+				echo '<div class="w3-container">';
+				echo '<form method="post" action="ManageInventoryPage.php">';
+				echo '<p><input type="submit" name="button" value="' . $i . '"></p>';
+				echo '</form>';
+				echo '</div>';
+			}
+			
+			echo '</div><div class="w3-col l3 s6">';
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				echo '<div class="w3-container"><p>';
+				
+				
+				
+				echo $_POST['button'];
+				
+				
+				
+				echo '</p></div>';
+			}
+			
+		//}
+		
+	
+	
+	
+	?>
+	  
+    </div>
+  </div>
+ 
 <?php
 	function goto_mustlogin() {
 		header("Location: MustLoginPage.php");
 		exit;
 	}
 	
-	function goto_customeronly() {
-		header("Location: MustBeCustomerPage.php");
+	function goto_vendoronly() {
+		header("Location: MustBeVendor.php");
 		exit;
 	}
 ?>
-
-
 
 </body>
 </html>

@@ -13,9 +13,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
 
 
-
-
-
 <body class="w3-content" style="max-width:2400px">
 
 <!-- Sidebar/menu -->
@@ -43,20 +40,40 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
 		<?php
+			require_once './../Database/login.php';
+			require_once './../Database/databaseController.php';
+			require_once './../classes/Accounts.php';
+			
 			session_start();
-			if (isset($_SESSION['uname'])) {
+			if (isset($_SESSION['type'])) {
 				echo '<a href="AccountPage.php">Account</a>';
 				echo ' ';
 				echo '<a href="LogoutPage.php">Logout</a>'; 
 				echo ' ';
 				echo '<a href="CartPage.php">Cart</a>';
 				echo ' ';
+				
+				// If the user is a Customer, creates a Customer account object.
+				if ($_SESSION['type'] == 'Customer') {
+					$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
+					$account = new Customer($result['customerID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['address'], $result['cartID']);
+				}
+				// If the user is a Vendor or Admin, redirects to "Customer Only" page.
+				else if (($_SESSION['type'] == 'Vendor') || ($_SESSION['type'] == 'Admin'))
+					goto_customeronly();
+				
+				
+				
+				
+				
 			}
+			
+			// If no user is logged in, redirects to login page.
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
 				echo ' ';
 				
-				goto_login();
+				goto_mustlogin();
 			}
 		?>
 		<input type="text" placeholder="Search..">
@@ -64,72 +81,68 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   </header>
 
 
-  <div class="w3-container w3-text-grey" id="jeans">
-    <p>8 items</p>
+  <div class="w3-container w3-text-grey">
+    <p>Review Your Purchase History</p>
   </div>
 
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
     <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans2.jpg" style="width:100%">
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
-    </div>
+	<?php
+	
+		
+		
 
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans2.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">New</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-    </div>
-
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans4.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">Sale</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
-      </div>
-    </div>
-
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans4.jpg" style="width:100%">
-        <p>Vintage Skinny Jeans<br><b>$14.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
-      </div>
+		//$history = customerHistory($un, $pw, $hostName, $database, $account->getUID());
+		/*
+		if (sizeof($history) == 0) {
+			echo '<div class="w3-container">';
+			echo '<p>You do not have any orders to display.</p>';
+			echo '</div>';
+		}*/
+		
+		//else {
+		
+			for ($i = 0; $i < 5 /*sizeof($history)*/; $i++) {
+				echo '<div class="w3-container">';
+				echo '<form method="post" action="PurchaseHistoryPage.php">';
+				echo '<p><input type="submit" name="button" value="' . $i . '"></p>';
+				echo '</form>';
+				echo '</div>';
+			}
+			
+			echo '</div><div class="w3-col l3 s6">';
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				echo '<div class="w3-container"><p>';
+				
+				
+				
+				echo $_POST['button'];
+				
+				
+				
+				echo '</p></div>';
+			}
+			
+		//}
+		
+	
+	
+	
+	?>
+	  
     </div>
   </div>
  
 <?php
 	function goto_mustlogin() {
 		header("Location: MustLoginPage.php");
+		exit;
+	}
+	
+	function goto_customeronly() {
+		header("Location: MustBeCustomer.php");
 		exit;
 	}
 ?>
