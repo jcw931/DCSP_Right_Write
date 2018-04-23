@@ -93,13 +93,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 		
 
-		//$inventory = get vendor's inventory
-		/*
+		$inventory = get vendors inventory;
+		
 		if (sizeof($inventory) == 0) {
 			echo '<div class="w3-container">';
 			echo '<p>You do not have any inventory to display.</p>';
 			echo '</div>';
-		}*/
+		}
 		
 		//else {
 		
