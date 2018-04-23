@@ -110,8 +110,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			
 			<div class="w3-container">
 				<p><b>Refillable:</b></p>
-				<p><input type="radio" name="refill" value="yes">Yes<br>
-				<input type="radio" name="refill" value="no">No</p>
+				<p><input type="radio" name="refill" value="1">Yes<br>
+				<input type="radio" name="refill" value="0">No</p>
 			</div>
 			
 			<div class="w3-container">
@@ -174,17 +174,19 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			<div class="w3-container">
 				<p><b>Grip Type:</b></p>
 				<p><select name="grip">
+					<option value="">----</option>
 					<option value="grip">Grip</option>
-					<option value="no_grip">No Grip</option>
+					<option value="none">No Grip</option>
 				</select></p>
 			</div>
 			
 			<div class="w3-container">
 				<p><b>Lead Weight:</b></p>
 				<p><select name="lead_weight">
-					<option value="5">0.5</option>
-					<option value="7">0.7</option>
-					<option value="9">0.9</option>
+					<option value="">----</option>
+					<option value="0.5">0.5</option>
+					<option value="0.7">0.7</option>
+					<option value="0.9">0.9</option>
 				</select></p>
 			</div>
 			

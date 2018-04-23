@@ -546,7 +546,7 @@ function searchPens($un, $pw, $hostName, $database, $itemColor, $inkColor, $tipT
 
     for ($j = 0; $j < $rows; ++$j) {
         $result->data_seek($j);
-        $searchedPens[$j] = $result->fetch_array(MYSQLI_ASSOC)['itemID'];
+        $searchedPens[$j] = $result->fetch_array(MYSQLI_ASSOC);
     }
 
     return $searchedPens;
@@ -778,7 +778,7 @@ function searchWoodPencils($un, $pw, $hostName, $database, $itemColor, $number, 
 
     for ($j = 0; $j < $rows; ++$j) {
         $result->data_seek($j);
-        $searchedWood[$j] = $result->fetch_array(MYSQLI_ASSOC)['itemID'];
+        $searchedWood[$j] = $result->fetch_array(MYSQLI_ASSOC);
     }
 
     return $searchedWood;
@@ -979,6 +979,7 @@ function searchMechPencils($un, $pw, $hostName, $database, $itemColor, $gripType
     }
     else {
         $leadWeight = "= $leadWeight";
+		echo $leadWeight;
     }
     if ($gripType == '') {
         $gripType = "IS NOT NULL";
@@ -987,8 +988,7 @@ function searchMechPencils($un, $pw, $hostName, $database, $itemColor, $gripType
         $gripType = "= '$gripType'";
     }
 
-    $query = "SELECT * FROM MechanicalPencil WHERE itemColor ". $itemColor ." AND leadWeight ".$leadWeight.
-        " AND gripType ". $gripType;
+    $query = "SELECT * FROM MechanicalPencil WHERE itemColor ". $itemColor ." AND leadWeight ".$leadWeight." AND gripType ". $gripType;
     //echo $query;
 
     $result = $connection->query($query);
@@ -998,7 +998,7 @@ function searchMechPencils($un, $pw, $hostName, $database, $itemColor, $gripType
 
     for ($j = 0; $j < $rows; ++$j) {
         $result->data_seek($j);
-        $searchedMech[$j] = $result->fetch_array(MYSQLI_ASSOC)['itemID'];
+        $searchedMech[$j] = $result->fetch_array(MYSQLI_ASSOC);
     }
 
     return $searchedMech;

@@ -57,16 +57,16 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   </header>
 
   <!-- Product grid -->
-  <div class="w3-row w3-grayscale">
-    <div class="w3-col l3 s6">
+  <!-- <div class="w3-row w3-grayscale">
+  
+  
+    <div class="w3-col l3 s6"> -->
 	
-      <div class="w3-container">
-        
-      </div>
 	  
 	  <?php
 		require_once "./../Database/login.php";
 		require_once "./../Database/databaseController.php";
+		require_once "displayFunctions.php";
 	  
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			
@@ -84,9 +84,17 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				if (isset($_POST['refill']))
 					$refill = $_POST['refill'];
 
-				$results = searchPens($itemColor, $inkColor, $tipType, $refill);
-				
-				
+				$results = searchPens($un, $pw, $hostName, $database, $itemColor, $inkColor, $tipType, $refill);
+				if (sizeof($results) == 0) {
+					echo '<div class="w3-container"><p>';
+					echo 'No results found.';
+					echo '</p></div>';
+				}
+				else {
+					foreach ($results as $item) {
+						displaySinglePen($item);
+					}
+				}
 				
 				
 			}
@@ -105,15 +113,24 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				if (isset($_POST['lead_color']))
 					$leadColor = $_POST['lead_color'];
 				
-				$results = searchWoodPencils($itemColor, $number, $woodType, $leadColor);
-				
-				
+				$results = searchWoodPencils($un, $pw, $hostName, $database, $itemColor, $number, $woodType, $leadColor);
+				if (sizeof($results) == 0) {
+					echo '<div class="w3-container"><p>';
+					echo 'No results found.';
+					echo '</p></div>';
+				}
+				else {
+					foreach ($results as $item) {
+						displaySingleWoodenPencil($item);
+					}
+				}
 				
 				
 			}
 			
 			// If the user searched for mech pencils
 			else if ($_POST['utensil'] == 'mech_pencil') {
+				
 				
 				$itemColor = $gripType = $leadWeight = '';
 				
@@ -124,10 +141,20 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				if (isset($_POST['lead_weight']))
 					$leadWeight = $_POST['lead_weight'];
 				
-				$results = searchMechPencils($itemColor, $gripType, $leadWeight);
+				$results = searchMechPencils($un, $pw, $hostName, $database, $itemColor, $gripType, $leadWeight);
+				if (sizeof($results) == 0) {
+					echo '<div class="w3-container"><p>';
+					echo 'No results found.';
+					echo '</p></div>';
+				}
+				else {
+					foreach ($results as $item) {
+						displaySingleMechanicalPencil($item);
+					}
+				}
+				
 				
 			}
-			
 			
 			
 			
@@ -139,8 +166,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	  
 	  ?>
 	  
-    </div>
-  </div>
+    <!-- </div>
+  </div> -->
 <?php
 	function goto_search() {
 		header("Location: SearchPage.php");

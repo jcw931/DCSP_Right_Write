@@ -139,12 +139,15 @@ function displaySinglePen($pen){
 }
 
 function displaySingleWoodenPencil($woodenPencil){
+	
+	
     echo "<table>";
     echo "<tr>";
     $image = $woodenPencil['imagePath'];
     echo "<td>";
     echo "<image src=$image  style=\"width:500px;height:300px;\">";
     echo"</td>";
+	
 
     echo "<td>";
     echo "<div id = \"item\">";
@@ -164,6 +167,9 @@ function displaySingleWoodenPencil($woodenPencil){
 
     echo "<tr>";
     echo "</table>";
+	
+	
+	
 }
 
 function displaySingleMechanicalPencil($mechanicalPencil){
