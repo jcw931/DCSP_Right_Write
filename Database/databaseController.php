@@ -399,6 +399,28 @@ function allPenData($un, $pw, $hostName, $database){
     return $penArray;
 }
 
+function penData($un, $pw, $hostName, $database, $itemID){
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query = "SELECT * FROM Pens WHERE itemID = '". $itemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $pen = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $pen;
+}
+
 function editPen($un, $pw, $hostName, $database, $itemID, $editField, $newData){
     $connection = new mysqli($hostName, $un, $pw, $database);
     if($connection->connect_error) {
@@ -479,7 +501,7 @@ function removeWoodenPencil($un, $pw, $hostName, $database, $itemID){
         die($connection->connect_error);
     }
 
-    $query  = "DELETE  FROM WoodenPencils WHERE itemID = '" .$itemID ."'";
+    $query  = "DELETE  FROM WoodenPencil WHERE itemID = '" .$itemID ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -493,7 +515,7 @@ function woodenPencilsSearchAllData($un, $pw, $hostName, $database, $name){
         die($connection -> connect_error);
     }
 
-    $query = "SELECT * FROM WoodenPencils WHERE name = '" .$name ."'";
+    $query = "SELECT * FROM WoodenPencil WHERE name = '" .$name ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -516,7 +538,7 @@ function allWoodenPencilData($un, $pw, $hostName, $database){
         die($connection->connect_error);
     }
 
-    $query = "SELECT * FROM WoodenPencils";
+    $query = "SELECT * FROM WoodenPencil";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -529,6 +551,28 @@ function allWoodenPencilData($un, $pw, $hostName, $database){
     }
 
     return $wpArray;
+}
+
+function woodData($un, $pw, $hostName, $database, $itemID){
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if ($connection->connect_error) {
+        die($connection->connect_error);
+    }
+
+    $query = "SELECT * FROM WoodenPencil WHERE itemID = '". $itemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $wood = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $wood;
 }
 
 function editWoodenPencil($un, $pw, $hostName, $database, $itemID, $editField, $newData){
@@ -614,7 +658,7 @@ function removeMechanicalPencil($un, $pw, $hostName, $database, $itemID){
         die($connection->connect_error);
     }
 
-    $query  = "DELETE  FROM MechanicalPencils WHERE itemID = '" .$itemID ."'";
+    $query  = "DELETE  FROM MechanicalPencil WHERE itemID = '" .$itemID ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -628,7 +672,7 @@ function mechanicalPencilsSearchAllData($un, $pw, $hostName, $database, $name){
         die($connection -> connect_error);
     }
 
-    $query = "SELECT * FROM MechanicalPencils WHERE name = '" .$name ."'";
+    $query = "SELECT * FROM MechanicalPencil WHERE name = '" .$name ."'";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -643,6 +687,28 @@ function mechanicalPencilsSearchAllData($un, $pw, $hostName, $database, $name){
     return $oneMpArray;
 }
 
+function mechData($un, $pw, $hostName, $database, $itemID){
+
+    $connection = new mysqli($hostName, $un, $pw, $database);
+    if($connection->connect_error) {
+        die($connection -> connect_error);
+    }
+
+    $query = "SELECT * FROM MechanicalPencil WHERE itemID = '" .$itemID ."'";
+
+    $result = $connection->query($query);
+    if (!$result) die($connection->error);
+
+    $rows = $result->num_rows;
+
+    for ($j = 0; $j < $rows; ++$j) {
+        $result->data_seek($j);
+        $mech[$j] = $result->fetch_array(MYSQLI_ASSOC);
+    }
+
+    return $mech;
+}
+
 function allMechanicalPencilData($un, $pw, $hostName, $database){
     $mpArray = array();
 
@@ -651,7 +717,7 @@ function allMechanicalPencilData($un, $pw, $hostName, $database){
         die($connection->connect_error);
     }
 
-    $query = "SELECT * FROM MechanicalPencils";
+    $query = "SELECT * FROM MechanicalPencil";
 
     $result = $connection->query($query);
     if (!$result) die($connection->error);
@@ -665,6 +731,7 @@ function allMechanicalPencilData($un, $pw, $hostName, $database){
 
     return $mpArray;
 }
+
 
 function editMechanicalPencil($un, $pw, $hostName, $database, $itemID, $editField, $newData){
     $connection = new mysqli($hostName, $un, $pw, $database);

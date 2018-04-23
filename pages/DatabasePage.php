@@ -78,7 +78,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
 
   <div class="w3-container w3-text-grey">
-    <p>Review Your Purchase History</p>
+    <p>Manage the Database</p>
   </div>
 
   <!-- Product grid -->
@@ -89,39 +89,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 		
 
-		//$history = customerHistory($un, $pw, $hostName, $database, $account->getUID());
-		/*
-		if (sizeof($history) == 0) {
-			echo '<div class="w3-container">';
-			echo '<p>You do not have any orders to display.</p>';
-			echo '</div>';
-		}*/
 		
-		//else {
 		
-			for ($i = 0; $i < 5 /*sizeof($history)*/; $i++) {
-				echo '<div class="w3-container">';
-				echo '<form method="post" action="PurchaseHistoryPage.php">';
-				echo '<p><input type="submit" name="button" value="' . $i . '"></p>';
-				echo '</form>';
-				echo '</div>';
-			}
-			
-			echo '</div><div class="w3-col l3 s6">';
-			
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				echo '<div class="w3-container"><p>';
-				
-				
-				
-				echo $_POST['button'];
-				
-				
-				
-				echo '</p></div>';
-			}
-			
-		//}
+		
+		
+		
+		
+
 		
 	
 	

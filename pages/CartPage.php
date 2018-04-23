@@ -95,35 +95,94 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 		else {
 		
-			for ($i = 0; $i < sizeof($cart); $i++) {
+			foreach ($cart as $itemData) {
+				
 				echo '<div class="w3-container">';
 				
-				    echo "<table>";
+				$item = searchItems($un, $pw, $hostName, $database, $itemData['ItemID']);
+				
+				if ($item == False)
+					echo '<p>This Item does not exist.</p>';
+					
+				else {
+					
+					echo "<table>";
+					echo "<tr>";
 
-					foreach ($woodenPencilArr as $woodenPencil ){
-						echo "<tr>";
+					echo "<td>";
+					 //replace with proper image
+					echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
+					echo"</td>";
 
-						echo "<td>";
-						   echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
-						echo"</td>";
+					echo "<td>";
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					// This indicates that the item is a pen.
+					if (isset($item['inkColor'])) {
+						echo "<div id = \"pen\">";
 
-						echo "<td>";
+						echo "<br/>";
+
+						echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
+						echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
+						echo "<b> Lead Weight: </b>".$woodenPencil['tipType'] ."   "."<b> Lead Color: </b>".$woodenPencil['refill'] ."   ";
+						echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
+						echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
+						echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
+
+						echo "</div>";
+					}
+					
+					// This indicates that the item is a wooden pencil.
+					else if (isset($item['woodType'])) {
 						echo "<div id = \"woodenPencil\">";
 
 						echo "<br/>";
 
-							echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
-							echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
-							echo "<b> Lead Weight: </b>".$woodenPencil['number'] ."   "."<b> Lead Color: </b>".$woodenPencil['leadColor'] ."   ";
-							echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
-							echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
-							echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
+						echo "<b> Name: </b>".$item['name'] ."<br/>";
+						echo "<b> Description: </b>".$item['description'] ."<br/>";
+						echo "<b> Lead Weight: </b>".$item['number'] ."   "."<b> Lead Color: </b>".$item['leadColor'] ."   ";
+						echo "<b> Wood Type: </b>".$item['woodType'] ."<br/>";
+						echo "<b> Price: </b>$".$item['price'] ."<br/>";
+						echo "<b> In Stock: </b>".$item['qty'] ."<br/> <br/>";
 
 						echo "</div>";
-						echo "</td>";
-
-						echo "<tr>";
 					}
+					
+					// This indicates that the item is a mechanical pencil.
+					else if (isset($item['gripType'])) {
+						echo "<div id = \"woodenPencil\">";
+
+						echo "<br/>";
+
+						echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
+						echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
+						echo "<b> Lead Weight: </b>".$woodenPencil['number'] ."   "."<b> Lead Color: </b>".$woodenPencil['leadColor'] ."   ";
+						echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
+						echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
+						echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
+
+						echo "</div>";
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					echo "</td>";
+
+					echo "<tr>";
+				}
 
 					echo "</table>";
 				
@@ -159,6 +218,19 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   </div>
  
 <?php
+	// Searches the three item databases for an item with the given itemID.
+	function searchItems($un, $pw, $hostName, $database, $itemID) {
+		$result = penData($un, $pw, $hostName, $database, $itemID);
+		if ($result == False) {
+			$result = woodData($un, $pw, $hostName, $database, $itemID);
+			if ($result == False)
+				$result = mechData($un, $pw, $hostName, $database, $itemID);
+		}
+		return $result;
+	}
+
+
+
 	function goto_mustlogin() {
 		header("Location: MustLoginPage.php");
 		exit;
