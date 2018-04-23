@@ -17,6 +17,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 <?php
 require_once "./../Database/login.php";
 require_once "./../Database/databaseController.php";
+require_once "displayFunctions.php";
 ?>
 
 
@@ -27,9 +28,9 @@ require_once "./../Database/databaseController.php";
     <a href="HomePage.php"><h3 class="w3-wide"><b><img src="TheRightWrite.png" width="210" height="150"></b></h3></a>
   </div>
   <div class="w3-padding-64 w3-large w3-text-black" style="font-weight:bold">
-    <a href="#" class="w3-bar-item w3-button">Wooden Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Mechanical Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Pens</a>
+    <a href="WoodenPencilPage.php" class="w3-bar-item w3-button">Wooden Pencils</a>
+    <a href="MechanicalPencilPage.php" class="w3-bar-item w3-button">Mechanical Pencils</a>
+    <a href="PenPage.php" class="w3-bar-item w3-button">Pens</a>
   </div>
 </nav>
 
@@ -64,103 +65,9 @@ require_once "./../Database/databaseController.php";
   </header>
 
     <?php
-    $woodenPencilArr = array();
-    $woodenPencilArr = allWoodenPencilData($un, $pw, $hostName, $database);
-
-    echo "<table>";
-
-    foreach ($woodenPencilArr as $woodenPencil ){
-        echo "<tr>";
-
-        echo "<td>";
-           echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
-        echo"</td>";
-
-        echo "<td>";
-        echo "<div id = \"woodenPencil\">";
-
-        echo "<br/>";
-
-            echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
-            echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
-            echo "<b> Lead Weight: </b>".$woodenPencil['number'] ."   "."<b> Lead Color: </b>".$woodenPencil['leadColor'] ."   ";
-            echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
-            echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
-            echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
-
-        echo "</div>";
-        echo "</td>";
-
-        echo "<tr>";
-    }
-
-    echo "</table>";
-
-
-    $mechanicalPencilArr = array();
-    $mechanicalPencilArr = allMechanicalPencilData($un, $pw, $hostName, $database);
-
-    echo "<table>";
-
-    foreach ($mechanicalPencilArr as $mechanicalPencil ){
-        echo "<tr>";
-
-        echo "<td>";
-        echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
-        echo"</td>";
-
-        echo "<td>";
-        echo "<div id = \"woodenPencil\">";
-
-        echo "<br/>";
-
-        echo "<b> Name: </b>".$mechanicalPencil['name'] ."<br/>";
-        echo "<b> Description: </b>".$mechanicalPencil['description'] ."<br/>";
-        echo "<b> Lead Weight: </b>".$mechanicalPencil['leadWeight'] ."   "."<b> Lead Color: </b>".$mechanicalPencil['leadColor'] ."   ";
-        echo "<b> Grip Type: </b>".$mechanicalPencil['gripType'] ."<br/>";
-        echo "<b> Price: </b>$".$mechanicalPencil['price'] ."<br/>";
-        echo "<b> In Stock: </b>".$mechanicalPencil['qty'] ."<br/> <br/>";
-
-        echo "</div>";
-        echo "</td>";
-
-        echo "<tr>";
-    }
-
-    echo "</table>";
-
-    echo "<table>";
-
-    $penArr = array();
-    $penArr = allPenData($un, $pw, $hostName, $database);
-
-    foreach ($penArr as $pen ){
-        echo "<tr>";
-
-        echo "<td>";
-        echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
-        echo"</td>";
-
-        echo "<td>";
-        echo "<div id = \"woodenPencil\">";
-
-        echo "<br/>";
-
-        echo "<b> Name: </b>".$pen['name'] ."<br/>";
-        echo "<b> Description: </b>".$pen['description'] ."<br/>";
-        echo "<b> Tip Type: </b>".$pen['tipType'] ."   "."<b> Ink Color: </b>".$pen['inkColor'] ."   ";
-        echo "<b> Refillable: </b>".$pen['refill'] ."<br/>";
-        echo "<b> Price: </b>$".$pen['price'] ."<br/>";
-        echo "<b> In Stock: </b>".$pen['qty'] ."<br/> <br/>";
-
-        echo "</div>";
-        echo "</td>";
-
-        echo "<tr>";
-    }
-
-    echo "</table>";
-
+    displayAllWoodenPencils($un, $pw, $hostName, $database);
+    displayAllMechnicalPencils($un, $pw, $hostName, $database);
+    displayAllPens($un, $pw, $hostName, $database);
     ?>
 
 </body>
