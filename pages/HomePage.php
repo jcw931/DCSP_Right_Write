@@ -3,6 +3,7 @@
 <title>Home - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="stylesheets/inventory.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
@@ -12,6 +13,12 @@
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
 <body class="w3-content" style="max-width:2400px">
+
+<?php
+require_once "./../Database/login.php";
+require_once "./../Database/databaseController.php";
+?>
+
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-bar-block w3-yellow w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
@@ -56,69 +63,105 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     </p>
   </header>
 
+    <?php
+    $woodenPencilArr = array();
+    $woodenPencilArr = allWoodenPencilData($un, $pw, $hostName, $database);
 
-  <div class="w3-container w3-text-grey" id="jeans">
-    <p>8 items</p>
-  </div>
+    echo "<table>";
 
-  <!-- Product grid -->
-  <div class="w3-row w3-grayscale">
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans2.jpg" style="width:100%">
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
-    </div>
+    foreach ($woodenPencilArr as $woodenPencil ){
+        echo "<tr>";
 
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans2.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">New</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-    </div>
+        echo "<td>";
+           echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
+        echo"</td>";
 
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans4.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">Sale</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
-      </div>
-    </div>
+        echo "<td>";
+        echo "<div id = \"woodenPencil\">";
 
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans4.jpg" style="width:100%">
-        <p>Vintage Skinny Jeans<br><b>$14.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
-      </div>
-    </div>
-  </div>
+        echo "<br/>";
+
+            echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
+            echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
+            echo "<b> Lead Weight: </b>".$woodenPencil['number'] ."   "."<b> Lead Color: </b>".$woodenPencil['leadColor'] ."   ";
+            echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
+            echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
+            echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
+
+        echo "</div>";
+        echo "</td>";
+
+        echo "<tr>";
+    }
+
+    echo "</table>";
+
+
+    $mechanicalPencilArr = array();
+    $mechanicalPencilArr = allMechanicalPencilData($un, $pw, $hostName, $database);
+
+    echo "<table>";
+
+    foreach ($mechanicalPencilArr as $mechanicalPencil ){
+        echo "<tr>";
+
+        echo "<td>";
+        echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
+        echo"</td>";
+
+        echo "<td>";
+        echo "<div id = \"woodenPencil\">";
+
+        echo "<br/>";
+
+        echo "<b> Name: </b>".$mechanicalPencil['name'] ."<br/>";
+        echo "<b> Description: </b>".$mechanicalPencil['description'] ."<br/>";
+        echo "<b> Lead Weight: </b>".$mechanicalPencil['leadWeight'] ."   "."<b> Lead Color: </b>".$mechanicalPencil['leadColor'] ."   ";
+        echo "<b> Grip Type: </b>".$mechanicalPencil['gripType'] ."<br/>";
+        echo "<b> Price: </b>$".$mechanicalPencil['price'] ."<br/>";
+        echo "<b> In Stock: </b>".$mechanicalPencil['qty'] ."<br/> <br/>";
+
+        echo "</div>";
+        echo "</td>";
+
+        echo "<tr>";
+    }
+
+    echo "</table>";
+
+    echo "<table>";
+
+    $penArr = array();
+    $penArr = allPenData($un, $pw, $hostName, $database);
+
+    foreach ($penArr as $pen ){
+        echo "<tr>";
+
+        echo "<td>";
+        echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
+        echo"</td>";
+
+        echo "<td>";
+        echo "<div id = \"woodenPencil\">";
+
+        echo "<br/>";
+
+        echo "<b> Name: </b>".$pen['name'] ."<br/>";
+        echo "<b> Description: </b>".$pen['description'] ."<br/>";
+        echo "<b> Tip Type: </b>".$pen['tipType'] ."   "."<b> Ink Color: </b>".$pen['inkColor'] ."   ";
+        echo "<b> Refillable: </b>".$pen['refill'] ."<br/>";
+        echo "<b> Price: </b>$".$pen['price'] ."<br/>";
+        echo "<b> In Stock: </b>".$pen['qty'] ."<br/> <br/>";
+
+        echo "</div>";
+        echo "</td>";
+
+        echo "<tr>";
+    }
+
+    echo "</table>";
+
+    ?>
 
 </body>
 </html>

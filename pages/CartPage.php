@@ -97,9 +97,40 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 			for ($i = 0; $i < sizeof($cart); $i++) {
 				echo '<div class="w3-container">';
-				echo '<form method="post" action="CartPage.php">';
-				echo '<p><input type="submit" name="button" value="' . $cart[$i]['ItemID'] . '"></p>';
-				echo '</form>';
+				
+				    echo "<table>";
+
+					foreach ($woodenPencilArr as $woodenPencil ){
+						echo "<tr>";
+
+						echo "<td>";
+						   echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
+						echo"</td>";
+
+						echo "<td>";
+						echo "<div id = \"woodenPencil\">";
+
+						echo "<br/>";
+
+							echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
+							echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
+							echo "<b> Lead Weight: </b>".$woodenPencil['number'] ."   "."<b> Lead Color: </b>".$woodenPencil['leadColor'] ."   ";
+							echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
+							echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
+							echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
+
+						echo "</div>";
+						echo "</td>";
+
+						echo "<tr>";
+					}
+
+					echo "</table>";
+				
+				
+				
+				
+				
 				echo '</div>';
 			}
 			
