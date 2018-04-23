@@ -54,7 +54,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <a href="WoodenPencilPage.php" class="w3-bar-item w3-button">Wooden Pencils</a>
     <a href="MechanicalPencilPage.php" class="w3-bar-item w3-button">Mechanical Pencils</a>
     <a href="PenPage.php" class="w3-bar-item w3-button">Pens</a>
-  </div><!----------------------------------------------------------------------------------------------------------------------->
+  </div>
 </nav>
 
 <!-- !PAGE CONTENT! -->
@@ -83,7 +83,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				echo ' ';
 			}
 		?>
-		<a href="SearchPage.php">Search</a><!------------------------------------------------------------------------------------------->
+		<a href="SearchPage.php">Search</a>
     </p>
   </header>
 
