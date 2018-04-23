@@ -38,7 +38,7 @@ $query = "CREATE TABLE MechanicalPencil (
   description VARCHAR(240) NOT NULL,
   itemColor VARCHAR(32) NOT NULL,
   brand VARCHAR(32) NOT NULL,
-  leadWeight FLOAT NOT NULL,
+  leadWeight DECIMAL(10,1) NOT NULL,
   gripType VARCHAR(32) NOT NULL,
   leadColor VARCHAR(32) NOT NULL,
   imagePath VARCHAR(80) NOT NULL
