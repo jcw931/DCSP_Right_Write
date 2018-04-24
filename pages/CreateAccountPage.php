@@ -89,9 +89,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		if ($_POST['type_user'] == "customer") {
 			
 			$validAddress = validateAddress($_POST['street'], $_POST['city'], $_POST['state'], $_POST['zip']);
+			if ($_POST['brand'] != '')
+				$validBrand = validateName($_POST['brand']);
 			
 			// If all input is valid, create the specified account.
-			if ($validFName && $validLName && $validUname && $validPass && $validEmail && $validAddress) {
+			if ($validFName && $validLName && $validUname && $validPass && $validEmail && $validAddress && $validBrand) {
 				
 				$userID = newID($un, $pw, $hostName, $database, "customer");
 				$cartID = newID($un, $pw, $hostName, $database, "cart");
@@ -101,6 +103,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				$token = hash('ripemd128', $psalt);
 				
 				addCustomer($un, $pw, $hostName, $database, $_POST['username'], $token, $_POST['firstname'], $_POST['lastname'], $_POST['email'], $userID, $cartID, $address_string);
+				editCustomer($un, $pw, $hostName, $database, $_POST['username'], 'hpItem', $_POST['brand']);
 				
 				// Go to "successful account creation" page.
 				goto_success();
