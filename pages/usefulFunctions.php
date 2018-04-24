@@ -14,25 +14,25 @@ function cartTotal($un, $pw, $hostName, $database, $cartID){
         $wp = array();
         $mp = array();
 
-        $wp = woodData($un, $pw, $hostName, $database, $cartRow['itemID']);
-        $mp = mechData($un, $pw, $hostName, $database, $cartRow['itemID']);
-        $pen = penData($un, $pw, $hostName, $database, $cartRow['itemID']);
+        $wp = woodData($un, $pw, $hostName, $database, $cartRow['ItemID']);
+        $mp = mechData($un, $pw, $hostName, $database, $cartRow['ItemID']);
+        $pen = penData($un, $pw, $hostName, $database, $cartRow['ItemID']);
 
         if(sizeof($wp) != 0){
-           $itemCost = $wp[0]['qty'] * $wp[0]['price'];
+           $itemCost = $cartRow['qty'] * $wp['price'];
            $totalCost = $totalCost + $itemCost;
         }
         else if(sizeof($mp) != 0){
-            $itemCost = $mp[0]['qty'] * $mp[0]['price'];
+            $itemCost = $cartRow['qty'] * $mp['price'];
             $totalCost = $totalCost + $itemCost;
         }
         else if(sizeof($pen) != 0){
-            $itemCost = $pen[0]['qty'] * $pen[0]['price'];
+            $itemCost = $cartRow['qty'] * $pen['price'];
             $totalCost = $totalCost + $itemCost;
         }
     }
 
-    return $itemCost;
+    return $totalCost;
 }
 
 ?>
