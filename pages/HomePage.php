@@ -64,7 +64,10 @@ require_once "displayFunctions.php";
     </p>
   </header>
     <?php
-
+   // if(/* customer account and 'hpItem' is set */){
+        /* header that says "Perfered Brand: */
+        displayAllBrand($un, $pw, $hostName, $database, 'mechanical pencil brand');
+   // }
     displayAllWoodenPencils($un, $pw, $hostName, $database);
     displayAllMechnicalPencils($un, $pw, $hostName, $database);
     displayAllPens($un, $pw, $hostName, $database);
