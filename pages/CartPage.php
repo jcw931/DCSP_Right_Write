@@ -84,6 +84,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   <div class="w3-row w3-grayscale">
     <div class="w3-col l3 s6">
 	<?php
+		
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			
+			echo '<p>' . array_search('Add to Cart', $_POST) . '</p>';
+			echo '<p>' . $_POST['qty'] . '</p>';
+	
+		}
 	
 		$cart = allCartData($un, $pw, $hostName, $database, $account->getCartId());
 		
