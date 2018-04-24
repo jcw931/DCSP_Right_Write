@@ -6,7 +6,7 @@
 require_once 'databaseController.php';
 require_once 'login.php';
 
-//startIDTracker($un, $pw, $hostName, $database, 'c1000', 'v1000', 'a1000', 'cart1000', 'item1000', 'order1000');
+startIDTracker($un, $pw, $hostName, $database, 'c1000', 'v1000', 'a1000', 'cart1000', 'item1000', 'order1000');
 
 
 //adds Customers to the Database
