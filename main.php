@@ -6,7 +6,15 @@
 </head>
 <body>
 
-<h1> Welcome: Website coming soon </h1>
+<?php
+	// Goes to home page
+	goto_home();
+	
+	function goto_home() {
+		header("Location: pages/HomePage.php");
+		exit;
+	}
+?>
 
 </body>
 </html>
