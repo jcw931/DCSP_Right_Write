@@ -66,8 +66,11 @@ require_once "displayFunctions.php";
     <?php
 		if ($_SESSION['type'] == 'Customer') {
 			$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
-			if ($result['hpItem'] != '')
-				displayAllBrand($un, $pw, $hostName, $database, $result['hpItem']);		
+			if ($result['hpItem'] != ''){
+				echo "<h1> Preferred Brand </h1> <br/>";
+				displayAllBrand($un, $pw, $hostName, $database, $result['hpItem']);	
+				echo "<h1> All Brands </h1> <br/>";
+			}
 		}
 
 		displayAllWoodenPencils($un, $pw, $hostName, $database);
