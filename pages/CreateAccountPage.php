@@ -241,6 +241,15 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			
 			<div class="w3-container">
 				<?php
+					if (!$validBrand)
+						echo '<p style="color: red">Brand name cannot be empty, and must only contain letters.</p>';
+				?>
+				<p><b>Brand</b>:</p>
+				<p><input type="text" name="brand" value="<?php echo $_POST['brand'] ?>"></p>
+			</div>
+			
+			<div class="w3-container">
+				<?php
 					if (!$validAddress)
 						echo '<p style="color: red">Please enter valid address information.</p>';
 				?>
@@ -261,15 +270,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			<div class="w3-container">
 				<p><b>Postal Code</b> (for customers only):</b></p>
 				<p><input type="text" name="zip" value="<?php echo $_POST['zip'] ?>"></p>
-			</div>
-			
-			<div class="w3-container">
-				<?php
-					if (!$validBrand)
-						echo '<p style="color: red">Brand name cannot be empty, and must only contain letters.</p>';
-				?>
-				<p><b>Brand</b> (for vendors only):</p>
-				<p><input type="text" name="brand" value="<?php echo $_POST['brand'] ?>"></p>
 			</div>
 			
 			<div class="w3-container">
