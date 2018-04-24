@@ -101,7 +101,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 			for ($i = 0; $i < sizeof($history); $i++) {
 				echo '<div class="w3-container">';
-				echo '<form method="post" action="PurchaseHistoryPage.php">';
+				echo '<form method="post" action="OrderHistoryPage.php">';
 				echo '<p><input type="submit" name="button" value="' . $history[$i]['orderID'] . '"></p>';
 				echo '</form>';
 				echo '</div>';
@@ -111,6 +111,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				echo '<div class="w3-container"><p>';
+				
+				$orderID = $_POST['button'];
 				
 				
 				

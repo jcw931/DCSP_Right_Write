@@ -43,6 +43,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			require_once './../Database/login.php';
 			require_once './../Database/databaseController.php';
 			require_once './../classes/Accounts.php';
+			require_once "CartDisplayFunctions.php";
+			require_once 'usefulFunctions.php';
 			
 			session_start();
 			if (isset($_SESSION['type'])) {
@@ -83,9 +85,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
 	<?php
-		require_once "CartDisplayFunctions.php";
-		
 		$cartID = $account->getCartId();
+		
+		$price = cartTotal($un, $pw, $hostName, $database, $cartID);
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -111,12 +113,18 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		}
 		
 		echo '<form method="post" action="SearchPage.php">';
-		echo '<div class="w3-container"><p><input type="submit" value="Continue Shopping"></p></div></form>';
+		echo '<div class="w3-container"><p>';
+		
+		
+		
+		echo '<input type="submit" value="Continue Shopping"></p></div></form>';
 		
 		if (sizeof($cart) != 0) {
 			
 			echo '<form method="post" action="PaymentPage.php">';
-			echo '<div class="w3-container"><p><input type="submit" name="cart_post" value="Proceed to Checkout"></p></div></form>';
+			echo '<div class="w3-container">';
+			echo 'Total Price: $' . number_format($price, 2);
+			echo '<p><input type="submit" name="cart_post" value="Proceed to Checkout"></p></div></form>';
 		
 			foreach ($cart as $itemData) {
 				

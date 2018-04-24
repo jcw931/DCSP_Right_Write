@@ -42,6 +42,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			require_once './../Database/databaseController.php';
 			require_once './../classes/Accounts.php';
 			require_once './../classes/Cart.php';
+			require_once 'usefulFunctions.php';
 			
 			session_start();
 			
@@ -68,15 +69,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				if (sizeof($cart) == 0)
 					goto_cart();
 				
-				
-				
-				
-				
-				// Calculate and display total price
-				
-				
-				
-				
+				$price = cartTotal($un, $pw, $hostName, $database, $cartID);
 				
 				// Initialize booleans for input validation.
 				$validCHN = $validCCN = $validCVC = True;
@@ -100,7 +93,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					// If all payment info is valid, place the order.
 					if ($validCHN && $validCCN && $validCVC) {
 						
-						
 						$orderID = newID($un, $pw, $hostName, $database, 'order');
 						$custID = $account->getUID();
 						$date = date("Y/m/d");
@@ -112,18 +104,19 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 							$mech = mechData($un, $pw, $hostName, $database, $item['ItemID']);
 							
 							if (sizeof($pen) != 0) {
-								$price = $pen['price'];
+								editPen($un, $pw, $hostName, $database, $item['ItemID'], 'qty', $pen['qty'] - $item['itemQty']);
 							}
 							else if (sizeof($wood) != 0) {
-								$price = $wood['price'];
+								editWoodenPencil($un, $pw, $hostName, $database, $item['ItemID'], 'qty', $wood['qty'] - $item['itemQty']);
 							}
 							else if (sizeof($mech) != 0) {
-								$price = $mech['price'];
+								editMechanicalPencil($un, $pw, $hostName, $database, $item['ItemID'], 'qty', $mech['qty'] - $item['itemQty']);
 							}
-							
-							echo $price;
 
 							addToOrder($un, $pw, $hostName, $database, $orderID, $custID, $item['ItemID'], $date, $item['itemQty'], $price);
+							
+							
+							
 						}
 						
 						addHistory($un, $pw, $hostName, $database, $orderID, $custID);
@@ -159,6 +152,12 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	<div class="w3-row w3-grayscale">
 	
 		<div class="w3-col l3 s6">
+		
+			<div class="w3-container">
+				<?php
+					echo 'Total Cost: $' . number_format($price, 2);
+				?>
+			</div>
 		
 			<div class="w3-container">
 				<p><b>Card Type:</b><br>

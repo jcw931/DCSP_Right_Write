@@ -125,14 +125,16 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 						
 						// Executes if brand field "Save Changes" was pressed.
 						else if (isset($_POST['brand'])) {
+							if ($_POST['brand'] != '') {
 							
-							// Checks if the given brand name is valid.
-							$validBrand = validateName($_POST['brand']);
-							
-							// If brand name is valid, sends it to the database.
-							if ($validBrand) {
-								editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'brand', $_POST['brand']);
-								echo '<div class="w3-container"><p>Brand Information saved.</p></div>';
+								// Checks if the given brand name is valid.
+								$validBrand = validateName($_POST['brand']);
+								
+								// If brand name is valid, sends it to the database.
+								if ($validBrand) {
+									editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'brand', $_POST['brand']);
+									echo '<div class="w3-container"><p>Brand Information saved.</p></div>';
+								}
 							}
 						}
 						
@@ -244,22 +246,21 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					
 					
 					// Allows Vendors to change their brand name.
-					else if ($_SESSION['type'] == 'Vendor') {
 						
-						echo '<form method="post" action="AccountPage.php">';
-						echo '<div class="w3-col l3 s6">';
-						
-						echo '<div class="w3-container"><p><b><u>Change Your Brand Name</u></b></p></div>';
-						
-						if (!$validBrand)
-							echo '<p style="color: red">Brand name cannot be empty, and must only contain letters.</p>';
-						
-						echo '<div class="w3-container"><p><b>Brand:</b> <input type="text" name="brand" value=' . $account->getBrand() . '></p></div>';
+					echo '<form method="post" action="AccountPage.php">';
+					echo '<div class="w3-col l3 s6">';
+					
+					echo '<div class="w3-container"><p><b><u>Change Your Brand Name</u></b></p></div>';
+					
+					if (!$validBrand)
+						echo '<p style="color: red">Brand name cannot be empty, and must only contain letters.</p>';
+					
+					echo '<div class="w3-container"><p><b>Brand:</b> <input type="text" name="brand" value=' . $_POST['brand'] . '></p></div>';
 
-						echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
-						echo '</form>';
-						echo '</div>';
-					}
+					echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
+					echo '</form>';
+					echo '</div>';
+
 					
 					
 					// Allows users to change their password.
