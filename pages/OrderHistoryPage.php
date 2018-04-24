@@ -113,22 +113,46 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				
 				
 				$order = orderData($un, $pw, $hostName, $database, $_POST['button']);
-				
-				// orderid, date, totalprice, 
+				 
 				// itemname, itemprice, quantity
 				
 				echo '<div class="w3-container">';
 				
-				echo '<p>Order ID: ' . $orderID . '</p>';
-				echo '<p>Date: ' . 
+				echo '<p><b>Order ID:</b> ' . $_POST['button'] . '<br>';
+				echo '<b>Date:</b> ' . $order[0]['date'] . '<br>';
+				echo '<b>Total Cost:</b> $' . number_format($order[0]['totalPrice'], 2) . '</p></div>';
 				
+				echo '<div class="w3-container">';
+				echo '<p><b>Items Ordered:</b></p>';
 				
-				
-				echo $_POST['button'];
-				
-				
-				
-				echo '</p></div>';
+				for ($i = 0; $i < sizeof($order); $i++) {
+
+					$itemID = $order[$i]['itemID'];
+					
+					$pen = penData($un, $pw, $hostName, $database, $itemID);
+					$wood = woodData($un, $pw, $hostName, $database, $itemID);
+					$mech = mechData($un, $pw, $hostName, $database, $itemID);
+					
+
+					if(sizeof($pen) != 0){
+						echo '<p><b>Item Name:</b> ' . $pen['name'] . '<br>';
+						echo '<b>Item Price:</b> ' . $pen['price'] . '<br>';
+					}
+					else if(sizeof($wood) != 0){
+						echo '<p><b>Item Name:</b> ' . $wood['name'] . '<br>';
+						echo '<b>Item Price:</b> ' . $wood['price'] . '<br>';
+					}
+					else if(sizeof($mech) != 0){
+						echo '<p><b>Item Name:</b> ' . $mech['name'] . '<br>';
+						echo '<b>Item Price:</b> ' . $mech['price'] . '<br>';
+					}
+					
+					echo '<b>Qty Purchased:</b> ' . $order[$i]['itemQty'] . '</p>';
+					
+					
+					
+				}
+				echo '</div>';
 			}
 			
 		}

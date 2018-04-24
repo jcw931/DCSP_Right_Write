@@ -231,4 +231,29 @@ function displaySingleMechanicalPencil($mechanicalPencil){
 
     echo "</table>";
 }
+
+function displayAllBrand($un, $pw, $hostName, $database, $brand){
+    $pens = array();
+    $wps = array();
+    $mps = array();
+    $pens = penByBrand($un, $pw, $hostName, $database, $brand);
+    $wps = woodByBrand($un, $pw, $hostName, $database, $brand);
+    $mps = mechByBrand($un, $pw, $hostName, $database, $brand);
+
+    if(sizeof($pens) != 0){
+        foreach($pens as $pen){
+            displaySinglePen($pen);
+        }
+    }
+    else if(sizeof($wps) != 0){
+        foreach($wps as $wp){
+            displaySingleWoodenPencil($wp);
+        }
+    }
+    else if(sizeof($mps) != 0){
+        foreach($mps as $mp){
+            displaySingleMechanicalPencil($mp);
+        }
+    }
+}
 ?>
