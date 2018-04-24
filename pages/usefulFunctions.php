@@ -1,5 +1,5 @@
 <?php
-require_once 'databaseController.php';
+require_once './../Database/databaseController.php';
 
 function cartTotal($un, $pw, $hostName, $database, $cartID){
 
@@ -19,15 +19,15 @@ function cartTotal($un, $pw, $hostName, $database, $cartID){
         $pen = penData($un, $pw, $hostName, $database, $cartRow['ItemID']);
 
         if(sizeof($wp) != 0){
-           $itemCost = $cartRow['qty'] * $wp['price'];
+           $itemCost = $cartRow['itemQty'] * $wp['price'];
            $totalCost = $totalCost + $itemCost;
         }
         else if(sizeof($mp) != 0){
-            $itemCost = $cartRow['qty'] * $mp['price'];
+            $itemCost = $cartRow['itemQty'] * $mp['price'];
             $totalCost = $totalCost + $itemCost;
         }
         else if(sizeof($pen) != 0){
-            $itemCost = $cartRow['qty'] * $pen['price'];
+            $itemCost = $cartRow['itemQty'] * $pen['price'];
             $totalCost = $totalCost + $itemCost;
         }
     }
