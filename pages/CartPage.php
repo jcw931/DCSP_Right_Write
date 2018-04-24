@@ -19,7 +19,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 <nav class="w3-sidebar w3-bar-block w3-yellow w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-    <a href="HomePage.php"><h3 class="w3-wide"><b><img src="TheRightWrite.png" width="210" height="150"></b></h3></a>
+    <a href="HomePage.php"><h3 class="w3-wide"><b><img src="images/TheRightWrite.png" width="210" height="150"></b></h3></a>
   </div>
   <div class="w3-padding-64 w3-large w3-text-black" style="font-weight:bold">
     <a href="WoodenPencilPage.php" class="w3-bar-item w3-button">Wooden Pencils</a>
@@ -82,15 +82,25 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
-    <div class="w3-col l3 s6">
 	<?php
+		require_once "displayFunctions.php";
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			
-			echo '<p>' . array_search('Add to Cart', $_POST) . '</p>';
-			echo '<p>' . $_POST['qty'] . '</p>';
-	
+			// If "Add to Cart" was selected on an item, it will navigate to here, where that item's ID and the selected quantity will be added to the cart of whoever is logged in.
+			$cartID = $account->getCartId();
+			$itemID = array_search("Add to Cart", $_POST);
+			$itemQty = $_POST['quantity'];
+			
+			addCart($un, $pw, $hostName, $database, $cartID, $itemID, $itemQty);
 		}
+	?>
+		
+		<form method="post" action="PaymentPage.php">
+			<div class="w3-container"><p><input type="submit" name="checkout" value="Proceed to Checkout"></div>
+		</form>
+						
+	<?php
 	
 		$cart = allCartData($un, $pw, $hostName, $database, $account->getCartId());
 		
@@ -104,116 +114,34 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 			foreach ($cart as $itemData) {
 				
-				echo '<div class="w3-container">';
-				
 				$item = searchItems($un, $pw, $hostName, $database, $itemData['ItemID']);
+				
 				
 				if ($item == False)
 					echo '<p>This Item does not exist.</p>';
 					
 				else {
 					
-					echo "<table>";
-					echo "<tr>";
-
-					echo "<td>";
-					 //replace with proper image
-					echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
-					echo"</td>";
-
-					echo "<td>";
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					// This indicates that the item is a pen.
+					// PENS
 					if (isset($item['inkColor'])) {
-						echo "<div id = \"pen\">";
+						displaySinglePen($item);
 
-						echo "<br/>";
-
-						echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
-						echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
-						echo "<b> Lead Weight: </b>".$woodenPencil['tipType'] ."   "."<b> Lead Color: </b>".$woodenPencil['refill'] ."   ";
-						echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
-						echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
-						echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
-
-						echo "</div>";
 					}
 					
-					// This indicates that the item is a wooden pencil.
+					// WOOD PENCILS
 					else if (isset($item['woodType'])) {
-						echo "<div id = \"woodenPencil\">";
+						displaySingleWoodenPencil($item);
 
-						echo "<br/>";
-
-						echo "<b> Name: </b>".$item['name'] ."<br/>";
-						echo "<b> Description: </b>".$item['description'] ."<br/>";
-						echo "<b> Lead Weight: </b>".$item['number'] ."   "."<b> Lead Color: </b>".$item['leadColor'] ."   ";
-						echo "<b> Wood Type: </b>".$item['woodType'] ."<br/>";
-						echo "<b> Price: </b>$".$item['price'] ."<br/>";
-						echo "<b> In Stock: </b>".$item['qty'] ."<br/> <br/>";
-
-						echo "</div>";
 					}
 					
-					// This indicates that the item is a mechanical pencil.
+					// MECH PENCILS
 					else if (isset($item['gripType'])) {
-						echo "<div id = \"woodenPencil\">";
-
-						echo "<br/>";
-
-						echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
-						echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
-						echo "<b> Lead Weight: </b>".$woodenPencil['number'] ."   "."<b> Lead Color: </b>".$woodenPencil['leadColor'] ."   ";
-						echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
-						echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
-						echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
-
-						echo "</div>";
+						displaySingleMechanicalPencil($item);
 					}
-					
-					
-					
-					
-					
-					
-					
-					
-					echo "</td>";
 
-					echo "<tr>";
 				}
-
-					echo "</table>";
 				
-				
-				
-				
-				
-				echo '</div>';
 			}
-			
-			echo '</div><div class="w3-col l3 s6">';
-			
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				echo '<div class="w3-container"><p>';
-				
-				
-				
-				echo $_POST['button'];
-				
-				
-				
-				echo '</p></div>';
-			}
-			
 		}
 		
 	
@@ -221,7 +149,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	
 	?>
 	  
-    </div>
+
   </div>
  
 <?php
@@ -247,6 +175,15 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		header("Location: MustBeCustomer.php");
 		exit;
 	}
+	
+	function goto_payment() {
+		/*
+		header("Location: PaymentPage.php");
+		exit;*/
+		
+		echo '<p> OOOOOOH HES TRYIN</p>';
+	}
+	
 ?>
 
 </body>

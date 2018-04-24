@@ -140,7 +140,6 @@ function displaySinglePen($pen){
 
 function displaySingleWoodenPencil($woodenPencil){
 	
-	
     echo "<table>";
     echo "<tr>";
     $image = $woodenPencil['imagePath'];
@@ -154,6 +153,8 @@ function displaySingleWoodenPencil($woodenPencil){
 
     echo "<br/>";
 
+	
+	
     echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
     echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
     echo "<b> Lead Weight: </b>".$woodenPencil['number'] ."   "."<b> Lead Color: </b>".$woodenPencil['leadColor'] ."   ";
