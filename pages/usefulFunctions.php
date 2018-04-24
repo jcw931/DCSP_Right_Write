@@ -1,5 +1,5 @@
 <?php
-require_once 'databaseContorller.php';
+require_once 'databaseController.php';
 
 function cartTotal($un, $pw, $hostName, $database, $cartID){
 
