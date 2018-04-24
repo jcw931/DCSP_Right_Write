@@ -24,7 +24,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 <nav class="w3-sidebar w3-bar-block w3-yellow w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-    <a href="HomePage.php"><h3 class="w3-wide"><b><img src="TheRightWrite.png" width="210" height="150"></b></h3></a>
+    <a href="HomePage.php"><h3 class="w3-wide"><b><img src="images/TheRightWrite.png" width="210" height="150"></b></h3></a>
   </div>
   <div class="w3-padding-64 w3-large w3-text-black" style="font-weight:bold">
     <a href="WoodenPencilPage.php" class="w3-bar-item w3-button">Wooden Pencils</a>
