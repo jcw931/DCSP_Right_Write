@@ -63,18 +63,30 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					goto_customeronly();
 				
 				// If the customer's Cart is empty, sends redirects them to Cart page.
-				$cart = allCartData($un, $pw, $hostName, $database, $account->getCartId());
-				if (!isset($cart))
+				$cartID = $account->getCartId();
+				$cart = allCartData($un, $pw, $hostName, $database, $cartID);
+				if (sizeof($cart) == 0)
 					goto_cart();
+				
+				
+				
+				
+				
+				// Calculate and display total price
+				
+				
+				
+				
 				
 				// Initialize booleans for input validation.
 				$validCHN = $validCCN = $validCVC = True;
 				$ccnProblem = $cvcProblem = '';
 				
 				// Validate user input.
-				if (($_SERVER['REQUEST_METHOD'] == 'POST') && !(isset($_POST['checkout']))) {
+				
+				
+				if (($_SERVER['REQUEST_METHOD'] == 'POST') && !(isset($_POST['cart_post']))) {
 					
-					echo '<p>IT EXECUTED</p>';
 				
 					// Determine if input was valid.
 					$validCHN = validateName($_POST['chn']);
@@ -85,47 +97,43 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					if ($cvcProblem != 'Valid')
 						$validCVC = False;
 					
-					
-					
-					
-					
-					
-					
-					
 					// If all payment info is valid, place the order.
 					if ($validCHN && $validCCN && $validCVC) {
+						
 						
 						$orderID = newID($un, $pw, $hostName, $database, 'order');
 						$custID = $account->getUID();
 						$date = date("Y/m/d");
+
+						foreach ($cart as $item) {
+							
+							$pen = penData($un, $pw, $hostName, $database, $item['ItemID']);
+							$wood = woodData($un, $pw, $hostName, $database, $item['ItemID']);
+							$mech = mechData($un, $pw, $hostName, $database, $item['ItemID']);
+							
+							if (sizeof($pen) != 0) {
+								$price = $pen['price'];
+							}
+							else if (sizeof($wood) != 0) {
+								$price = $wood['price'];
+							}
+							else if (sizeof($mech) != 0) {
+								$price = $mech['price'];
+							}
+							
+							echo $price;
+
+							addToOrder($un, $pw, $hostName, $database, $orderID, $custID, $item['ItemID'], $date, $item['itemQty'], $price);
+						}
 						
-						
-						$cart
-						
-						$itemID = 
-						$itemQty = 
-						$itemPrice = 
-						
-						
-						for each ($cart as $item) {
-							addToOrder($un, $pw, $hostName, $database, $orderID, $custID, $item['ItemID'], $date, $item['ItemQty'], $itemPrice);
-						
+						removeCart($un, $pw, $hostName, $database, $cartID);
 						
 						goto_orderreceived();
 					}
 					
 					
-					
-					
-					
-					
-					
-					
-					
-					
 				}
 
-				$account = '';
 				
 				
 			}

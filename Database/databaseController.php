@@ -849,7 +849,7 @@ function mechData($un, $pw, $hostName, $database, $itemID){
 
     for ($j = 0; $j < $rows; ++$j) {
         $result->data_seek($j);
-        $mech[$j] = $result->fetch_array(MYSQLI_ASSOC);
+        $mech = $result->fetch_array(MYSQLI_ASSOC);
     }
 
     return $mech;

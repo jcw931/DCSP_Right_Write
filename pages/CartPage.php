@@ -83,24 +83,24 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
 	<?php
-		require_once "displayFunctions.php";
+		require_once "CartDisplayFunctions.php";
+		
+		$cartID = $account->getCartId();
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			
+
+			$itemID = array_search("Delete from Cart", $_POST);
+			if ($itemID != False) {
+				removeItemFromCart($un, $pw, $hostName, $database, $cartID, $itemID);
+			}
+
 			// If "Add to Cart" was selected on an item, it will navigate to here, where that item's ID and the selected quantity will be added to the cart of whoever is logged in.
-			$cartID = $account->getCartId();
 			$itemID = array_search("Add to Cart", $_POST);
-			$itemQty = $_POST['quantity'];
-			
-			addCart($un, $pw, $hostName, $database, $cartID, $itemID, $itemQty);
+			if ($itemID != False) {
+				$itemQty = $_POST['quantity'];
+				addCart($un, $pw, $hostName, $database, $cartID, $itemID, $itemQty);
+			}
 		}
-	?>
-		
-		<form method="post" action="PaymentPage.php">
-			<div class="w3-container"><p><input type="submit" name="checkout" value="Proceed to Checkout"></div>
-		</form>
-						
-	<?php
 	
 		$cart = allCartData($un, $pw, $hostName, $database, $account->getCartId());
 		
@@ -110,18 +110,39 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			echo '</div>';
 		}
 		
-		else {
+		echo '<form method="post" action="SearchPage.php">';
+		echo '<div class="w3-container"><p><input type="submit" value="Continue Shopping"></p></div></form>';
+		
+		if (sizeof($cart) != 0) {
+			
+			echo '<form method="post" action="PaymentPage.php">';
+			echo '<div class="w3-container"><p><input type="submit" name="cart_post" value="Proceed to Checkout"></p></div></form>';
 		
 			foreach ($cart as $itemData) {
 				
-				$item = searchItems($un, $pw, $hostName, $database, $itemData['ItemID']);
+				$itemID = $itemData['ItemID'];
+				
+				$pen = penData($un, $pw, $hostName, $database, $itemID);
+				$wood = woodData($un, $pw, $hostName, $database, $itemID);
+				$mech = mechData($un, $pw, $hostName, $database, $itemID);
+				
+				if (sizeof($pen) != 0) {
+					$item = $pen;
+				}
+				else if (sizeof($wood) != 0) {
+					$item = $wood;
+				}
+				else if (sizeof($mech) != 0) {
+					$item = $mech;
+				}
+				
+
 				
 				
 				if ($item == False)
 					echo '<p>This Item does not exist.</p>';
 					
 				else {
-					
 					// PENS
 					if (isset($item['inkColor'])) {
 						displaySinglePen($item);
@@ -140,6 +161,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					}
 
 				}
+				
+				echo '<form method="post" action="CartPage.php">';
+				echo '<div class="w3-container"><p>Quantity: ' . $itemData['itemQty'] . ' <input type="submit" name="' . $itemData['ItemID'] . '" value="Delete from Cart"></div></form>';
 				
 			}
 		}

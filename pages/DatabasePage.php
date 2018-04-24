@@ -80,13 +80,37 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   <div class="w3-container w3-text-grey">
     <p>Manage the Database</p>
   </div>
+    <p>Please query responsibly...</p>
+    <form action = "DatabasePage.php" method = "post">
+
+
+        <input type = "text" name = "query" value = "SELECT * FROM Customers">
+        <br><br>
+        <input type = "submit" value = "Execute Query">
+
+
+
+
+    </form>
 
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
     <div class="w3-col l3 s6">
 	<?php
 	
-		
+		if (isset($_POST['query'])) {
+            $connection = new mysqli($hostName, $un, $pw, $database);
+            if($connection->connect_error){
+                die($connection->connect_error);
+            }
+
+            $query  = $_POST['query'];
+            $result = $connection->query($query);
+
+
+            if (!$result) die($connection->error);
+		    echo "Query executed successfully";
+        }
 		
 
 		
