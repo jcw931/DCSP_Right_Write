@@ -19,7 +19,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 <nav class="w3-sidebar w3-bar-block w3-yellow w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-    <a href="HomePage.php"><h3 class="w3-wide"><b><img src="TheRightWrite.png" width="210" height="150"></b></h3></a>
+    <a href="HomePage.php"><h3 class="w3-wide"><b><img src="images/TheRightWrite.png" width="210" height="150"></b></h3></a>
   </div>
   <div class="w3-padding-64 w3-large w3-text-black" style="font-weight:bold">
     <a href="WoodenPencilPage.php" class="w3-bar-item w3-button">Wooden Pencils</a>
@@ -87,10 +87,20 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <div class="w3-col l3 s6">
 	<?php
 	
+		require_once "displayFunctions.php";
 		
-		
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$itemID = array_search('remove item', $_POST);
+			
+			removePen($un, $pw, $hostName, $database, $itemID);
+			removeMechanicalPencil($un, $pw, $hostName, $database, $itemID);
+			removeWoodenPencil($un, $pw, $hostName, $database, $itemID);
+		}
 
 		$inventory = allItemsByBrand($un, $pw, $hostName, $database, $account->getBrand());
+		
+		echo 'Want to add an inventory item? Click <a href="AddVendorItem.php">here</a>.';
+		
 		
 		if (sizeof($inventory) == 0) {
 			echo '<div class="w3-container">';
@@ -98,31 +108,33 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			echo '</div>';
 		}
 		
-		//else {
-		
-			for ($i = 0; $i < sizeof($inventory); $i++) {
-				echo '<div class="w3-container">';
-				echo '<form method="post" action="ManageInventoryPage.php">';
-				echo '<p><input type="submit" name="button" value="' . $i . '"></p>';
-				echo '</form>';
-				echo '</div>';
+		else {
+			echo '<form method="post" action="ManageInventoryPage.php">';
+			foreach ($inventory as $item){
+				
+				if (isset($item['inkColor'])) {
+					displaySinglePen($item);
+					echo '<input type=\'submit\' name= "'.$item['itemID'].'" value=\'remove item\'>';
+					
+				}
+				
+				// This indicates that the item is a wooden pencil.
+				
+				else if (isset($item['woodType'])) {
+					displaySingleWoodenPencil($item);
+					echo '<input type=\'submit\' name= "'.$item['itemID'].'" value=\'remove item\'>';
+				}
+				
+				// This indicates that the item is a mechanical pencil.
+				
+				else if (isset($item['gripType'])) {
+					displaySingleMechanicalPencil($item);
+					echo '<input type=\'submit\' name= "'.$item['itemID'].'" value=\'remove item\'>';
+				}
+				
 			}
-			
-			echo '</div><div class="w3-col l3 s6">';
-			
-			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				echo '<div class="w3-container"><p>';
-				
-				
-				
-				echo $_POST['button'];
-				
-				
-				
-				echo '</p></div>';
-			}
-			
-		//}
+			echo '</form>';
+		}
 		
 	
 	
