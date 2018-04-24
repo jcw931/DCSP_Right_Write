@@ -93,10 +93,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				else {
 					foreach ($results as $item) {
 						displaySinglePen($item);
-						echo '<form method="post" action="CartPage.php">';
-						echo '<div class="w3-container"><p><input type="submit" name="' . $item['itemID'] . '"value="Add to Cart">';
-						echo ' Quantity: <input type="number" name="quantity" min="1" max="' . $item['qty'] .'" value=1></p></div>';
-						echo '</form>';
 					}
 				}
 				
@@ -126,10 +122,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				else {
 					foreach ($results as $item) {
 						displaySingleWoodenPencil($item);
-						echo '<form method="post" action="CartPage.php">';
-						echo '<div class="w3-container"><p><input type="submit" name="' . $item['itemID'] . '"value="Add to Cart">';
-						echo ' Quantity: <input type="number" name="quantity" min="1" max="' . $item['qty'] .'" value=1></p></div>';
-						echo '</form>';
 					}
 				}
 				
@@ -158,10 +150,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				else {
 					foreach ($results as $item) {
 						displaySingleMechanicalPencil($item);
-						echo '<form method="post" action="CartPage.php">';
-						echo '<div class="w3-container"><p><input type="submit" name="' . $item['itemID'] . '"value="Add to Cart">';
-						echo ' Quantity: <input type="number" name="quantity" min="1" max="' . $item['qty'] .'" value=1></p></div>';
-						echo '</form>';
 					}
 				}
 				

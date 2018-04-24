@@ -30,11 +30,6 @@ function displayAllWoodenPencils($un, $pw, $hostName, $database){
         echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
         echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
 		
-		echo '<form method="post" action="CartPage.php">';
-		echo '<div class="w3-container"><p><input type="submit" name="' . $woodenPencil['itemID'] . '"value="Add to Cart">';
-		echo ' Quantity: <input type="number" name="quantity" min="1" max="' . $woodenPencil['qty'] .'" value=1></p></div>';
-		echo '</form>';
-
         echo "</div>";
         echo "</td>";
 
@@ -69,11 +64,6 @@ function displayAllMechnicalPencils($un, $pw, $hostName, $database){
             ."<b> Brand: </b>".$mechanicalPencil['brand'] ."<br/>";
         echo "<b> Price: </b>$".$mechanicalPencil['price'] ."<br/>";
         echo "<b> In Stock: </b>".$mechanicalPencil['qty'] ."<br/> <br/>";
-		
-		echo '<form method="post" action="CartPage.php">';
-		echo '<div class="w3-container"><p><input type="submit" name="' . $mechanicalPencil['itemID'] . '"value="Add to Cart">';
-		echo ' Quantity: <input type="number" name="quantity" min="1" max="' . $mechanicalPencil['qty'] .'" value=1></p></div>';
-		echo '</form>';
 
         echo "</div>";
         echo "</td>";
@@ -109,11 +99,6 @@ function displayAllPens($un, $pw, $hostName, $database){
             ."<b> Brand: </b>".$pen['brand'] ."<br/>";
         echo "<b> Price: </b>$".$pen['price'] ."<br/>";
         echo "<b> In Stock: </b>".$pen['qty'] ."<br/> <br/>";
-		
-		echo '<form method="post" action="CartPage.php">';
-		echo '<div class="w3-container"><p><input type="submit" name="' . $pen['itemID'] . '"value="Add to Cart">';
-		echo ' Quantity: <input type="number" name="quantity" min="1" max="' . $pen['qty'] .'" value=1></p></div>';
-		echo '</form>';
 
         echo "</div>";
         echo "</td>";
@@ -146,11 +131,6 @@ function displaySinglePen($pen){
         ."<b> Brand: </b>".$pen['brand'] ."<br/>";
     echo "<b> Price: </b>$".$pen['price'] ."<br/>";
     echo "<b> In Stock: </b>".$pen['qty'] ."<br/> <br/>";
-	
-	echo '<form method="post" action="CartPage.php">';
-	echo '<div class="w3-container"><p><input type="submit" name="' . $pen['itemID'] . '"value="Add to Cart">';
-	echo ' Quantity: <input type="number" name="quantity" min="1" max="' . $pen['qty'] .'" value=1></p></div>';
-	echo '</form>';
 
     echo "</div>";
     echo "</td>";
@@ -183,11 +163,6 @@ function displaySingleWoodenPencil($woodenPencil){
         ."<b> Brand: </b>".$woodenPencil['brand'] ."<br/>";
     echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
     echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
-	
-	echo '<form method="post" action="CartPage.php">';
-	echo '<div class="w3-container"><p><input type="submit" name="' . $woodenPencil['itemID'] . '"value="Add to Cart">';
-	echo ' Quantity: <input type="number" name="quantity" min="1" max="' . $woodenPencil['qty'] .'" value=1></p></div>';
-	echo '</form>';
 
     echo "</div>";
     echo "</td>";
@@ -219,11 +194,6 @@ function displaySingleMechanicalPencil($mechanicalPencil){
         ."<b> Brand: </b>".$mechanicalPencil['brand'] ."<br/>";
     echo "<b> Price: </b>$".$mechanicalPencil['price'] ."<br/>";
     echo "<b> In Stock: </b>".$mechanicalPencil['qty'] ."<br/> <br/>";
-	
-	echo '<form method="post" action="CartPage.php">';
-	echo '<div class="w3-container"><p><input type="submit" name="' . $mechanicalPencil['itemID'] . '"value="Add to Cart">';
-	echo ' Quantity: <input type="number" name="quantity" min="1" max="' . $mechanicalPencil['qty'] .'" value=1></p></div>';
-	echo '</form>';
 
     echo "</div>";
     echo "</td>";
