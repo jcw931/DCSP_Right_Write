@@ -110,9 +110,17 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			echo '</div><div class="w3-col l3 s6">';
 			
 			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-				echo '<div class="w3-container"><p>';
 				
-				$orderID = $_POST['button'];
+				
+				$order = orderData($un, $pw, $hostName, $database, $_POST['button']);
+				
+				// orderid, date, totalprice, 
+				// itemname, itemprice, quantity
+				
+				echo '<div class="w3-container">';
+				
+				echo '<p>Order ID: ' . $orderID . '</p>';
+				echo '<p>Date: ' . 
 				
 				
 				
