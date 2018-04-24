@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Logout - The Right Write</title>
+<title>Order History - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -11,14 +11,9 @@
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
-<body class="w3-content" style="max-width:2400px">
 
-<?php
-	session_start();
-	$_SESSION = array();
-	setcookie(session_name(), '', time() - 42000);
-	session_destroy();
-?>
+
+<body class="w3-content" style="max-width:2400px">
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-bar-block w3-yellow w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
@@ -41,39 +36,112 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   <!-- Top header -->
   <header class="w3-container w3-grey w3-xlarge">
-    <p class="w3-left">Logout</p>
+    <p class="w3-left">Order History</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
 		<?php
+			require_once './../Database/login.php';
+			require_once './../Database/databaseController.php';
+			require_once './../classes/Accounts.php';
+			
 			session_start();
-			if (isset($_SESSION['uname'])) {
+			if (isset($_SESSION['type'])) {
 				echo '<a href="AccountPage.php">Account</a>';
 				echo ' ';
 				echo '<a href="LogoutPage.php">Logout</a>'; 
 				echo ' ';
 				echo '<a href="CartPage.php">Cart</a>';
 				echo ' ';
+				
+				// If the user is a Customer, creates a Customer account object.
+				if ($_SESSION['type'] == 'Customer') {
+					$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
+					$account = new Customer($result['customerID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['address'], $result['cartID']);
+				}
+				// If the user is a Vendor or Admin, redirects to "Customer Only" page.
+				else if (($_SESSION['type'] == 'Vendor') || ($_SESSION['type'] == 'Admin'))
+					goto_customeronly();
+
 			}
+			
+			// If no user is logged in, redirects to login page.
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
 				echo ' ';
+				
+				goto_mustlogin();
 			}
 		?>
 		<a href="SearchPage.php">Search</a>
     </p>
   </header>
 
+
+  <div class="w3-container w3-text-grey">
+    <p>Review Your Purchase History</p>
+  </div>
+
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
     <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <p><b>You have successfully logged out of your account.</b></p>
-      </div>
-      <div class="w3-container">
-        <p>Click <a href="HomePage.php">Home</a> to go to the home page, or click <a href="LoginPage.php">Login</a> to log in.</p>
-      </div>
+	<?php
+	
+		
+		
+
+		$history = customerHistory($un, $pw, $hostName, $database, $account->getUID());
+		
+		if (sizeof($history) == 0) {
+			echo '<div class="w3-container">';
+			echo '<p>You do not have any orders to display.</p>';
+			echo '</div>';
+		}
+		
+		else {
+		
+			for ($i = 0; $i < sizeof($history); $i++) {
+				echo '<div class="w3-container">';
+				echo '<form method="post" action="PurchaseHistoryPage.php">';
+				echo '<p><input type="submit" name="button" value="' . $history[$i]['orderID'] . '"></p>';
+				echo '</form>';
+				echo '</div>';
+			}
+			
+			echo '</div><div class="w3-col l3 s6">';
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				echo '<div class="w3-container"><p>';
+				
+				
+				
+				echo $_POST['button'];
+				
+				
+				
+				echo '</p></div>';
+			}
+			
+		}
+		
+	
+	
+	
+	?>
+	  
     </div>
   </div>
+ 
+<?php
+	function goto_mustlogin() {
+		header("Location: MustLoginPage.php");
+		exit;
+	}
+	
+	function goto_customeronly() {
+		header("Location: MustBeCustomer.php");
+		exit;
+	}
+?>
 
 </body>
 </html>

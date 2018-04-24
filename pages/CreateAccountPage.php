@@ -20,9 +20,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <a href="HomePage.php"><h3 class="w3-wide"><b><img src="TheRightWrite.png" width="210" height="150"></b></h3></a>
   </div>
   <div class="w3-padding-64 w3-large w3-text-black" style="font-weight:bold">
-    <a href="#" class="w3-bar-item w3-button">Wooden Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Mechanical Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Pens</a>
+    <a href="WoodenPencilPage.php" class="w3-bar-item w3-button">Wooden Pencils</a>
+    <a href="MechanicalPencilPage.php" class="w3-bar-item w3-button">Mechanical Pencils</a>
+    <a href="PenPage.php" class="w3-bar-item w3-button">Pens</a>
   </div>
 </nav>
 
@@ -46,13 +46,16 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				echo ' ';
 				echo '<a href="CartPage.php">Cart</a>';
 				echo ' ';
+				
+				// If a user is logged in, redirects them to home page.
+				goto_home();
 			}
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
 				echo ' ';
 			}
 		?>
-		<input type="text" placeholder="Search..">
+		<a href="SearchPage.php">Search</a>
     </p>
   </header>
   
@@ -288,10 +291,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		if ($name == '')
 			return False;
 		
-		// Name must start with a capital letter.
-		else if (!((ord(substr($name, 0)) >= 65) && (ord(substr($name, 0)) <= 90)))
-			return False;
-		
 		else {
 			// Name must only contain letters and spaces.
 			for ($i = 0; $i < strlen($name); $i++) {
@@ -405,6 +404,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 	
 	function goto_success() {
 		header("Location: AccountCreated.php");
+		exit;
+	}
+	
+	function goto_home() {
+		header("Location: HomePage.php");
 		exit;
 	}
 ?>

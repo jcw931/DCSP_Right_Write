@@ -20,9 +20,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <a href="HomePage.php"><h3 class="w3-wide"><b><img src="TheRightWrite.png" width="210" height="150"></b></h3></a>
   </div>
   <div class="w3-padding-64 w3-large w3-text-black" style="font-weight:bold">
-    <a href="#" class="w3-bar-item w3-button">Wooden Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Mechanical Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Pens</a>
+    <a href="WoodenPencilPage.php" class="w3-bar-item w3-button">Wooden Pencils</a>
+    <a href="MechanicalPencilPage.php" class="w3-bar-item w3-button">Mechanical Pencils</a>
+    <a href="PenPage.php" class="w3-bar-item w3-button">Pens</a>
   </div>
 </nav>
 
@@ -52,7 +52,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				echo ' ';
 			}
 		?>
-		<input type="text" placeholder="Search..">
+		<a href="SearchPage.php">Search</a>
     </p>
   </header>
 
@@ -72,7 +72,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				
 				// Executes proper content for a logged-in user.
 				if (isset($_SESSION['type'])) {
-					session_start();
 					
 					// Initialize boolean variables used for input verification.
 					$validFName = $validLName = $validEmail = $validAddress = $validBrand = $validPass = True;
@@ -165,9 +164,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					// If the user is a Customer, creates a Customer account object.
 					if ($_SESSION['type'] == 'Customer') {
 						$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
-						
 						$account = new Customer($result['customerID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['address'], $result['cartID']);
-
 					}
 					// If the user is a Vendor, creates a Vendor account object.
 					else if ($_SESSION['type'] == 'Vendor') {
@@ -225,13 +222,18 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 						if (!$validAddress)
 							echo '<p style="color: red">Please enter valid address information.</p>';
 						
-						echo '<div class="w3-container"><p><b>New Street Address:</b></p><p><input type="text" name="street" value=' . $_POST['street'] . '></p></div>';
-						
-						echo '<div class="w3-container"><p><b>New City:</b></p><p><input type="text" name="city" value=' . $_POST['city'] . '></p></div>';
-						
-						echo '<div class="w3-container"><p><b>New State:</b></p><p><input type="text" name="state" value=' . $_POST['state'] . '></p></div>';
-						
-						echo '<div class="w3-container"><p><b>New Zip:</b></p><p><input type="text" name="zip" value=' . $_POST['zip'] . '></p></div>';
+						if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+							echo '<div class="w3-container"><p><b>New Street Address:</b></p><p><input type="text" name="street" value=' . $_POST['street'] . '></p></div>';
+							echo '<div class="w3-container"><p><b>New City:</b></p><p><input type="text" name="city" value=' . $_POST['city'] . '></p></div>';
+							echo '<div class="w3-container"><p><b>New State:</b></p><p><input type="text" name="state" value=' . $_POST['state'] . '></p></div>';
+							echo '<div class="w3-container"><p><b>New Zip:</b></p><p><input type="text" name="zip" value=' . $_POST['zip'] . '></p></div>';
+						}
+						else {
+							echo '<div class="w3-container"><p><b>New Street Address:</b></p><p><input type="text" name="street"></p></div>';
+							echo '<div class="w3-container"><p><b>New City:</b></p><p><input type="text" name="city"></p></div>';
+							echo '<div class="w3-container"><p><b>New State:</b></p><p><input type="text" name="state"></p></div>';
+							echo '<div class="w3-container"><p><b>New Zip:</b></p><p><input type="text" name="zip"></p></div>';
+						}
 						
 						// TO DO: View Purchase History
 						
@@ -286,14 +288,21 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					echo '<div class="w3-container"><p><input type="submit" value="Save Changes"></p></div>';
 					echo '</form>';
 					
-					echo '<div class="w3-container"><p><a href="PurchaseHistoryPage.php">View Purchase History</a></p></div>';
+					if ($_SESSION['type'] == 'Customer')
+						echo '<div class="w3-container"><p><a href="OrderHistoryPage.php">View Purchase History</a></p></div>';
+					
+					else if ($_SESSION['type'] == 'Vendor')
+						echo '<div class="w3-container"><p><a href="ManageInventoryPage.php">Manage Inventory</a></p></div>';
+					
+					else if ($_SESSION['type'] == 'Admin')
+						echo '<div class="w3-container"><p><a href="DatabasePage.php">Manage Database</a></p></div>';
 					
 					echo '</div>';
 				}
 				
 				// If a user is not logged in
 				else
-					echo '<div class="w3-container"><p>You must <a href="LoginPage.php">Log In</a> to view your account information.<br></p></div>';
+					goto_mustlogin();
 			?>
  </div>
   
@@ -303,10 +312,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			
 			// Name can't be empty.
 			if ($name == '')
-				return False;
-			
-			// Name must start with a capital letter.
-			else if (!((ord(substr($name, 0)) >= 65) && (ord(substr($name, 0)) <= 90)))
 				return False;
 			
 			else {
@@ -423,6 +428,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			}
 			return $answer;
 		}
+		
+	function goto_mustlogin() {
+		header("Location: MustLoginPage.php");
+		exit;
+	}
 	?>
 </body>
 </html>

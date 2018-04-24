@@ -11,6 +11,8 @@
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
+
+
 <body class="w3-content" style="max-width:2400px">
 
 <!-- Sidebar/menu -->
@@ -20,9 +22,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <a href="HomePage.php"><h3 class="w3-wide"><b><img src="TheRightWrite.png" width="210" height="150"></b></h3></a>
   </div>
   <div class="w3-padding-64 w3-large w3-text-black" style="font-weight:bold">
-    <a href="#" class="w3-bar-item w3-button">Wooden Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Mechanical Pencils</a>
-    <a href="#" class="w3-bar-item w3-button">Pens</a>
+    <a href="WoodenPencilPage.php" class="w3-bar-item w3-button">Wooden Pencils</a>
+    <a href="MechanicalPencilPage.php" class="w3-bar-item w3-button">Mechanical Pencils</a>
+    <a href="PenPage.php" class="w3-bar-item w3-button">Pens</a>
   </div>
 </nav>
 
@@ -38,87 +40,214 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
 		<?php
+			require_once './../Database/login.php';
+			require_once './../Database/databaseController.php';
+			require_once './../classes/Accounts.php';
+			
 			session_start();
-			if (isset($_SESSION['uname'])) {
+			if (isset($_SESSION['type'])) {
 				echo '<a href="AccountPage.php">Account</a>';
 				echo ' ';
 				echo '<a href="LogoutPage.php">Logout</a>'; 
 				echo ' ';
 				echo '<a href="CartPage.php">Cart</a>';
 				echo ' ';
+				
+				// If the user is a Customer, creates a Customer account object.
+				if ($_SESSION['type'] == 'Customer') {
+					$result = allCustomerData($un, $pw, $hostName, $database, $_SESSION['uname']);
+					$account = new Customer($result['customerID'], $result['fname'], $result['lname'], $result['username'], $result['password'], $result['email'], $result['address'], $result['cartID']);
+				}
+				// If the user is a Vendor or Admin, redirects to "Customer Only" page.
+				else if (($_SESSION['type'] == 'Vendor') || ($_SESSION['type'] == 'Admin'))
+					goto_customeronly();
 			}
+			
+			// If no user is logged in, redirects to login page.
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
 				echo ' ';
+				
+				goto_mustlogin();
 			}
 		?>
-		<input type="text" placeholder="Search..">
+		<a href="SearchPage.php">Search</a>
     </p>
   </header>
 
 
-  <div class="w3-container w3-text-grey" id="jeans">
-    <p>8 items</p>
+  <div class="w3-container w3-text-grey">
+    <p>Manage the Items in Your Cart</p>
   </div>
 
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
     <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans2.jpg" style="width:100%">
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
-    </div>
+	<?php
+		
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			
+			echo '<p>' . array_search('Add to Cart', $_POST) . '</p>';
+			echo '<p>' . $_POST['qty'] . '</p>';
+	
+		}
+	
+		$cart = allCartData($un, $pw, $hostName, $database, $account->getCartId());
+		
+		if (sizeof($cart) == 0) {
+			echo '<div class="w3-container">';
+			echo '<p>You do not have any items in your cart.</p>';
+			echo '</div>';
+		}
+		
+		else {
+		
+			foreach ($cart as $itemData) {
+				
+				echo '<div class="w3-container">';
+				
+				$item = searchItems($un, $pw, $hostName, $database, $itemData['ItemID']);
+				
+				if ($item == False)
+					echo '<p>This Item does not exist.</p>';
+					
+				else {
+					
+					echo "<table>";
+					echo "<tr>";
 
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans2.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">New</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-    </div>
+					echo "<td>";
+					 //replace with proper image
+					echo "<image src=\"images/stockYellowPencil.png\"  style=\"width:500px;height:300px;\">";
+					echo"</td>";
 
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans4.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">Sale</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
-      </div>
-    </div>
+					echo "<td>";
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					// This indicates that the item is a pen.
+					if (isset($item['inkColor'])) {
+						echo "<div id = \"pen\">";
 
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="/w3images/jeans4.jpg" style="width:100%">
-        <p>Vintage Skinny Jeans<br><b>$14.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
-      </div>
+						echo "<br/>";
+
+						echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
+						echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
+						echo "<b> Lead Weight: </b>".$woodenPencil['tipType'] ."   "."<b> Lead Color: </b>".$woodenPencil['refill'] ."   ";
+						echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
+						echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
+						echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
+
+						echo "</div>";
+					}
+					
+					// This indicates that the item is a wooden pencil.
+					else if (isset($item['woodType'])) {
+						echo "<div id = \"woodenPencil\">";
+
+						echo "<br/>";
+
+						echo "<b> Name: </b>".$item['name'] ."<br/>";
+						echo "<b> Description: </b>".$item['description'] ."<br/>";
+						echo "<b> Lead Weight: </b>".$item['number'] ."   "."<b> Lead Color: </b>".$item['leadColor'] ."   ";
+						echo "<b> Wood Type: </b>".$item['woodType'] ."<br/>";
+						echo "<b> Price: </b>$".$item['price'] ."<br/>";
+						echo "<b> In Stock: </b>".$item['qty'] ."<br/> <br/>";
+
+						echo "</div>";
+					}
+					
+					// This indicates that the item is a mechanical pencil.
+					else if (isset($item['gripType'])) {
+						echo "<div id = \"woodenPencil\">";
+
+						echo "<br/>";
+
+						echo "<b> Name: </b>".$woodenPencil['name'] ."<br/>";
+						echo "<b> Description: </b>".$woodenPencil['description'] ."<br/>";
+						echo "<b> Lead Weight: </b>".$woodenPencil['number'] ."   "."<b> Lead Color: </b>".$woodenPencil['leadColor'] ."   ";
+						echo "<b> Wood Type: </b>".$woodenPencil['woodType'] ."<br/>";
+						echo "<b> Price: </b>$".$woodenPencil['price'] ."<br/>";
+						echo "<b> In Stock: </b>".$woodenPencil['qty'] ."<br/> <br/>";
+
+						echo "</div>";
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					echo "</td>";
+
+					echo "<tr>";
+				}
+
+					echo "</table>";
+				
+				
+				
+				
+				
+				echo '</div>';
+			}
+			
+			echo '</div><div class="w3-col l3 s6">';
+			
+			if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+				echo '<div class="w3-container"><p>';
+				
+				
+				
+				echo $_POST['button'];
+				
+				
+				
+				echo '</p></div>';
+			}
+			
+		}
+		
+	
+	
+	
+	?>
+	  
     </div>
   </div>
+ 
+<?php
+	// Searches the three item databases for an item with the given itemID.
+	function searchItems($un, $pw, $hostName, $database, $itemID) {
+		$result = penData($un, $pw, $hostName, $database, $itemID);
+		if ($result == False) {
+			$result = woodData($un, $pw, $hostName, $database, $itemID);
+			if ($result == False)
+				$result = mechData($un, $pw, $hostName, $database, $itemID);
+		}
+		return $result;
+	}
+
+
+
+	function goto_mustlogin() {
+		header("Location: MustLoginPage.php");
+		exit;
+	}
+	
+	function goto_customeronly() {
+		header("Location: MustBeCustomer.php");
+		exit;
+	}
+?>
 
 </body>
 </html>
