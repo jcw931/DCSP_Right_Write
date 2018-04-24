@@ -132,7 +132,10 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 								
 								// If brand name is valid, sends it to the database.
 								if ($validBrand) {
-									editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'brand', $_POST['brand']);
+									if ($_SESSION['type'] == 'Customer')
+										editCustomer($un, $pw, $hostName, $database, $_SESSION['uname'], 'hpItem', $_POST['brand']);
+									else if ($_SESSION['type'] == 'Vendor')
+										editVendor($un, $pw, $hostName, $database, $_SESSION['uname'], 'brand', $_POST['brand']);
 									echo '<div class="w3-container"><p>Brand Information saved.</p></div>';
 								}
 							}
