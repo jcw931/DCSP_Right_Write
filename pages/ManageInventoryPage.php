@@ -99,7 +99,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
 		$inventory = allItemsByBrand($un, $pw, $hostName, $database, $account->getBrand());
 		
-		echo 'Want to add an inventory item? Click <a href="AddVendorItem.php">here</a>.';
+		echo 'Want to add an inventory item? Click <a href="AddVendorItem.php">here</a>.<br>';
+		
 		
 		
 		if (sizeof($inventory) == 0) {
