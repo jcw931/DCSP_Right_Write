@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Logout - The Right Write</title>
+<title>Vendor Content - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -12,13 +12,6 @@
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
 <body class="w3-content" style="max-width:2400px">
-
-<?php
-	session_start();
-	$_SESSION = array();
-	setcookie(session_name(), '', time() - 42000);
-	session_destroy();
-?>
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-bar-block w3-yellow w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
@@ -41,7 +34,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   <!-- Top header -->
   <header class="w3-container w3-grey w3-xlarge">
-    <p class="w3-left">Logout</p>
+    <p class="w3-left">Vendor-Exclusive Content</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
 		<?php
@@ -57,6 +50,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			else {
 				echo '<a href="LoginPage.php">Login</a>';
 				echo ' ';
+				
+				goto_mustlogin();
 			}
 		?>
 		<a href="SearchPage.php">Search</a>
@@ -66,14 +61,34 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
     <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <p><b>You have successfully logged out of your account.</b></p>
-      </div>
-      <div class="w3-container">
-        <p>Click <a href="HomePage.php">Home</a> to go to the home page, or click <a href="LoginPage.php">Login</a> to log in.</p>
-      </div>
+	
+		<?php
+			session_start();
+			
+			if (isset($_SESSION['type'])) {
+				if ($_SESSION['type'] == 'Vendor')
+					goto_home();
+				else {
+					echo '<div class="w3-container"><p><b>You must log in as a Vendor to view this content.</b></p></div>';
+					echo '<div class="w3-container"><p><a href="LogoutPage.php">Log Out</a></p></div>';
+				}
+			}
+		?>
+		
     </div>
   </div>
+  
+<?php
+	function goto_home() {
+		header("Location: HomePage.php");
+		exit;
+	}
+	
+	function goto_mustlogin() {
+		header("Location: MustLoginPage.php");
+		exit;
+	}
+?>
 
 </body>
 </html>
