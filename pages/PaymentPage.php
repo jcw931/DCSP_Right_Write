@@ -126,6 +126,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 							addToOrder($un, $pw, $hostName, $database, $orderID, $custID, $item['ItemID'], $date, $item['itemQty'], $price);
 						}
 						
+						addHistory($un, $pw, $hostName, $database, $orderID, $custID);
 						removeCart($un, $pw, $hostName, $database, $cartID);
 						
 						goto_orderreceived();
