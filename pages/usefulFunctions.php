@@ -19,15 +19,15 @@ function cartTotal($un, $pw, $hostName, $database, $cartID){
         $pen = penData($un, $pw, $hostName, $database, $cartRow['itemID']);
 
         if($wp){
-           $itemCost = $wp['qty'] * $wp['price'];
+           $itemCost = $wp[0]['qty'] * $wp[0]['price'];
            $totalCost = $totalCost + $itemCost;
         }
         else if($mp){
-            $itemCost = $mp['qty'] * $mp['price'];
+            $itemCost = $mp[0]['qty'] * $mp[0]['price'];
             $totalCost = $totalCost + $itemCost;
         }
         else if($pen){
-            $itemCost = $pen['qty'] * $pen['price'];
+            $itemCost = $pen[0]['qty'] * $pen[0]['price'];
             $totalCost = $totalCost + $itemCost;
         }
     }
