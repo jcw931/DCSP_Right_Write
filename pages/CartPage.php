@@ -87,6 +87,14 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			
+			
+			
+			
+			$$$$itemID = array_search("Add to Cart", $_POST);
+			
+			
+			
+			
 			// If "Add to Cart" was selected on an item, it will navigate to here, where that item's ID and the selected quantity will be added to the cart of whoever is logged in.
 			$cartID = $account->getCartId();
 			$itemID = array_search("Add to Cart", $_POST);
@@ -94,13 +102,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 			
 			addCart($un, $pw, $hostName, $database, $cartID, $itemID, $itemQty);
 		}
-	?>
-		
-		<form method="post" action="PaymentPage.php">
-			<div class="w3-container"><p><input type="submit" name="checkout" value="Proceed to Checkout"></div>
-		</form>
-						
-	<?php
 	
 		$cart = allCartData($un, $pw, $hostName, $database, $account->getCartId());
 		
@@ -111,6 +112,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		}
 		
 		else {
+			
+			echo '<form method="post" action="PaymentPage.php">';
+			echo '<div class="w3-container"><p><input type="submit" name="cart_post" value="Proceed to Checkout"></div></form>';
 		
 			foreach ($cart as $itemData) {
 				
@@ -140,6 +144,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					}
 
 				}
+				
+				echo '<form method="post" action="CartPage.php">';
+				echo '<div class="w3-container"><p><input type="submit" name="' . $itemData['ItemID'] . '" value="Delete from Cart"></div></form>';
 				
 			}
 		}

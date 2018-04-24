@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Manage Inventory - The Right Write</title>
+<title>Add Item - The Right Write</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -36,7 +36,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   <!-- Top header -->
   <header class="w3-container w3-grey w3-xlarge">
-    <p class="w3-left">Manage Inventory</p>
+    <p class="w3-left">Add Item</p>
     <p class="w3-right">
 		<a href="HomePage.php">Home</a>
 		<?php
@@ -119,117 +119,6 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 		
 			<div class="w3-container">
 			
-				Wooden pencil images:<br><br>
-				<img src="images/wooden_pencils/black_color_pencil.png" alt="Black Color Pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/wooden_pencils/blue_color_pencil.png" alt="Blue Color Pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/wooden_pencils/green_color_pencil.png" alt="Green Color Pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/wooden_pencils/pink_color_pencil.png" alt="Pink Color Pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/wooden_pencils/grey_color_pencil.png" alt="Grey Color Pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/wooden_pencils/purple_color_pencil.png" alt="Purple Color Pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/wooden_pencils/yellow_color_pencil.png" alt="Yellow Color Pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/wooden_pencils/wooden_pencil_1.png" alt="Wooden Pencil #1">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/wooden_pencils/wooden_pencil_2.png" alt="Wooden Pencil #2">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/wooden_pencils/wooden_pencil_3.png" alt="Wooden Pencil #3">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'><br><br>
-				
-				Mechanical Pencil Images:<br><br>
-				<img src="images/mechanical_pencils/alvin_mechanical_pencil.png" alt="Alvin Mechanical Pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/deli_stationary_mechanical.png" alt="Deli stationary mechanical">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/good_mechanical_grip.png" alt="good mechanical grip pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/office_depot_mechanical.png" alt="office depot mechanical">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/papermate_mechanical_pencil.png" alt="papermate mechanical pencil">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/papermate_write_bros_2.png" alt="papermate write bros">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/pentel_sharp_mechanical_pencil.png" alt="pentel sharp mechanical">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/porsche_tecflex_mech.png" alt="porsche tecflex">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/rotring_rapid_pro_mech.png" alt="rotring rapid pro">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/tropoika_construction_sketch_mechanical.png" alt="tropoika_construction_sketch_mechanical">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/white_zebra_mechanical.png" alt="white_zebra_mechanical">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/mechanical_pencils/zebra_mini_mechanical.png" alt="zebra_mini_mechanical">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'><br><br>
-				
-				
-				Pen Images:<br><br>
-				<img src="images/pens/black_ballpoint_pen.png" alt="black_ballpoint_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/blue_gel_pen.png" alt="blue_gel_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/cheap_fountain_pen.png" alt="cheap_fountain_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/cross_bailey_fountain_pen.png" alt="cross_bailey_fountain_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/cross_bailey_red_ballpoint_pen.png" alt="cross_bailey_red_ballpoint_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/elegant_writing_pen.png" alt="elegant_writing_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/green_gel_pen.png" alt="green_gel_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/papermate_red_ballpoint_pen.png" alt="papermate_red_ballpoint_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/pilot_fountain_pen.png" alt="pilot_fountain_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/pink_gel_pen.png" alt="pink_gel_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/purple_gel_pen.png" alt="purple_gel_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				<img src="images/pens/staples_gel_pen.png" alt="staples_gel_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>	
-				
-				<img src="images/pens/yellow_gel_pen.png" alt="yellow_gel_pen">
-				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
-				
-				
-			
 				<p><b>Type of Writing Utensil:</b></p>
 				<p><select name="utensil">
 					<option value="wooden_pencil">Wooden Pencil</option>
@@ -304,6 +193,46 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				<input type="radio" name="ink_color" value="black">Black</p>
 			</div>
 			
+			Pen Images:<br><br>
+				<img src="images/pens/black_ballpoint_pen.png" alt="black_ballpoint_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/blue_gel_pen.png" alt="blue_gel_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/cheap_fountain_pen.png" alt="cheap_fountain_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/cross_bailey_fountain_pen.png" alt="cross_bailey_fountain_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/cross_bailey_red_ballpoint_pen.png" alt="cross_bailey_red_ballpoint_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/elegant_writing_pen.png" alt="elegant_writing_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/green_gel_pen.png" alt="green_gel_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/papermate_red_ballpoint_pen.png" alt="papermate_red_ballpoint_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/pilot_fountain_pen.png" alt="pilot_fountain_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/pink_gel_pen.png" alt="pink_gel_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/purple_gel_pen.png" alt="purple_gel_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/pens/staples_gel_pen.png" alt="staples_gel_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>	
+				
+				<img src="images/pens/yellow_gel_pen.png" alt="yellow_gel_pen">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+			
 		</div>
 		
 		<!-- Wooden Pencil Categories -->
@@ -340,6 +269,37 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 				<input type="radio" name="lead_color" value="black"> Black</p>
 			</div>
 			
+			Wooden pencil images:<br><br>
+				<img src="images/wooden_pencils/black_color_pencil.png" alt="Black Color Pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/wooden_pencils/blue_color_pencil.png" alt="Blue Color Pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/wooden_pencils/green_color_pencil.png" alt="Green Color Pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/wooden_pencils/pink_color_pencil.png" alt="Pink Color Pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/wooden_pencils/grey_color_pencil.png" alt="Grey Color Pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/wooden_pencils/purple_color_pencil.png" alt="Purple Color Pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/wooden_pencils/yellow_color_pencil.png" alt="Yellow Color Pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/wooden_pencils/wooden_pencil_1.png" alt="Wooden Pencil #1">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/wooden_pencils/wooden_pencil_2.png" alt="Wooden Pencil #2">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/wooden_pencils/wooden_pencil_3.png" alt="Wooden Pencil #3">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'><br><br>
+			
 		</div>
 		
 		<!-- Mechanical Pencil Categories -->
@@ -367,6 +327,43 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 					<option value="0.9">0.9</option>
 				</select></p>
 			</div>
+			
+			Mechanical Pencil Images:<br><br>
+				<img src="images/mechanical_pencils/alvin_mechanical_pencil.png" alt="Alvin Mechanical Pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/deli_stationary_mechanical.png" alt="Deli stationary mechanical">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/good_mechanical_grip.png" alt="good mechanical grip pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/office_depot_mechanical.png" alt="office depot mechanical">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/papermate_mechanical_pencil.png" alt="papermate mechanical pencil">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/papermate_write_bros_2.png" alt="papermate write bros">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/pentel_sharp_mechanical_pencil.png" alt="pentel sharp mechanical">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/porsche_tecflex_mech.png" alt="porsche tecflex">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/rotring_rapid_pro_mech.png" alt="rotring rapid pro">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/tropoika_construction_sketch_mechanical.png" alt="tropoika_construction_sketch_mechanical">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/white_zebra_mechanical.png" alt="white_zebra_mechanical">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'>
+				
+				<img src="images/mechanical_pencils/zebra_mini_mechanical.png" alt="zebra_mini_mechanical">
+				<input type='submit' name= "'.$item['itemID'].'" value='click me'><br><br>
 			
 		</div>
 	
